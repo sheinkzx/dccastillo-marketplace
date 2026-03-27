@@ -1,7 +1,6 @@
 /* Fondo degradado que ocupa toda la pantalla */
 .pagina {
   min-height: 100vh;
-  background: #0a0a0a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9,22 +8,25 @@
 
 /* Tarjeta blanca centrada */
 .tarjeta {
-  background: #1a1a1a;
-  border-radius: 16px;
-  padding: 3rem 2.5rem;
   text-align: center;
   max-width: 480px;
   width: 100%;
-  border: 2px solid #e8660a;
-  box-shadow: 0 0 40px rgba(232, 102, 10, 0.25), /* EFECTO NEON EN EL CUADRADO */
-              0 0 80px rgba(232, 102, 10, 0.1);
+  padding: 3rem 2.5rem;
 }
 
 /* Título grande */
 h1 {
   font-size: 3rem;
   font-weight: 800;
-  color: #e8660a;
+  color: #1e1b4b;
   margin: 0;
-  letter-spacing: -1px;
+}
+
+.pochita {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 1.5rem;
 }
