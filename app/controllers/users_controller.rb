@@ -1,35 +1,28 @@
-
-
-
 class UsersController < ApplicationController # Hereda de ApplicationController (donde están las reglas globales)
-  """
-  Este controlador es el que hace que la magia del formulario se convierta en datos reales
-  o sea, se encarga de manejar el registro de nuevos usuarios (Clientes y Vendedores)
-  """
   # ACCIÓN: Muestra el formulario vacío (Relato 9 y 11)
   def new
     # Crea una "caja vacía" de la clase User para que el formulario sepa qué campos mostrar.
     # El '@' hace que esta variable sea visible en el archivo HTML (la vista).
-    @user = User.new 
+    @user = User.new
   end
 
   # ACCIÓN: Recibe los datos del formulario y los guarda
   def create
     # 1. Extraemos el 'type' que el usuario eligió en el formulario (Cliente o Vendedor)
-    user_type = params[:user][:type] 
-    
-    # 2. Lógica de Herencia STI: 
+    user_type = params[:user][:type]
+
+    # 2. Lógica de Herencia STI:
     # .constantize convierte el texto "Vendedor" en la Clase Vendedor de Ruby.
-    if ["Cliente", "Vendedor"].include?(user_type)
-      @user = user_type.constantize.new(user_params) # Crea un Vendedor.new(...) o Cliente.new(...)
+    @user = if ["Cliente", "Vendedor"].include?(user_type)
+      user_type.constantize.new(user_params) # Crea un Vendedor.new(...) o Cliente.new(...)
     else
-      @user = Cliente.new(user_params) # Si alguien intenta hackear el tipo, por defecto es Cliente
+      Cliente.new(user_params) # Si alguien intenta hackear el tipo, por defecto es Cliente
     end
 
     # 3. Intento de guardado
     if @user.save
       # Guarda el ID en la sesión del navegador para que el sistema "te reconozca"
-      session[:user_id] = @user.id 
+      session[:user_id] = @user.id
       # Te envía a la página principal con un mensaje de éxito
       redirect_to root_path, notice: "¡Registro exitoso como #{@user.type}!"
     else
