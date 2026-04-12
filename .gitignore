@@ -36,4 +36,5 @@
 # Creare una carpeta de notas en algunos directorios, en ellas ire anotando
 # informacion util para guiarme en mi paso a paso programando, pero al no ser 
 # necesario para el proyecto, será ignorado 
-app/models/notas.md 
+app/models/notas_modelo.md
+app/controllers/notas_controlador.md

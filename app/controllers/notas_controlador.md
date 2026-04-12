@@ -1,1 +1,0 @@
-Si los Modelos son el corazón, el Controlador es el cerebro y director de orquesta. Su trabajo es recibir la petición del usuario (ej: "quiero registrarme"), hablar con el Modelo y decidir qué Vista mostrar.
