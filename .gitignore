@@ -33,3 +33,7 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+# Creare una carpeta de notas en algunos directorios, en ellas ire anotando
+# informacion util para guiarme en mi paso a paso programando, pero al no ser 
+# necesario para el proyecto, será ignorado 
+app/models/notas.md 

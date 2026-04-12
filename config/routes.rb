@@ -1,17 +1,20 @@
 Rails.application.routes.draw do
-  get "home/index"
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  """
+  Esta clase es el enrutador. Recibe la petición del navegador y 
+  la manda al 'cerebro' (controlador) correcto según la dirección (ruta) que hayan pedido.
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  NOTA:: voy a seguir la estructura METODO 'nombre_ruta_que_quiero', to: 'controlador#acción'
+
+  """
   get "up" => "rails/health#show", as: :rails_health_check
 
-  root "home#index"
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get 'signup', to: 'users#new' # Ruta para mostrar el formulario de registro 
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  post 'users', to: 'users#create' # Ruta para procesar el formulario de registro 
+  
+
+  root "users#new" # "root" es quien define donde comienza la paguina cuando el usuario entra a la URL base 
+  #(localhost:3000) y lo redirige a la acción new del controlador users, que es donde se muestra el formulario de registro. 
+
 end
