@@ -26,4 +26,22 @@
   <body>
     <%= yield %>
   </body>
+
+  <nav>
+  <% if session[:user_id] %>
+    <% user = User.find_by(id: session[:user_id]) %>
+    <% if user %>
+      <span>Hola, <strong><%= user.nombre %></strong> (<%= user.type %>)</span> |
+      <%= button_to "Cerrar Sesión", logout_path, method: :delete %>
+    <% end %>
+  <% else %>
+    <%= link_to "Iniciar Sesión", login_path %> |
+    <%= link_to "Registrarse", signup_path %>
+  <% end %>
+</nav>
+
+<%# Esto muestra los mensajes de éxito o error %>
+<% flash.each do |name, msg| %>
+  <div style="color: <%= name == 'notice' ? 'green' : 'red' %>;"><%= msg %></div>
+<% end %>
 </html>
