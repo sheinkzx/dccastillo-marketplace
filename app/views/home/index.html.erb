@@ -1,6 +1,25 @@
-<div class="pagina">
-  <div class="tarjeta">
-    <h1>Hello World 👋</h1>
-    <%= image_tag "image.png", alt: "POCHITA", class: "pochita" %>
-  </div>
+<div style="text-align: center; margin-top: 50px;">
+  <h1>Bienvenido a 🏰 DCCastillo del Juguete 🧸</h1>
+
+  <% if session[:user_id] %>
+    <%# Si el usuario ya entró, le mostramos el Dashboard aquí mismo %>
+    <% user = User.find_by(id: session[:user_id]) %>
+    <div class="tarjeta" style="border: 2px solid #2c3e50; padding: 20px; display: inline-block; border-radius: 10px;">
+       <h2>¡Hola, <%= user.nombre %>! 👋</h2>
+       <p>Has ingresado como: <strong><%= user.type %></strong></p>
+       <%= image_tag "image.png", alt: "POCHITA", class: "pochita", style: "width: 100px;" %>
+       <br><br>
+       <%= button_to "Cerrar Sesión", logout_path, method: :delete %>
+    </div>
+
+  <% else %>
+    <%# Si NO ha entrado, mostramos los dos botones que pediste %>
+    <p>¿Qué deseas hacer hoy?</p>
+    <div style="display: flex; justify-content: center; gap: 20px;">
+      <%= link_to "Iniciar Sesión", login_path, class: "boton-azul" %>
+      <%= link_to "Registrarse", signup_path, class: "boton-verde" %>
+    </div>
+    <br>
+    <%= image_tag "image.png", alt: "POCHITA", class: "pochita", style: "width: 150px; margin-top: 20px;" %>
+  <% end %>
 </div>

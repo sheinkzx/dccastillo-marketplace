@@ -7,37 +7,41 @@ class UsersController < ApplicationController # Hereda de ApplicationController 
   end
 
   # ACCIÓN: Recibe los datos del formulario y los guarda
-  def create
-    # 1. Extraemos el 'type' que el usuario eligió en el formulario (Cliente o Vendedor)
-    user_type = params[:user][:type]
+def create
+  # 1. Buscamos el tipo de usuario de forma segura
+  # Intentamos obtenerlo de :user, :vendedor o :cliente (lo que venga primero)
+  user_data = params[:user] || params[:vendedor] || params[:cliente]
+  user_type = user_data&.[](:type)
 
-    # 2. Lógica de Herencia STI:
-    # .constantize convierte el texto "Vendedor" en la Clase Vendedor de Ruby.
-    @user = if ["Cliente", "Vendedor"].include?(user_type)
-      user_type.constantize.new(user_params) # Crea un Vendedor.new(...) o Cliente.new(...)
-    else
-      Cliente.new(user_params) # Si alguien intenta hackear el tipo, por defecto es Cliente
-    end
+  # 2. Lógica de Herencia STI
+  @user = if ["Cliente", "Vendedor"].include?(user_type)
+            user_type.constantize.new(user_params(user_data))
+          else
+            # Si no se especifica un tipo válido, por defecto creamos un Cliente (o podríamos lanzar un error)
+            Cliente.new(user_params(user_data))
+          end
 
-    # 3. Intento de guardado
-    if @user.save
-      # Guarda el ID en la sesión del navegador para que el sistema "te reconozca"
-      session[:user_id] = @user.id
-      # Te envía a la página principal con un mensaje de éxito
-      redirect_to root_path, notice: "¡Registro exitoso como #{@user.type}!"
-    else
-      # Si falla (ej: el email ya existe), vuelve a mostrar el formulario ('new')
-      # El status 422 (unprocessable_entity) es un estándar web para errores de formulario
-      render :new, status: :unprocessable_entity
-    end
+  # 3. Intento de guardado
+  if @user.save
+    # Mandamos al usuario a la página de inicio con un mensaje de éxito
+    session[:user_id] = @user.id
+    redirect_to root_path, notice: "¡Registro exitoso como #{@user.type}!"
+  else
+    # Si hay errores, mostramos el formulario de nuevo con los mensajes de error.
+    flash.now[:alert] = @user.errors.full_messages.to_sentence
+    render :new, status: :unprocessable_entity
   end
+end
 
-  private # Todo lo que esté debajo de aquí solo puede ser usado dentro de este archivo
 
-  # SEGURIDAD (Strong Parameters):
-  # Por seguridad, Rails obliga a declarar qué campos permitimos que el usuario nos mande.
-  # Si un hacker intenta mandar 'admin: true', Rails lo ignorará porque no está en esta lista.
-  def user_params
-    params.require(:user).permit(:nombre, :email, :password, :password_confirmation, :type)
-  end
+
+# Priate significa que los métodos que siguen no pueden ser llamados desde fuera del controlador, solo se usan internamente.
+private 
+# 4. Ajustamos los parámetros para que acepten la data de cualquier tipo
+def user_params(data)
+  # Esto permite que Rails acepte los datos sin importar el nombre de la "caja"
+  data.permit(:nombre, :email, :password, :type)
+end
+
+
 end

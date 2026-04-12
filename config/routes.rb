@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy"
 
-  root "users#new" # "root" es quien define donde comienza la paguina cuando el usuario entra a la URL base
-  # (localhost:3000) y lo redirige a la acción new del controlador users, que es donde se muestra el formulario de registro.
+  root "home#index" # Ruta para la página de inicio (home)
   get "up" => "rails/health#show", :as => :rails_health_check
 end

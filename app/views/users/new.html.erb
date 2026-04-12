@@ -2,9 +2,7 @@
 
 <h1>Regístrate en DCCastillo</h1>
 
-
-
-<%= form_with model: @user, local: true do |f| %> 
+<%= form_with model: @user, url: users_path, local: true do |f| %>
   <%# Model: @user le dice al formulario que use la "caja vacía" que creamos en el controlador users_controllers.rb %>
 
   <div>
