@@ -10,4 +10,9 @@ Rails.application.routes.draw do
 
   root "home#index" # Ruta para la página de inicio (home)
   get "up" => "rails/health#show", :as => :rails_health_check
+
+  # Rutas de productos (HU13 y HU15)
+  get  "productos/new",    to: "productos#new"
+  post "productos",        to: "productos#create"
+  delete "productos/:id",  to: "productos#destroy"
 end
