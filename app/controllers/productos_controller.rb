@@ -25,6 +25,11 @@ class ProductosController < ApplicationController
     end
   end
 
+  # productos/:id
+  def show
+    @producto = Producto.find(params[:id])
+  end
+
   private
 
   def producto_params

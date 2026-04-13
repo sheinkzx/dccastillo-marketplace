@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   get  "productos/new",    to: "productos#new"
   post "productos",        to: "productos#create"
   delete "productos/:id",  to: "productos#destroy"
+  get "productos/:id", to: "productos#show"
 end

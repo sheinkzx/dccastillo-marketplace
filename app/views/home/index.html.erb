@@ -19,7 +19,7 @@
         <% if @productos.any? %>
           <% @productos.each do |producto| %>
             <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; display: inline-block;">
-              <strong><%= producto.titulo %></strong> —
+              <strong><a href="/productos/<%= producto.id %>"><%= producto.titulo %></a></strong> —
               $<%= producto.precio %> —
               Stock: <%= producto.stock %>
               <%= button_to "🗑️", "/productos/#{producto.id}", method: :delete,
