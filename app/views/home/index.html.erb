@@ -1,6 +1,5 @@
 <div style="text-align: center; margin-top: 50px;">
   <h1>Bienvenido a 🏰 DCCastillo del Juguete 🧸</h1>
-
   <% if session[:user_id] %>
     <%# Si el usuario ya entró, le mostramos el Dashboard aquí mismo %>
     <% user = User.find_by(id: session[:user_id]) %>
@@ -11,6 +10,27 @@
        <br><br>
        <%= button_to "Cerrar Sesión", logout_path, method: :delete %>
     </div>
+
+    <%# Si es vendedor, mostramos sus productos con opción de eliminar %>
+    <% if current_user&.is_a?(Vendedor) %>
+      <div style="margin-top: 30px;">
+        <h3>Mis productos</h3>
+        <%= link_to "➕ Publicar nuevo producto", "/productos/new" %>
+        <% if @productos.any? %>
+          <% @productos.each do |producto| %>
+            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; display: inline-block;">
+              <strong><%= producto.titulo %></strong> —
+              $<%= producto.precio %> —
+              Stock: <%= producto.stock %>
+              <%= button_to "🗑️", "/productos/#{producto.id}", method: :delete,
+              data: { turbo_confirm: "¿Seguro que quieres eliminar este producto?" } %>
+            </div>
+          <% end %>
+        <% else %>
+          <p>Aún no tienes productos publicados.</p>
+        <% end %>
+      </div>
+    <% end %>
 
   <% else %>
     <%# Si NO ha entrado, mostramos los dos botones que pediste %>
