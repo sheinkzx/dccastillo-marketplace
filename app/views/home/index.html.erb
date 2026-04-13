@@ -1,5 +1,10 @@
 <div style="text-align: center; margin-top: 50px;">
   <h1>Bienvenido a 🏰 DCCastillo del Juguete 🧸</h1>
+  <nav>
+    <ul>
+      <li><a href="/productos">Catálogo de juguetes</a></li>
+    </ul>
+  </nav>
   <% if session[:user_id] %>
     <%# Si el usuario ya entró, le mostramos el Dashboard aquí mismo %>
     <% user = User.find_by(id: session[:user_id]) %>
