@@ -29,11 +29,21 @@ class ProductosController < ApplicationController
   def show
     @producto = Producto.find(params[:id])
   end
-
-  # RU01 /productos
+  
   def index
-    @productos = Producto.all
+    # RU04: /productos?q=Lego
+    que = params[:q].to_s.strip # quita espacios (trim) el parámetro q del GET
+    if que.present?
+      @productos = Producto.where("LOWER(TRIM(titulo)) LIKE LOWER(?)", "%#{que}%")
+
+    # RU01 /productos
+    else
+      @productos = Producto.all
+    end
   end
+
+
+  
 
   private
 
