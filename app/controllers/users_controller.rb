@@ -15,7 +15,7 @@ class UsersController < ApplicationController # Hereda de ApplicationController 
 
     # 2. Lógica de Herencia STI
     @user = if ["Cliente", "Vendedor"].include?(user_type)
-      user_type.constantize.new(user_params(user_data))
+              user_type.constantize.new(user_params(user_data))
     else
       # Si no se especifica un tipo válido, por defecto creamos un Cliente (o podríamos lanzar un error)
       Cliente.new(user_params(user_data))
