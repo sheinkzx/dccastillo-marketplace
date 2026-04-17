@@ -18,8 +18,14 @@ class ProductosController < ApplicationController
     @producto = Producto.find(params[:id])
 
     if @producto.vendedor == current_user
-      @producto.destroy
-      redirect_to root_path, notice: "Producto eliminado"
+
+      if @producto.compras.any?
+        redirect_to root_path, alert: "No puedes eliminar este producto porque ya tiene compras asociadas"
+      
+      else
+        @producto.destroy
+        redirect_to root_path, notice: "Producto eliminado"
+      end
     else
       redirect_to root_path, alert: "No puedes eliminar este producto"
     end

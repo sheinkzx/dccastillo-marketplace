@@ -14,12 +14,14 @@
     <li><strong>Vendido por:</strong> <a href="/vendedor/<%= @producto.vendedor_id%>"><%= @producto.vendedor_id %></a></li>
     --><li><strong>Fecha de publicación:</strong> <%= @producto.created_at.strftime("%d de %B de %Y") %>.</li>
 </ul>
-
 <%# Solo mostramos el botón si hay un cliente logueado y un vendedor no puede comprarse su propio producto %>
-
 <% if current_user&.is_a?(Cliente) %>
-
-  <%= button_to "🛒 Comprar", "/compras", method: :post,
-      params: { producto_id: @producto.id },
-      data: { turbo_confirm: "¿Confirmas la compra de #{@producto.titulo}?" } %>
+  <% if @producto.stock > 0 %>
+    <%= button_to "🛒 Comprar", "/compras", method: :post,
+        params: { producto_id: @producto.id },
+        data: { turbo_confirm: "¿Confirmas la compra de #{@producto.titulo}?" } %>
+  <% else %>
+    <p style="color: red; font-weight: bold;">❌ Sin Stock</p>
+    <button disabled style="opacity: 0.5; cursor: not-allowed;">🛒 Sin Stock</button>
+  <% end %>
 <% end %>
