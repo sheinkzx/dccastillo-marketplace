@@ -1,6 +1,11 @@
 <div style="text-align: center; margin-top: 50px;">
   <h1>Bienvenido a 🏰 DCCastillo del Juguete 🧸</h1>
-
+  <nav>
+    <ul>
+      <li><a href="/productos">Catálogo de juguetes</a></li>
+    </ul>
+  </nav>
+  
   <% if session[:user_id] %>
     <%# Si el usuario ya entró, le mostramos el Dashboard aquí mismo %>
     <% user = User.find_by(id: session[:user_id]) %>
@@ -12,7 +17,55 @@
        <%= button_to "Cerrar Sesión", logout_path, method: :delete %>
     </div>
 
+    
+    <% if current_user&.is_a?(Vendedor) %>
+    <%# Si es vendedor, mostramos sus productos con opción de eliminar %>
+    
+      <div style="margin-top: 30px;">
+        <h3>Mis productos</h3>
+        <%= link_to "➕ Publicar nuevo producto", "/productos/new" %>
+        <% if @productos.any? %>
+          <% @productos.each do |producto| %>
+            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; display: inline-block;">
+              <strong><a href="/productos/<%= producto.id %>"><%= producto.titulo %></a></strong> —
+              $<%= producto.precio %> —
+              Stock: <%= producto.stock %>
+              <%= button_to "🗑️", "/productos/#{producto.id}", method: :delete,
+              data: { turbo_confirm: "¿Seguro que quieres eliminar este producto?" } %>
+            </div>
+          <% end %>
+        <% else %>
+          <p>Aún no tienes productos publicados.</p>
+        <% end %>
+      </div>
+
+      <%# Solicitudes de compra pendientes que el vendedor debe aprobar%>
+
+      <div style="margin-top: 30px;">
+        <h3>Solicitudes de compra pendientes</h3>
+
+        <% if @compras_pendientes.any? %>
+
+          <% @compras_pendientes.each do |compra| %>
+            <div style="border: 1px solid orange; padding: 10px; margin: 10px; display: inline-block;">
+              <%# Mostramos el producto y el cliente que quiere comprarlo %>
+              <strong><%= compra.producto.titulo %></strong> —
+              Solicitado por: <%= compra.cliente.nombre %> —
+              Fecha: <%= compra.fecha %>
+              <%# Botón para aprobar la compra, envía PATCH a /compras/:id %>
+              <%= button_to "✅ Aprobar", "/compras/#{compra.id}", method: :patch %>
+            </div>
+          <% end %>
+
+        <% else %>
+          <p>No tienes solicitudes pendientes.</p>
+        <% end %>
+
+      </div>
+    <% end %>
+
   <% else %>
+  
     <%# Si NO ha entrado, mostramos los dos botones que pediste %>
     <p>¿Qué deseas hacer hoy?</p>
     <div style="display: flex; justify-content: center; gap: 20px;">

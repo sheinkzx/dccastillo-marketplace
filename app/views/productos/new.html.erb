@@ -1,0 +1,49 @@
+<%# Título de la página %>
+<h1>Nuevo Producto</h1>
+
+<%# form_with genera el formulario HTML. model: @producto le dice a Rails qué objeto está manejando %>
+<%# url: productos_path indica a dónde se envían los datos (POST /productos) %>
+<%= form_with model: @producto, url: productos_path do |f| %>
+
+  <%# Si el producto tiene errores de validación, los mostramos todos aquí %>
+  <% if @producto.errors.any? %>
+    <div>
+      <% @producto.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%# Campo de texto para el título %>
+  <div>
+    <%= f.label :titulo, "Título" %>
+    <%= f.text_field :titulo %>
+  </div>
+
+  <%# Campo numérico para el precio. step: 0.01 permite decimales como 9.99 %>
+  <div>
+    <%= f.label :precio %>
+    <%= f.number_field :precio, step: 0.01 %>
+  </div>
+
+  <%# Campo de texto para la marca %>
+  <div>
+    <%= f.label :marca %>
+    <%= f.text_field :marca %>
+  </div>
+
+  <%# Área de texto más grande para la descripción %>
+  <div>
+    <%= f.label :descripcion, "Descripción" %>
+    <%= f.text_area :descripcion %>
+  </div>
+
+  <%# Campo numérico para el stock disponible %>
+  <div>
+    <%= f.label :stock %>
+    <%= f.number_field :stock %>
+  </div>
+
+  <%# Botón que envía el formulario %>
+  <%= f.submit "Publicar producto" %>
+<% end %>
