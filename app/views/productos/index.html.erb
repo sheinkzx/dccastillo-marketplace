@@ -19,7 +19,7 @@
           <strong><a href="/productos/<%= producto.id %>"><%= producto.titulo %></a></strong><br />
           <%= producto.descripcion %>
           <ul>
-              <li><strong>Precio:</strong> $<%= number_with_delimiter(producto.precio.to_i, delimiter: '.') %></li>
+              <li><strong>Precio:</strong> <%= number_to_currency(producto.precio, unit: "$", separator: ",", delimiter: ".", precision: 0) %></li>
               <li><strong>Marca:</strong> <%= producto.marca %></li>
               <li><strong>Stock:</strong> <%= number_with_delimiter(producto.stock, delimiter: '.') %></li>
           </ul>
