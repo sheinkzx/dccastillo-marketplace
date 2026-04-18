@@ -68,3 +68,5 @@ group :test do
 end
 
 gem "standard", ">= 1.35.1", group: [:development, :test]
+
+gem "rails-erd", "~> 1.7", group: :development
