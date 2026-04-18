@@ -1,5 +1,14 @@
+<header>
+    <div><a href="/">🏰 DCCastillo del Juguete 🧸</a></div>
+</header>
 <nav>
-    <a href="/">🏰 DCCastillo del Juguete 🧸</a>
+    <ul>
+        <li><a href="/productos">Catálogo</a></li>
+    </ul>
+    <form action="/productos" method="get">
+        <input type="search" name="q" placeholder="Buscar productos" />
+        <button type="submit">Buscar</button>
+    </form>
 </nav>
 <h1>Catálogo de juguetes</h1>
 <% if @productos.any? %>
@@ -24,6 +33,4 @@
         <% end %>
     </div>
     <% end %>
-<% else %>
-    <p>Aún no hay productos publicados.</p>
-<% end %>
+</main>

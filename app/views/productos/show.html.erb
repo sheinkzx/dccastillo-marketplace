@@ -1,8 +1,14 @@
+<header>
+    <div><a href="/">🏰 DCCastillo del Juguete 🧸</a></div>
+</header>
 <nav>
-    <a href="/">🏰 DCCastillo del Juguete 🧸</a>
     <ul>
         <li><a href="/productos">Catálogo</a></li>
     </ul>
+    <form action="/productos" method="get">
+        <input type="search" name="q" placeholder="Buscar productos" />
+        <button type="submit">Buscar</button>
+    </form>
 </nav>
 <h1><%= @producto.titulo %></h1>
 <p><strong>Descripción:</strong> <%= @producto.descripcion %></p>
