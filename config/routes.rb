@@ -12,10 +12,14 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", :as => :rails_health_check
 
   # Rutas de productos (HU13 y HU15)
-  get  "productos/new",    to: "productos#new"
-  post "productos",        to: "productos#create"
-  delete "productos/:id",  to: "productos#destroy"
+  get  "productos/new", to: "productos#new"
+  post "productos", to: "productos#create"
+  delete "productos/:id", to: "productos#destroy"
   get "productos/:id", to: "productos#show" #HU03
   get "productos", to: "productos#index" #HU01
+
+  # Rutas de compras (HU17)
+  post "compras", to: "compras#create"
+  patch "compras/:id", to: "compras#update"
 
 end
