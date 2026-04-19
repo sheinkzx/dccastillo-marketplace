@@ -52,6 +52,7 @@
               <strong><%= compra.producto.titulo %></strong> —
               Solicitado por: <%= compra.cliente.nombre %> —
               Fecha: <%= compra.fecha %>
+              Estado <%= compra.estado %>
               <%# Botón para aprobar la compra, envía PATCH a /compras/:id %>
               <%= button_to "✅ Aprobar", "/compras/#{compra.id}", method: :patch %>
             </div>
