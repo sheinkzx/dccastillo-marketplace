@@ -1,0 +1,50 @@
+<h1>Editar Producto: <%= @producto.titulo %></h1>
+
+<%= form_with model: @producto, url: "/productos/#{@producto.id}", method: :patch do |f| %>
+  
+  <% if @producto.errors.any? %>
+    <div style="color: red;">
+      <% @producto.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :titulo, "Título" %><br>
+    <%= f.text_field :titulo %>
+  </div>
+
+  <div>
+    <%= f.label :precio %><br>
+    <%= f.number_field :precio, step: 0.01 %>
+  </div>
+
+  <div>
+    <%= f.label :marca %><br>
+    <%= f.text_field :marca %>
+  </div>
+
+  <div>
+    <%= f.label :descripcion, "Descripción" %><br>
+    <%= f.text_area :descripcion %>
+  </div>
+
+  <div>
+    <%= f.label :stock %><br>
+    <%= f.number_field :stock %>
+  </div>
+
+  <% if @producto.stock > 0 %>
+    <div>
+      <%= f.label :estado %><br>
+      <%= f.select :estado, ["Activo", "Inactivo"] %>
+    </div>
+  <% else %>
+    <p style="color: gray; font-weight: bold;">Estado actual: Agotado (Sube el stock para reactivarlo)</p>
+  <% end %>
+
+  <br>
+  <%= f.submit "Guardar cambios", class: "boton-azul" %>
+  <%= link_to "Cancelar", root_path %>
+<% end %>

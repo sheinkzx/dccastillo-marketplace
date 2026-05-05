@@ -14,6 +14,35 @@ class ProductosController < ApplicationController
     end
   end
 
+
+# HU14 Muestra el formulario de edición (GET /productos/:id/edit) 
+  def edit
+    @producto = Producto.find(params[:id])
+    
+    # Seguridad: si el usuario no es el dueño, lo devolvemos al inicio
+    unless @producto.vendedor == current_user
+      redirect_to root_path, alert: "No tienes permiso para editar este producto."
+    end
+  end
+
+  # HU14 Guarda los cambios en la base de datos (PATCH /productos/:id)
+  def update
+    @producto = Producto.find(params[:id])
+
+    # Doble validación de seguridad
+    if @producto.vendedor == current_user
+      if @producto.update(producto_params)
+        redirect_to root_path, notice: "Producto '#{@producto.titulo}' actualizado exitosamente."
+      else
+        # Si falla una validación (ej. precio en blanco), vuelve a mostrar el formulario
+        render :edit, status: :unprocessable_entity
+      end
+    else
+      redirect_to root_path, alert: "No puedes editar este producto."
+    end
+  end
+
+
   def destroy
     @producto = Producto.find(params[:id])
 
@@ -44,7 +73,7 @@ class ProductosController < ApplicationController
 
     # RU01 /productos
     else
-      @productos = Producto.all
+      @productos = Producto.where(estado: "Activo") # HU14 solo productos activos. 
     end
   end
 
@@ -54,6 +83,6 @@ class ProductosController < ApplicationController
   private
 
   def producto_params
-    params.require(:producto).permit(:titulo, :precio, :descripcion, :marca, :stock, :fecha)
+    params.require(:producto).permit(:titulo, :precio, :descripcion, :marca, :stock, :fecha, :estado)
   end
 end

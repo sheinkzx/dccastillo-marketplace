@@ -17,7 +17,8 @@ Rails.application.routes.draw do
   delete "productos/:id", to: "productos#destroy"
   get "productos/:id", to: "productos#show" #HU03
   get "productos", to: "productos#index" #HU01
-
+  get "productos/:id/edit", to: "productos#edit", as: :edit_producto # Muestra el formulario HU14
+  patch "productos/:id", to: "productos#update" # Procesa los datos guardados HU14
   # Rutas de compras (HU17)
   post "compras", to: "compras#create"
   patch "compras/:id", to: "compras#update"
