@@ -22,4 +22,9 @@ Rails.application.routes.draw do
   post "compras", to: "compras#create"
   patch "compras/:id", to: "compras#update"
 
+  #* Rutas de Editar perfil 
+
+  get  '/perfil/editar', to: 'users#edit',   as: :editar_perfil
+  patch '/perfil',       to: 'users#update', as: :actualizar_perfil
+
 end

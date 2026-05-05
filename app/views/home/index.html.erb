@@ -12,10 +12,13 @@
     <div class="tarjeta" style="border: 2px solid #2c3e50; padding: 20px; display: inline-block; border-radius: 10px;">
        <h2>¡Hola, <%= user.nombre %>! 👋</h2>
        <p>Has ingresado como: <strong><%= user.type %></strong></p>
-       <%= image_tag "image.png", alt: "POCHITA", class: "pochita", style: "width: 100px;" %>
+       <% foto_url = user.url_foto.present? ? user.url_foto : "https://ui-avatars.com/api/?name=#{URI.encode_www_form_component(user.nombre)}&background=2c3e50&color=fff&size=100&rounded=true" %>
+       <img src="<%= foto_url %>" alt="Foto de perfil" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-top: 10px; display: block; margin-left: auto; margin-right: auto;">
+       <br>
+       <%= link_to "✏️ Editar mi perfil", editar_perfil_path %>
        <br><br>
        <%= button_to "Cerrar Sesión", logout_path, method: :delete %>
-    </div>
+       </div>
 
     
     <% if current_user&.is_a?(Vendedor) %>
@@ -67,7 +70,6 @@
 
   <% else %>
   
-    <%# Si NO ha entrado, mostramos los dos botones que pediste %>
     <p>¿Qué deseas hacer hoy?</p>
     <div style="display: flex; justify-content: center; gap: 20px;">
       <%= link_to "Iniciar Sesión", login_path, class: "boton-azul" %>
