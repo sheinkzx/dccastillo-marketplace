@@ -1,9 +1,6 @@
-class Producto < ApplicationRecord
-  belongs_to :vendedor, class_name: "User" #* el producto le pertenece al vendedor pero la clase que alberga todo es "User"
-  has_many :compras #* un producto puede tener muchas compras
-
-  validates :titulo, presence: true
-  validates :precio, presence: true, numericality: { greater_than: 0 }
-  validates :descripcion, presence: true
-  validates :stock, presence: true, numericality: { greater_than_or_equal_to: 0 }
+module Producto
+  def self.table_name_prefix
+    "producto_"
+  end
+  has_many :reviews, class_name: 'Producto::Review'
 end
