@@ -68,6 +68,13 @@
       </div>
     <% end %>
 
+    <% if current_user&.is_a?(Administrador) %>
+      <div style="margin-top: 30px;">
+        <h3>Panel de Administración</h3>
+        <%= link_to "👥 Ver y editar usuarios", admin_usuarios_path %>
+      </div>
+    <% end %>
+
   <% else %>
   
     <p>¿Qué deseas hacer hoy?</p>

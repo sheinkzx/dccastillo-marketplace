@@ -14,10 +14,10 @@ class UsersController < ApplicationController # Hereda de ApplicationController 
   def create
     # 1. Buscamos el tipo de usuario de forma segura
     # Intentamos obtenerlo de :user, :vendedor o :cliente (lo que venga primero)
-    user_data = params[:user] || params[:vendedor] || params[:cliente]
+    user_data = params[:user] || params[:vendedor] || params[:cliente] || params[:administrador]
     user_type = user_data&.[](:type)
     # 2. Lógica de Herencia STI
-    @user = if ["Cliente", "Vendedor"].include?(user_type)
+    @user = if ["Cliente", "Vendedor", "Administrador"].include?(user_type)
               # constantize convierte el string "Cliente" o "Vendedor" en la clase real
               user_type.constantize.new(user_params(user_data))
             else
@@ -49,7 +49,7 @@ class UsersController < ApplicationController # Hereda de ApplicationController 
     # Eliminamos los campos de contraseña si vienen vacíos,
     # así el usuario no está obligado a cambiarla cada vez que edita su perfil
     # Después (busca la "caja" correcta igual que en create)
-    user_data = params[:user] || params[:cliente] || params[:vendedor]
+    user_data = params[:user] || params[:vendedor] || params[:cliente] || params[:administrador]
     user_data.delete(:password) if user_data[:password].blank?
     user_data.delete(:password_confirmation) if user_data[:password_confirmation].blank?
     # update() intenta modificar solo los campos permitidos por user_params_edit
@@ -77,7 +77,7 @@ class UsersController < ApplicationController # Hereda de ApplicationController 
   # Nota: no incluimos :password aquí para no obligar al usuario a cambiarla cada vez
   # y tampoco :type para que un cliente no pueda cambiarse a Vendedor por su cuenta
   def user_params_edit
-    user_data = params[:user] || params[:cliente] || params[:vendedor]
+    user_data = params[:user] || params[:cliente] || params[:vendedor] || params[:administrador]
     user_data.permit(:nombre, :email, :url_foto, :password, :password_confirmation)
   end
 

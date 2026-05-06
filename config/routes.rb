@@ -27,4 +27,10 @@ Rails.application.routes.draw do
   get  '/perfil/editar', to: 'users#edit',   as: :editar_perfil
   patch '/perfil',       to: 'users#update', as: :actualizar_perfil
 
+  #* RUTAS PARA EL ADMINISTRADOR
+
+  get  'admin/usuarios',              to: 'usuarios_admin#index',  as: :admin_usuarios
+  get  'admin/usuarios/:id/editar',   to: 'usuarios_admin#edit',   as: :admin_editar_usuario
+  patch 'admin/usuarios/:id',         to: 'usuarios_admin#update', as: :admin_actualizar_usuario
+
 end
