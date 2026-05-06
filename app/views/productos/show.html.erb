@@ -41,7 +41,8 @@
     <% @producto.reviews.each do |review| %>
         <div class="review">
             <p><%= simple_format(review.txt) %></p>
-            <small><%= review.created_at.strftime("%B %d, %Y") %></small>
+            <small>Escrito por: <%= review.user.nombre %> el día
+                <%= review.created_at.strftime("%B %d, %Y") %></small>
         </div>
     <% end %>
 <% else %>
