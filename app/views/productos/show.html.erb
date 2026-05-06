@@ -31,3 +31,19 @@
     <button disabled style="opacity: 0.5; cursor: not-allowed;">🛒 Sin Stock</button>
   <% end %>
 <% end %>
+<h2>Reseñas</h2>
+<h3>Escribir reseña</h3>
+<form>
+    <textarea></textarea>
+</form>
+<% if @producto.reviews.any? %>
+    <h3>Reseñas para este producto</h3>
+    <% @producto.reviews.each do |review| %>
+        <div class="review">
+            <p><%= simple_format(review.txt) %></p>
+            <small><%= review.created_at.strftime("%B %d, %Y") %></small>
+        </div>
+    <% end %>
+<% else %>
+  <p>Aún no hay reseñas a este producto.</p>
+<% end %>

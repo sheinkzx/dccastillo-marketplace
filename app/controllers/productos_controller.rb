@@ -33,7 +33,7 @@ class ProductosController < ApplicationController
 
   # RU03 /productos/:id
   def show
-    @producto = Producto.find(params[:id])
+    @producto = Producto.includes(:reviews).find(params[:id])
   end
   
   def index
