@@ -49,7 +49,8 @@
 <% if @ha_comprado %>
     <h3>Escribir reseña</h3>
     <%= form_with(model: Producto::Review.new,
-     url: producto_reviews_path(@producto)) do |f| %>
+     url: producto_reviews_path(@producto),
+     data: { turbo: false }) do |f| %>
         <%= f.text_area :txt, required: true %>
         <%= f.submit "Publicar reseña" %>
     <% end %>
