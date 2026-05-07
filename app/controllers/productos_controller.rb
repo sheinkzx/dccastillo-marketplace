@@ -34,6 +34,9 @@ class ProductosController < ApplicationController
   # RU03 /productos/:id
   def show
     @producto = Producto.find(params[:id])
+    if @producto.stock <= 0
+      redirect_to productos_path, alert: "Este producto no está disponible" #* Esto es por si se accede directamente al link para ver si el producto no tiene stock desde la perspectiva del usuario
+    end
   end
   
   def index
@@ -44,7 +47,7 @@ class ProductosController < ApplicationController
 
     # RU01 /productos
     else
-      @productos = Producto.all
+      @productos = Producto.where("stock > 0")
     end
   end
 
