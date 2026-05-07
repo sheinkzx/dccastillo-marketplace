@@ -18,6 +18,11 @@ Rails.application.routes.draw do
   get "productos/:id", to: "productos#show" #HU03
   get "productos", to: "productos#index" #HU01
 
+  # Rutas de favoritos (RU 25)
+  post "productos/:producto_id/favorito", to: "favoritos#create"
+  delete "productos/:producto_id/favorito", to: "favoritos#destroy"
+  get "mis_favoritos", to: "favoritos#index"
+
   # Rutas de compras (HU17)
   post "compras", to: "compras#create"
   patch "compras/:id", to: "compras#update"

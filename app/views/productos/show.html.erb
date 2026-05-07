@@ -22,6 +22,19 @@
 </ul>
 <%# Solo mostramos el botón si hay un cliente logueado y un vendedor no puede comprarse su propio producto %>
 <% if current_user&.is_a?(Cliente) %>
+
+<%# RU 25 Mostrar corazon de favorito %>
+  <% favorito = current_user.favoritos.find_by(producto_id: @producto.id) %> 
+  <div style="margin-bottom: 15px;">
+    <% if favorito %>
+      <%# Si ya es favorito, mostramos corazón lleno y método DELETE %>
+      <%= button_to "❤️ Quitar de favoritos", "/productos/#{@producto.id}/favorito", method: :delete, style: "background: none; border: 1px solid #ccc; padding: 5px 10px; border-radius: 5px; cursor: pointer;" %>
+    <% else %>
+      <%# Si no es favorito, mostramos corazón vacío y método POST %>
+      <%= button_to "🤍 Guardar como favorito", "/productos/#{@producto.id}/favorito", method: :post, style: "background: none; border: 1px solid #ccc; padding: 5px 10px; border-radius: 5px; cursor: pointer;" %>
+    <% end %>
+  </div>
+
   <% if @producto.stock > 0 %>
     <%= button_to "🛒 Comprar", "/compras", method: :post,
         params: { producto_id: @producto.id },

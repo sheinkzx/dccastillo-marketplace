@@ -65,6 +65,14 @@
       </div>
     <% end %>
 
+    <%# RU 25 Si es Cliente, se mostrara una lista de favoritos %>
+    <% if current_user&.is_a?(Cliente) %>
+      <div style="margin-top: 30px;">
+        <h3>Mi Panel de Cliente</h3>
+        <a href="/mis_favoritos" style="padding: 10px 15px; background-color: #ff4d4d; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">❤️ Ver mi lista de Favoritos</a>
+      </div>
+    <% end %>
+
   <% else %>
   
     <%# Si NO ha entrado, mostramos los dos botones que pediste %>
