@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :producto do
+    get "reviews/create"
+  end
   # Esto viene del controlador de usuarios (registro)
   get "signup", to: "users#new" # Ruta para mostrar el formulario de registro
   post "users", to: "users#create" # Ruta para procesar el formulario de registro
@@ -17,6 +20,9 @@ Rails.application.routes.draw do
   delete "productos/:id", to: "productos#destroy"
   get "productos/:id", to: "productos#show" #HU03
   get "productos", to: "productos#index" #HU01
+
+  post '/productos/:id_producto/reviews', to: 'producto/reviews#create',
+    as: :producto_reviews #HU19
 
   # Rutas de compras (HU17)
   post "compras", to: "compras#create"
