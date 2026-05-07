@@ -1,5 +1,5 @@
 class UsuariosAdminController < ApplicationController
-  #*/ before_action = filtro que corre ANTES de cada acción del controlador
+  #*/ before_action = filtro que corre ANTES de cada ACCION del controlador
   # require_admin! se ejecuta en TODAS las acciones: si no eres admin, te echa
   before_action :require_admin!
 
@@ -7,7 +7,7 @@ class UsuariosAdminController < ApplicationController
   # porque son las únicas acciones que necesitan saber qué usuario editar
   before_action :set_usuario, only: [:edit, :update]
 
-  # ACCIÓN index: muestra el panel con la lista de todos los usuarios
+  # ACCION index: muestra el panel con la lista de todos los usuarios
   def index
     # User.where.not(id: current_user.id) = trae TODOS los usuarios de la BD
     # excepto el administrador que está logueado ahora mismo
@@ -15,12 +15,12 @@ class UsuariosAdminController < ApplicationController
     @usuarios = User.where.not(id: current_user.id)
   end
 
-  # ACCIÓN edit: solo muestra el formulario con los datos del usuario a editar
+  # ACCION edit: solo muestra el formulario con los datos del usuario a editar
   # No necesita lógica extra porque set_usuario ya preparó @usuario arriba
   def edit
   end
 
-  # ACCIÓN update: se ejecuta cuando el admin apreta "Guardar cambios" en el formulario
+  # ACCION update: se ejecuta cuando el admin apreta "Guardar cambios" en el formulario
   def update
     # usuario_params = los datos que vienen del formulario (nombre, email, foto, password)
     # los guardamos en datos_a_guardar para poder revisarlos antes de tocar la BD
@@ -33,8 +33,8 @@ class UsuariosAdminController < ApplicationController
 
     # Intentamos guardar los cambios en la base de datos
     if @usuario.update(datos_a_guardar)
-      # Éxito: volvemos al panel con un mensaje de confirmación
-      # @usuario.nombre muestra el nombre del usuario que se editó
+      # Exito: volvemos al panel con un mensaje de confirmación
+      # @usuario.nombre muestra el nombre del usuario que se edito
       redirect_to admin_usuarios_path, notice: "Usuario '#{@usuario.nombre}' actualizado."
     else
       # Error de validación (ej: email inválido): volvemos al formulario mostrando los errores
