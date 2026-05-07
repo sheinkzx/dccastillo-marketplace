@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema[8.1].define(version: 2026_05_07_162908) do
-=======
-ActiveRecord::Schema[8.1].define(version: 2026_05_05_162704) do
->>>>>>> RU-14-editar-producto
+ActiveRecord::Schema[8.1].define(version: 2026_05_07_213318) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -41,8 +37,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_05_162704) do
   end
 
   create_table "productos", force: :cascade do |t|
+    t.string "categoria"
     t.datetime "created_at", null: false
     t.text "descripcion"
+    t.string "edad"
+    t.integer "edad_maxima"
+    t.integer "edad_minima"
     t.string "estado", default: "Activo"
     t.date "fecha"
     t.string "marca"

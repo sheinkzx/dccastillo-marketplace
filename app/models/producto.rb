@@ -3,10 +3,11 @@ class Producto < ApplicationRecord
   has_many :compras #* un producto puede tener muchas compras
   has_many :favoritos, dependent: :destroy # RU 25 Agregamos la relación con favoritos
 
-  validates :titulo, presence: true
-  validates :precio, presence: true, numericality: { greater_than: 0 }
-  validates :descripcion, presence: true
-  validates :stock, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :titulo, presence: { message: "es obligatorio" }
+  validates :precio, presence: true, numericality: { greater_than_or_equal_to: 0, message: "debe ser mayor o igual a 0" }
+  validates :descripcion, presence: { message: "es obligatoria" }
+  validates :marca, presence: { message: "es obligatoria" }
+  validates :stock, presence: true, numericality: { greater_than_or_equal_to: 0, message: "debe ser mayor o igual a 0" }
   validates :estado, inclusion: { in: %w[Activo Inactivo Agotado] } # Solo permite estos 3 estados
 
   # Este 'callback' se ejecuta justo antes de guardar en la base de datos

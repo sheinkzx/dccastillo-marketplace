@@ -1,4 +1,3 @@
-
 <header>
   <div><a href="/">🏰 DCCastillo del Juguete 🧸</a></div>
 </header>
@@ -16,12 +15,18 @@
     <% @favoritos.each do |favorito| %>
       <% producto = favorito.producto %>
       
-      <div style="border: 1px solid #ff9999; padding: 15px; margin: 10px; display: inline-block; border-radius: 10px; background-color: #fff5f5;">
-        <strong><a href="/productos/<%= producto.id %>" style="color: #cc0000;"><%= producto.titulo %></a></strong><br><br>
-        Precio: $<%= producto.precio %><br>
+      <div style="border: 1px solid #ff9999; padding: 15px; margin: 10px; display: inline-block; border-radius: 10px; background-color: #fff5f5; text-align: left;">
+        <div style="text-align: center;">
+          <strong><a href="/productos/<%= producto.id %>" style="color: #cc0000;"><%= producto.titulo %></a></strong><br><br>
+        </div>
+        
+        Precio: $<%= number_with_delimiter(producto.precio.to_i, delimiter: '.') %><br>
+        <%# --- NUEVOS DATOS VISIBLES --- %>
+        Categoría: <%= producto.categoria %><br>
+        Edad sugerida: De <%= producto.edad_minima %> a <%= producto.edad_maxima %> años<br>
         Estado: <strong><%= producto.estado %></strong>
         
-        <div style="margin-top: 15px;">
+        <div style="margin-top: 15px; text-align: center;">
           <%# Botón rápido para quitarlo desde la misma lista %>
           <%= button_to "💔 Quitar de la lista", "/productos/#{producto.id}/favorito", method: :delete, style: "background: white; border: 1px solid red; color: red; padding: 5px 10px; border-radius: 5px; cursor: pointer;" %>
         </div>
