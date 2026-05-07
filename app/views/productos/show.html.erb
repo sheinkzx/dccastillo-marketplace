@@ -21,9 +21,10 @@
     --><li><strong>Fecha de publicación:</strong> <%= @producto.created_at.strftime("%d de %B de %Y") %>.</li>
 </ul>
 <%# Solo mostramos el botón si hay un cliente logueado y un vendedor no puede comprarse su propio producto %>
+<%# RU14 y solo se muestran productos activos %>
 <% if current_user&.is_a?(Cliente) %>
 
-<%# RU 25 Mostrar corazon de favorito %>
+  <%# RU 25 Mostrar corazon de favorito %>
   <% favorito = current_user.favoritos.find_by(producto_id: @producto.id) %> 
   <div style="margin-bottom: 15px;">
     <% if favorito %>
@@ -35,12 +36,19 @@
     <% end %>
   </div>
 
-  <% if @producto.stock > 0 %>
+  <%# Lógica de compra unificada (Estado + Stock) %>
+  <% if @producto.estado == "Activo" && @producto.stock > 0 %>
     <%= button_to "🛒 Comprar", "/compras", method: :post,
         params: { producto_id: @producto.id },
         data: { turbo_confirm: "¿Confirmas la compra de #{@producto.titulo}?" } %>
+        
+  <% elsif @producto.estado == "Inactivo" %>
+    <p style="color: orange; font-weight: bold;">⏸️ Producto Pausado</p>
+    <button disabled style="opacity: 0.5; cursor: not-allowed;">🛒 No Disponible</button>
+    
   <% else %>
     <p style="color: red; font-weight: bold;">❌ Sin Stock</p>
     <button disabled style="opacity: 0.5; cursor: not-allowed;">🛒 Sin Stock</button>
   <% end %>
+  
 <% end %>

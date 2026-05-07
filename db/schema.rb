@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema[8.1].define(version: 2026_05_07_162908) do
+=======
+ActiveRecord::Schema[8.1].define(version: 2026_05_05_162704) do
+>>>>>>> RU-14-editar-producto
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
