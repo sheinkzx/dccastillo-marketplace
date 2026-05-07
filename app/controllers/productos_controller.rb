@@ -98,6 +98,7 @@ class ProductosController < ApplicationController
 
   def producto_params
     # Agregamos edad_minima, edad_maxima y categoria a los permitidos (RU05)
-    params.require(:producto).permit(:titulo, :precio, :descripcion, :marca, :stock, :fecha, :estado, :edad_minima, :edad_maxima, :categoria)
+    params.require(:producto).permit(:titulo, :precio, :descripcion, :marca, :stock, :fecha, :estado, :edad_minima, :edad_maxima, 
+                                     :categoria)
   end
 end
