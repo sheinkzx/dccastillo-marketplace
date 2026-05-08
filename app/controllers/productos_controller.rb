@@ -81,6 +81,7 @@ class ProductosController < ApplicationController
     if que.present?
       @productos = Producto.where("LOWER(TRIM(titulo)) LIKE LOWER(?)",
                                   "%#{que}%")
+    end
 
     # Filtro por Precio (Escenario 2)
     if params[:precio_max].present?
