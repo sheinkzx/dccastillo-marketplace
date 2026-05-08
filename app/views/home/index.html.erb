@@ -29,8 +29,10 @@
         <%= link_to "➕ Publicar nuevo producto", "/productos/new" %>
         <% if @productos.any? %>
           <% @productos.each do |producto| %>
-            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; display: inline-block;">
-              <strong><a href="/productos/<%= producto.id %>"><%= producto.titulo %></a></strong> —
+            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;
+             display: inline-block;">
+              <strong><a href="/productos/<%= producto.id %>">
+                <%= producto.titulo %></a></strong> —
               $<%= producto.precio %> —
               Stock: <%= producto.stock %> —
               
@@ -57,7 +59,8 @@
         <% if @compras_pendientes.any? %>
 
           <% @compras_pendientes.each do |compra| %>
-            <div style="border: 1px solid orange; padding: 10px; margin: 10px; display: inline-block;">
+            <div style="border: 1px solid orange; padding: 10px; margin: 10px;
+             display: inline-block;">
               <%# Mostramos el producto y el cliente que quiere comprarlo %>
               <strong><%= compra.producto.titulo %></strong> —
               Solicitado por: <%= compra.cliente.nombre %> —

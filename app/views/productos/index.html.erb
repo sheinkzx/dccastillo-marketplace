@@ -81,11 +81,13 @@
           <%# Solo el vendedor dueño del producto ve el botón de eliminar %>
           <% if current_user&.is_a?(Vendedor) && producto.vendedor == current_user %>
             <% if producto.compras.any? %>
-              <button disabled style="opacity: 0.5; cursor: not-allowed;">🗑️ No se puede eliminar</button>
-              <small style="color: red;">Ya tiene compras asociadas</small>
+                <button disabled>🗑️ No se puede eliminar</button>
+                <small style="color: red;">Ya tiene compras asociadas</small>
             <% else %>
-              <%= button_to "🗑️ Eliminar", "/productos/#{producto.id}", method: :delete,
-                  data: { turbo_confirm: "¿Seguro que quieres eliminar #{producto.titulo}?" } %>
+                <%= button_to "🗑️ Eliminar", "/productos/#{producto.id}",
+                    method: :delete,
+                    data: { turbo_confirm:
+                        "¿Seguro que quieres eliminar #{producto.titulo}?" } %>
             <% end %>
           <% end %>
       </div>

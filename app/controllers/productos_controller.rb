@@ -5,7 +5,7 @@ class ProductosController < ApplicationController
 
   def create
     @producto = Producto.new(producto_params)
-    @producto.vendedor = current_user
+    @producto.vendedor_id = current_user.id
 
     if @producto.save
       redirect_to root_path, notice: "Producto publicado exitosamente"
@@ -47,7 +47,9 @@ class ProductosController < ApplicationController
 
     if @producto.vendedor == current_user
       if @producto.compras.any?
-        redirect_to root_path, alert: "No puedes eliminar este producto porque ya tiene compras asociadas"
+        redirect_to root_path, alert: "No puedes eliminar este producto porque
+         ya tiene compras asociadas"
+      
       else
         @producto.destroy
         redirect_to root_path, notice: "Producto eliminado"
@@ -63,6 +65,14 @@ class ProductosController < ApplicationController
     if @producto.stock <= 0
       #* Esto es por si se accede directamente al link para ver si el producto no tiene stock desde la perspectiva del usuario
       redirect_to productos_path, alert: "Este producto no está disponible"
+    @producto = Producto.includes(:reviews).find(params[:id])
+
+    #RU15: Revisa si el usuario ha comprado el producto
+    if current_user
+      @ha_comprado = Compra.exists?(cliente_id: current_user.id,
+                                    producto_id: @producto.id)
+    else
+      @ha_comprado = false
     end
   end
   
@@ -73,7 +83,8 @@ class ProductosController < ApplicationController
     # RU04: /productos?q=Lego
     que = params[:q].to_s.strip
     if que.present?
-      @productos = @productos.where("LOWER(TRIM(titulo)) LIKE LOWER(?)", "%#{que}%")
+      @productos = Producto.where("LOWER(TRIM(titulo)) LIKE LOWER(?)",
+                                  "%#{que}%")
     end
 
     # RU01 /productos
