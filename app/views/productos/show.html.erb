@@ -14,7 +14,8 @@
 <p><strong>Descripción:</strong> <%= @producto.descripcion %></p>
 <h2>Ficha técnica</h2>
 <ul>
-    <li><strong>Precio:</strong> $<%= number_with_delimiter(@producto.precio.to_i, delimiter: '.') %></li>
+    <li><strong>Precio:</strong>
+    $<%= number_with_delimiter(@producto.precio.to_i, delimiter: '.') %></li>
     <li><strong>Marca:</strong> <%= @producto.marca %></li>
     
     <%# --- NUEVOS DATOS VISIBLES --- %>
@@ -52,7 +53,41 @@
     
   <% else %>
     <p style="color: red; font-weight: bold;">❌ Sin Stock</p>
-    <button disabled style="opacity: 0.5; cursor: not-allowed;">🛒 Sin Stock</button>
+    <button disabled style="opacity: 0.5;">🛒 Sin Stock</button>
   <% end %>
-  
+<% end %>
+
+<h2>Reseñas</h2>
+
+<% if @ha_comprado %>
+    <h3>Escribir reseña</h3>
+    <%= form_with(model: Producto::Review.new,
+     url: producto_reviews_path(@producto),
+     data: { turbo: false }) do |f| %>
+        <%= f.label :puntaje, "Puntaje" %>
+        <%= f.select :puntaje, [1, 2, 3, 4, 5], selected: 5 %><br />
+        <%= f.text_area :txt, required: true %>
+        <%= f.submit "Publicar reseña" %>
+    <% end %>
+<% end %>
+
+<% if @producto.reviews.any? %>
+    <h3>Reseñas para este producto</h3>
+    <% @producto.reviews.each do |review| %>
+        <div class="review">
+            <h4><% if review.puntaje.present? %>
+                <% review.puntaje.times do %>
+                    ★
+                <% end %>
+                <% (5 - review.puntaje).times do %>
+                    ☆
+                <% end %>
+            <% end %></h4>
+            <div><%= simple_format(review.txt) %></div>
+            <div><small>Escrito por: <%= review.user.nombre %> el día
+                <%= review.created_at.strftime("%B %d, %Y") %></small></div>
+        </div>
+    <% end %>
+<% else %>
+  <p>Aún no hay reseñas a este producto.</p>
 <% end %>

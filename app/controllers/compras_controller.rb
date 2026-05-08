@@ -12,7 +12,7 @@ class ComprasController < ApplicationController
     @compra = Compra.new(
       producto: producto,
       cliente: current_user,
-      vendedor: producto.vendedor,
+      vendedor_id: producto.vendedor_id, #TODO: eliminar vendedor_id del modelo
       estado: "pendiente",
       fecha: Date.today
     )

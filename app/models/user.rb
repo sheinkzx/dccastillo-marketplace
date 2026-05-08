@@ -17,4 +17,6 @@ class User < ApplicationRecord # Hereda de ApplicationRecord (la clase con la ge
   # Ademas, es allow_nil: true (permite nulos) para que no te obligue a escribir la contraseña de nuevo si
   # solo quieres cambiar el nombre o email. (esto no significa que puedas crear un usuario sin contraseña,
   # porque 'has_secure_password' ya lo prohíbe)
+  
+  has_many :reviews, class_name: 'Producto::Review'
 end

@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  txt: MyString
+  estadp: 1
+  puntaje: 1
+
+two:
+  txt: MyString
+  estadp: 1
+  puntaje: 1

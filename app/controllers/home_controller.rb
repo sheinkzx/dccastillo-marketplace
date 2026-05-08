@@ -4,10 +4,10 @@ class HomeController < ApplicationController
     if current_user.is_a?(Vendedor)
 
       #* Productos del vendedor
-      @productos = Producto.where(vendedor: current_user)
+      @productos = Producto.where(vendedor_id: current_user)
 
       #* Compras pendientes de sus productos
-      @compras_pendientes = Compra.where(vendedor: current_user, estado: "pendiente")
+      @compras_pendientes = Compra.where(vendedor_id: current_user, estado: "pendiente")
     end
   end
 
