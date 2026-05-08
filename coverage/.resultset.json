@@ -332,7 +332,6 @@
       "/home/sheinkzx/2026-1-grupo-104/test/controllers/producto/reviews_controller_test.rb": {
         "lines": [
           1,
-          null,
           1,
           1,
           1,
@@ -911,6 +910,18 @@
           null
         ]
       },
+      "/home/sheinkzx/2026-1-grupo-104/app/models/compra.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
+          1,
+          null,
+          null,
+          1
+        ]
+      },
       "/home/sheinkzx/2026-1-grupo-104/config/routes.rb": {
         "lines": [
           1,
@@ -955,103 +966,6 @@
           1,
           1,
           1
-        ]
-      },
-      "/home/sheinkzx/2026-1-grupo-104/app/controllers/sessions_controller.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          null,
-          null,
-          null,
-          1,
-          null,
-          null,
-          10,
-          null,
-          null,
-          null,
-          null,
-          null,
-          10,
-          null,
-          null,
-          null,
-          null,
-          9,
-          null,
-          null,
-          null,
-          9,
-          null,
-          null,
-          null,
-          null,
-          null,
-          1,
-          null,
-          null,
-          null,
-          1,
-          null,
-          null,
-          null,
-          1,
-          null,
-          null,
-          1,
-          null,
-          null,
-          1,
-          null,
-          null
-        ]
-      },
-      "/home/sheinkzx/2026-1-grupo-104/app/controllers/application_controller.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          null,
-          null,
-          null,
-          1,
-          10,
-          null,
-          null,
-          null,
-          1
-        ]
-      },
-      "/home/sheinkzx/2026-1-grupo-104/app/helpers/application_helper.rb": {
-        "lines": [
-          1,
-          null
-        ]
-      },
-      "/home/sheinkzx/2026-1-grupo-104/app/helpers/home_helper.rb": {
-        "lines": [
-          1,
-          null
-        ]
-      },
-      "/home/sheinkzx/2026-1-grupo-104/app/helpers/producto/reviews_helper.rb": {
-        "lines": [
-          1,
-          null
-        ]
-      },
-      "/home/sheinkzx/2026-1-grupo-104/app/helpers/sessions_helper.rb": {
-        "lines": [
-          1,
-          null
-        ]
-      },
-      "/home/sheinkzx/2026-1-grupo-104/app/helpers/users_helper.rb": {
-        "lines": [
-          1,
-          null
         ]
       },
       "/home/sheinkzx/2026-1-grupo-104/app/controllers/productos_controller.rb": {
@@ -1180,16 +1094,110 @@
           null
         ]
       },
-      "/home/sheinkzx/2026-1-grupo-104/app/models/compra.rb": {
+      "/home/sheinkzx/2026-1-grupo-104/app/controllers/application_controller.rb": {
         "lines": [
           1,
           1,
           1,
           null,
+          null,
+          null,
           1,
+          10,
+          null,
           null,
           null,
           1
+        ]
+      },
+      "/home/sheinkzx/2026-1-grupo-104/app/helpers/application_helper.rb": {
+        "lines": [
+          1,
+          null
+        ]
+      },
+      "/home/sheinkzx/2026-1-grupo-104/app/helpers/home_helper.rb": {
+        "lines": [
+          1,
+          null
+        ]
+      },
+      "/home/sheinkzx/2026-1-grupo-104/app/helpers/producto/reviews_helper.rb": {
+        "lines": [
+          1,
+          null
+        ]
+      },
+      "/home/sheinkzx/2026-1-grupo-104/app/helpers/sessions_helper.rb": {
+        "lines": [
+          1,
+          null
+        ]
+      },
+      "/home/sheinkzx/2026-1-grupo-104/app/helpers/users_helper.rb": {
+        "lines": [
+          1,
+          null
+        ]
+      },
+      "/home/sheinkzx/2026-1-grupo-104/app/models/producto/review.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
+          1
+        ]
+      },
+      "/home/sheinkzx/2026-1-grupo-104/app/controllers/sessions_controller.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          10,
+          null,
+          null,
+          null,
+          null,
+          null,
+          10,
+          null,
+          null,
+          null,
+          null,
+          9,
+          null,
+          null,
+          null,
+          9,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          null,
+          null,
+          1,
+          null,
+          null
         ]
       },
       "/home/sheinkzx/2026-1-grupo-104/app/models/favorito.rb": {
@@ -1202,13 +1210,25 @@
           1
         ]
       },
-      "/home/sheinkzx/2026-1-grupo-104/app/models/producto/review.rb": {
+      "/home/sheinkzx/2026-1-grupo-104/app/controllers/producto/reviews_controller.rb": {
         "lines": [
           1,
           1,
           1,
+          1,
+          1,
+          1,
+          1,
           null,
-          1
+          0,
+          null,
+          null,
+          null,
+          1,
+          null,
+          1,
+          1,
+          null
         ]
       },
       "/home/sheinkzx/2026-1-grupo-104/app/controllers/users_controller.rb": {
@@ -1304,29 +1324,8 @@
           null,
           null
         ]
-      },
-      "/home/sheinkzx/2026-1-grupo-104/app/controllers/producto/reviews_controller.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          0,
-          null,
-          null,
-          null,
-          1,
-          null,
-          1,
-          1,
-          null
-        ]
       }
     },
-    "timestamp": 1778211735
+    "timestamp": 1778213522
   }
 }

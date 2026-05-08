@@ -1,5 +1,4 @@
 require "test_helper"
-
 class Producto::ReviewsControllerTest < ActionDispatch::IntegrationTest
   test "should get create" do
     vendedor = Vendedor.create!(
@@ -23,7 +22,7 @@ class Producto::ReviewsControllerTest < ActionDispatch::IntegrationTest
     )
     post login_path, params: { email: cliente.email, password: "modelopruebacliente" }
     post producto_reviews_path(producto_id: producto.id), params: {
-      review: { puntaje: 5 }
+      producto_review: { puntaje: 5, txt: "saaa" }
     }
     assert_response :redirect
   end
