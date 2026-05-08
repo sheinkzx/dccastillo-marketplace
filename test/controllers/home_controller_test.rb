@@ -17,6 +17,7 @@ class ProductosControllerTest < ActionDispatch::IntegrationTest
       titulo: "Lego Set",
       precio: 999,
       descripcion: "Juego de bloques",
+      marca: "Lego",
       stock: 5,
       vendedor: @vendedor
     )
@@ -48,7 +49,7 @@ class ProductosControllerTest < ActionDispatch::IntegrationTest
     post login_path, params: { email: @vendedor.email, password: "modelopruebavendedor" }
     assert_difference("Producto.count") do
       post productos_path, params: {
-        producto: { titulo: "Nuevo Producto", precio: 500, descripcion: "Descripción", stock: 3 }
+        producto: { titulo: "Nuevo Producto", precio: 500, descripcion: "Descripción", marca: "MarcaTest", stock: 3 }
       }
     end
     assert_response :redirect

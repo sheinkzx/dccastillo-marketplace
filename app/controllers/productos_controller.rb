@@ -15,10 +15,10 @@ class ProductosController < ApplicationController
   end
 
 
-# HU14 Muestra el formulario de edición (GET /productos/:id/edit) 
+  # HU14 Muestra el formulario de edición (GET /productos/:id/edit)
   def edit
     @producto = Producto.find(params[:id])
-    
+
     # Seguridad: si el usuario no es el dueño, lo devolvemos al inicio
     unless @producto.vendedor == current_user
       redirect_to root_path, alert: "No tienes permiso para editar este producto."
@@ -47,9 +47,7 @@ class ProductosController < ApplicationController
 
     if @producto.vendedor == current_user
       if @producto.compras.any?
-        redirect_to root_path, alert: "No puedes eliminar este producto porque
-         ya tiene compras asociadas"
-      
+        redirect_to root_path, alert: "No puedes eliminar este producto porque ya tiene compras asociadas"
       else
         @producto.destroy
         redirect_to root_path, notice: "Producto eliminado"
@@ -62,12 +60,16 @@ class ProductosController < ApplicationController
   # RU03 /productos/:id
   def show
     @producto = Producto.find(params[:id])
+
     if @producto.stock <= 0
-      #* Esto es por si se accede directamente al link para ver si el producto no tiene stock desde la perspectiva del usuario
+      # Esto es por si se accede directamente al link para ver si el producto no tiene stock desde la perspectiva del usuario
       redirect_to productos_path, alert: "Este producto no está disponible"
+      return
+    end
+
     @producto = Producto.includes(:reviews).find(params[:id])
 
-    #RU15: Revisa si el usuario ha comprado el producto
+    # RU15: Revisa si el usuario ha comprado el producto
     if current_user
       @ha_comprado = Compra.exists?(cliente_id: current_user.id,
                                     producto_id: @producto.id)
@@ -75,7 +77,7 @@ class ProductosController < ApplicationController
       @ha_comprado = false
     end
   end
-  
+
   def index
     # Partimos con todos los productos que están Activos (Visto en RU14)
     @productos = Producto.where(estado: "Activo")
@@ -83,13 +85,12 @@ class ProductosController < ApplicationController
     # RU04: /productos?q=Lego
     que = params[:q].to_s.strip
     if que.present?
-      @productos = Producto.where("LOWER(TRIM(titulo)) LIKE LOWER(?)",
-                                  "%#{que}%")
+      @productos = Producto.where("LOWER(TRIM(titulo)) LIKE LOWER(?)", "%#{que}%")
+    else
+      # RU01 /productos
+      @productos = @productos.where("stock > 0")
     end
 
-    # RU01 /productos
-    else
-      @productos = Producto.where("stock > 0")
     # Filtro por Precio (Escenario 2)
     if params[:precio_max].present?
       @productos = @productos.where("precio <= ?", params[:precio_max].to_f)
@@ -116,7 +117,7 @@ class ProductosController < ApplicationController
 
   def producto_params
     # Agregamos edad_minima, edad_maxima y categoria a los permitidos (RU05)
-    params.require(:producto).permit(:titulo, :precio, :descripcion, :marca, :stock, :fecha, :estado, :edad_minima, :edad_maxima, 
+    params.require(:producto).permit(:titulo, :precio, :descripcion, :marca, :stock, :fecha, :estado, :edad_minima, :edad_maxima,
                                      :categoria)
   end
 end

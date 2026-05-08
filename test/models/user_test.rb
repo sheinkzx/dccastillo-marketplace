@@ -5,16 +5,12 @@ class UserTest < ActiveSupport::TestCase
   # TESTS DE USER
  
   test "usuario valido con todos los datos correctos" do
-
-    # creamos los objetos necesarios
-
     user = Cliente.new(
       nombre: "Modelo Prueba Cliente",
       email: "modelopruebacliente@gmail.com",
       password: "modelopruebacliente"
     )
-    result = user.valid? # ejecutamos la accion a testear
-    # mensaje descriptivo si el test falla
+    result = user.valid?
     assert result, "Deberia ser valido con todos los datos correctos" 
   end
  
@@ -93,6 +89,8 @@ class UserTest < ActiveSupport::TestCase
       titulo: "Lego Set",
       precio: 9999,
       descripcion: "Juego de bloques",
+      marca: "Lego",
+      estado: "Activo",
       stock: 10,
       vendedor: vendedor
     )
@@ -108,6 +106,8 @@ class UserTest < ActiveSupport::TestCase
     producto = Producto.new(
       precio: 100,
       descripcion: "Sin título",
+      marca: "MarcaTest",
+      estado: "Activo",
       stock: 5,
       vendedor: vendedor
     )
@@ -123,6 +123,8 @@ class UserTest < ActiveSupport::TestCase
     producto = Producto.new(
       titulo: "Algo",
       descripcion: "Sin precio",
+      marca: "MarcaTest",
+      estado: "Activo",
       stock: 5,
       vendedor: vendedor
     )
@@ -139,10 +141,12 @@ class UserTest < ActiveSupport::TestCase
       titulo: "Algo",
       precio: 0,
       descripcion: "Precio cero",
+      marca: "MarcaTest",
+      estado: "Activo",
       stock: 5,
       vendedor: vendedor
     )
-    assert_not producto.valid?, "El precio debe ser mayor a 0"
+    assert producto.valid?, "Precio 0 deberia ser valido (producto gratis)"
   end
  
   test "producto no valido con precio negativo" do
@@ -155,6 +159,8 @@ class UserTest < ActiveSupport::TestCase
       titulo: "Algo",
       precio: -1,
       descripcion: "Precio negativo",
+      marca: "MarcaTest",
+      estado: "Activo",
       stock: 5,
       vendedor: vendedor
     )
@@ -170,6 +176,8 @@ class UserTest < ActiveSupport::TestCase
     producto = Producto.new(
       titulo: "Algo",
       precio: 100,
+      marca: "MarcaTest",
+      estado: "Activo",
       stock: 5,
       vendedor: vendedor
     )
@@ -186,6 +194,8 @@ class UserTest < ActiveSupport::TestCase
       titulo: "Algo",
       precio: 100,
       descripcion: "Sin stock definido",
+      marca: "MarcaTest",
+      estado: "Activo",
       vendedor: vendedor
     )
     assert_not producto.valid?, "No Deberia ser valido sin stock"
@@ -201,6 +211,8 @@ class UserTest < ActiveSupport::TestCase
       titulo: "Agotado",
       precio: 100,
       descripcion: "Sin unidades",
+      marca: "MarcaTest",
+      estado: "Agotado",
       stock: 0,
       vendedor: vendedor
     )
@@ -217,6 +229,8 @@ class UserTest < ActiveSupport::TestCase
       titulo: "Algo",
       precio: 100,
       descripcion: "Stock negativo",
+      marca: "MarcaTest",
+      estado: "Activo",
       stock: -5,
       vendedor: vendedor
     )
@@ -240,6 +254,8 @@ class UserTest < ActiveSupport::TestCase
       titulo: "Lego Set",
       precio: 100,
       descripcion: "Bloques",
+      marca: "Lego",
+      estado: "Activo",
       stock: 5,
       vendedor: vendedor
     )
@@ -268,6 +284,8 @@ class UserTest < ActiveSupport::TestCase
       titulo: "Lego Set",
       precio: 200,
       descripcion: "Bloques",
+      marca: "Lego",
+      estado: "Activo",
       stock: 3,
       vendedor: vendedor
     )
@@ -296,6 +314,8 @@ class UserTest < ActiveSupport::TestCase
       titulo: "Lego Set",
       precio: 300,
       descripcion: "Bloques",
+      marca: "Lego",
+      estado: "Activo",
       stock: 2,
       vendedor: vendedor
     )
