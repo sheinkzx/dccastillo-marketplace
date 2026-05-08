@@ -20,6 +20,14 @@ Rails.application.routes.draw do
   delete "productos/:id", to: "productos#destroy"
   get "productos/:id", to: "productos#show", as: :producto #HU03
   get "productos", to: "productos#index" #HU01
+  get "productos/:id/edit", to: "productos#edit", as: :edit_producto # Muestra el formulario HU14
+  patch "productos/:id", to: "productos#update" # Procesa los datos guardados HU14
+  
+  # Rutas de favoritos (RU 25)
+  post "productos/:producto_id/favorito", to: "favoritos#create"
+  delete "productos/:producto_id/favorito", to: "favoritos#destroy"
+  get "mis_favoritos", to: "favoritos#index"
+
 
   post '/productos/:id_producto/reviews', to: 'producto/reviews#create',
     as: :producto_reviews #HU19

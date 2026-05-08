@@ -1,39 +1,85 @@
 <header>
     <div><a href="/">🏰 DCCastillo del Juguete 🧸</a></div>
 </header>
-<nav>
-    <ul>
-        <li><a href="/productos">Catálogo</a></li>
-    </ul>
-    <form action="/productos" method="get">
-        <input type="search" name="q" placeholder="Buscar productos" />
-        <button type="submit">Buscar</button>
-    </form>
+<nav style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ddd;">
+  <div style="margin-bottom: 15px;">
+    <a href="/productos" style="font-weight: bold; text-decoration: none;">🔄 Volver a ver todo el Catálogo</a>
+  </div>
+
+  <%# Formulario de filtros combinados %>
+  <form action="/productos" method="get">
+    <div style="display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end;">
+      
+      <%# Búsqueda por texto (RU-04) %>
+      <div>
+        <label style="display: block; font-size: 0.9em; font-weight: bold;">Palabra clave</label>
+        <input type="search" name="q" placeholder="Buscar juguete..." value="<%= params[:q] %>" style="padding: 5px; border-radius: 4px; border: 1px solid #ccc;">
+      </div>
+
+      <%# Filtro de Precio Máximo %>
+      <div>
+        <label style="display: block; font-size: 0.9em; font-weight: bold;">Precio Máximo ($)</label>
+        <input type="number" name="precio_max" placeholder="Ej: 10000" value="<%= params[:precio_max] %>" style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; width: 120px;">
+      </div>
+
+      <%# Filtro de Marca %>
+      <div>
+        <label style="display: block; font-size: 0.9em; font-weight: bold;">Marca</label>
+        <input type="text" name="marca" placeholder="Ej: Lego" value="<%= params[:marca] %>" style="padding: 5px; border-radius: 4px; border: 1px solid #ccc;">
+      </div>
+
+      <%# Filtro de Edad %>
+      <div>
+        <label style="display: block; font-size: 0.9em; font-weight: bold;">Edad</label>
+        <input type="number" name="edad_cliente" placeholder="Ej: 5" value="<%= params[:edad_cliente] %>" 
+               style="padding: 5px; border-radius: 4px; border: 1px solid #ccc; width: 80px;">
+      </div>
+
+      <%# Filtro de Categorías (Checkboxes múltiples) %>
+      <div style="min-width: 250px;">
+        <label style="display: block; font-size: 0.9em; font-weight: bold; margin-bottom: 5px;">Categorías</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 0.8em;">
+          <label><input type="checkbox" name="categorias[]" value="Imitación" <%= 'checked' if params[:categorias]&.include?('Imitación') %>> Imitación</label>
+          <label><input type="checkbox" name="categorias[]" value="Construcción" <%= 'checked' if params[:categorias]&.include?('Construcción') %>> Construcción</label>
+          <label><input type="checkbox" name="categorias[]" value="Educativos" <%= 'checked' if params[:categorias]&.include?('Educativos') %>> Educativos</label>
+          <label><input type="checkbox" name="categorias[]" value="Artísticos" <%= 'checked' if params[:categorias]&.include?('Artísticos') %>> Artísticos</label>
+          <label><input type="checkbox" name="categorias[]" value="Movimiento" <%= 'checked' if params[:categorias]&.include?('Movimiento') %>> Movimiento</label>
+          <label><input type="checkbox" name="categorias[]" value="Tecnológicos" <%= 'checked' if params[:categorias]&.include?('Tecnológicos') %>> Tecnológicos</label>
+          <label><input type="checkbox" name="categorias[]" value="Otro" <%= 'checked' if params[:categorias]&.include?('Otro') %>> Otros</label>
+        </div>
+      </div>
+      <%# Botones de Acción %>
+      <div>
+        <button type="submit" style="padding: 6px 15px; background-color: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer;">🔍 Filtrar</button>
+      </div>
+    </div>
+  </form>
 </nav>
+
+<%# Mostrar indicadores de filtros activos %>
+<% if params[:q].present? || params[:precio_max].present? || params[:marca].present? || params[:edad].present? || params[:categorias].present? %>
+  <p style="color: #27ae60; font-weight: bold;">Mostrando resultados filtrados:</p>
+<% end %>
 
 <main>
   <h1>Catálogo de juguetes</h1>
   <% if @productos.any? %>
-    <% @productos.each do |producto| %>
-        <div style="border: 1px solid #ccc; padding: 10px;
-            margin: 10px; display: inline-block;">
-            <strong><a href="/productos/<%= producto.id %>">
-                <%= producto.titulo %>
-            </a></strong><br />
-            <%= producto.descripcion %>
-            <ul>
-                <li><strong>Precio:</strong>
-                    <%= number_to_currency(producto.precio, unit: "$",
-                        separator: ",", delimiter: ".", precision: 0) %></li>
-                <li><strong>Marca:</strong>
-                    <%= producto.marca %></li>
-                <li><strong>Stock:</strong>
-                    <%= number_with_delimiter(producto.stock, delimiter: '.') %>
-                </li>
-            </ul>
-            <%# Solo el vendedor dueño del producto ve el botón de eliminar %>
-            <% if current_user&.is_a?(Vendedor) &&
-                producto.vendedor_id == current_user %>
+      <% @productos.each do |producto| %>
+      <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; display: inline-block;">
+          <strong><a href="/productos/<%= producto.id %>"><%= producto.titulo %></a></strong><br />
+          <%= producto.descripcion %>
+          <ul>
+              <li><strong>Precio:</strong> <%= number_to_currency(producto.precio, unit: "$", separator: ",", delimiter: ".", precision: 0) %></li>
+              <li><strong>Marca:</strong> <%= producto.marca %></li>
+              
+              <%# RU 05 datos para filtro %>
+              <li><strong>Categoría:</strong> <%= producto.categoria %></li>
+              <li><strong>Edad sugerida:</strong> De <%= producto.edad_minima %> a <%= producto.edad_maxima %> años</li>
+              
+              <li><strong>Stock:</strong> <%= number_with_delimiter(producto.stock, delimiter: '.') %></li>
+          </ul>
+          <%# Solo el vendedor dueño del producto ve el botón de eliminar %>
+          <% if current_user&.is_a?(Vendedor) && producto.vendedor == current_user %>
             <% if producto.compras.any? %>
                 <button disabled>🗑️ No se puede eliminar</button>
                 <small style="color: red;">Ya tiene compras asociadas</small>
