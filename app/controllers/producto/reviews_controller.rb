@@ -13,6 +13,6 @@ class Producto::ReviewsController < ApplicationController
   private
 
   def review_params
-    params.require(:review).permit(:txt, :puntaje)
+    params.require(:producto_review).permit(:txt, :puntaje)
   end
 end
