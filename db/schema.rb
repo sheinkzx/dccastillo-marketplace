@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_07_213318) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_07_235029) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,6 +27,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_213318) do
     t.index ["vendedor_id"], name: "index_compras_on_vendedor_id"
   end
 
+  create_table "favoritos", force: :cascade do |t|
+    t.bigint "cliente_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "producto_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cliente_id"], name: "index_favoritos_on_cliente_id"
+    t.index ["producto_id"], name: "index_favoritos_on_producto_id"
+  end
+
   create_table "producto_reviews", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "estadp"
@@ -37,13 +46,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_213318) do
     t.bigint "user_id", null: false
     t.index ["producto_id"], name: "index_producto_reviews_on_producto_id"
     t.index ["user_id"], name: "index_producto_reviews_on_user_id"
-  create_table "favoritos", force: :cascade do |t|
-    t.bigint "cliente_id", null: false
-    t.datetime "created_at", null: false
-    t.bigint "producto_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cliente_id"], name: "index_favoritos_on_cliente_id"
-    t.index ["producto_id"], name: "index_favoritos_on_producto_id"
   end
 
   create_table "productos", force: :cascade do |t|
@@ -76,9 +78,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_213318) do
   add_foreign_key "compras", "productos"
   add_foreign_key "compras", "users", column: "cliente_id"
   add_foreign_key "compras", "users", column: "vendedor_id"
-  add_foreign_key "producto_reviews", "productos"
-  add_foreign_key "producto_reviews", "users"
   add_foreign_key "favoritos", "productos"
   add_foreign_key "favoritos", "users", column: "cliente_id"
+  add_foreign_key "producto_reviews", "productos"
+  add_foreign_key "producto_reviews", "users"
   add_foreign_key "productos", "users", column: "vendedor_id"
 end
