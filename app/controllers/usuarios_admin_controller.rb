@@ -5,7 +5,7 @@ class UsuariosAdminController < ApplicationController
 
   # set_usuario se ejecuta SOLO antes de edit y update
   # porque son las únicas acciones que necesitan saber qué usuario editar
-  before_action :set_usuario, only: [:edit, :update]
+  before_action :set_usuario, only: [:edit, :update, :ban, :unban]
 
   # ACCION index: muestra el panel con la lista de todos los usuarios
   def index
@@ -42,6 +42,16 @@ class UsuariosAdminController < ApplicationController
     end
   end
 
+  def ban
+    @usuario.update!(bloqueado: true)
+    redirect_to admin_usuarios_path, notice: "Usuario '#{@usuario.nombre}' baneado."
+  end
+
+  def unban
+    @usuario.update!(bloqueado: false)
+    redirect_to admin_usuarios_path, notice: "Usuario '#{@usuario.nombre}' desbaneado."
+  end
+
   private
 
   #* Busca en la BD al usuario que el admin quiere editar
@@ -72,5 +82,5 @@ class UsuariosAdminController < ApplicationController
     unless current_user&.is_a?(Administrador)
       redirect_to root_path, alert: "Acceso no autorizado."
     end
-  end
+  end  
 end

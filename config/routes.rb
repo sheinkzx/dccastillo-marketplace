@@ -40,4 +40,6 @@ Rails.application.routes.draw do
   get  'admin/usuarios',              to: 'usuarios_admin#index',  as: :admin_usuarios
   get  'admin/usuarios/:id/editar',   to: 'usuarios_admin#edit',   as: :admin_editar_usuario
   patch 'admin/usuarios/:id',         to: 'usuarios_admin#update', as: :admin_actualizar_usuario
+  patch 'admin/usuarios/:id/ban',     to: 'usuarios_admin#ban',    as: :admin_banear_usuario
+  patch 'admin/usuarios/:id/unban',   to: 'usuarios_admin#unban',  as: :admin_desbanear_usuario
 end

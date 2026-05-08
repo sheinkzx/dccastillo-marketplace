@@ -1,7 +1,5 @@
 <h1>Panel de Administración — Usuarios</h1>
-
 <%= link_to "← Volver al inicio", root_path %>
-
 <table border="1">
   <thead>
     <tr>
@@ -9,6 +7,7 @@
       <th>Nombre</th>
       <th>Email</th>
       <th>Rol</th>
+      <th>Estado</th>
       <th>Acciones</th>
     </tr>
   </thead>
@@ -23,10 +22,17 @@
         <td><%= usuario.nombre %></td>
         <td><%= usuario.email %></td>
         <td><%= usuario.type %></td>
-        <td><%= link_to "Editar", admin_editar_usuario_path(usuario) %></td>
+        <td><%= usuario.bloqueado? ? "Baneado" : "Activo" %></td>
+        <td>
+          <%= link_to "Editar", admin_editar_usuario_path(usuario) %>
+          <% if usuario.bloqueado? %>
+            <%= button_to "Desbanear", admin_desbanear_usuario_path(usuario), method: :patch %>
+          <% else %>
+            <%= button_to "Banear", admin_banear_usuario_path(usuario), method: :patch %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
 <%= link_to "← Volver al inicio", root_path %>

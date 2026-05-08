@@ -9,11 +9,17 @@ class SessionsController < ApplicationController
     # params[:email] es el dato que viene de la cajita de texto del HTML.
     user = User.find_by(email: params[:email])
 
+    # NOS ASEGURAMOS QUE SI HA SIDO BANEADO NO PUEDA INGRESAR
+
+    if user&.bloqueado?
+      flash.now[:alert] = "Tu cuenta ha sido suspendida. Contacta al administrador."
+      render :new, status: :unauthorized
+
     # 2. El filtro de seguridad:
     # 'user' verifica que hayamos encontrado a alguien con ese email.
     # 'user.authenticate(...)' es el método de BCrypt que compara la contraseña escrita
     # con la versión encriptada (password_digest) que está en la base de datos.
-    if user&.authenticate(params[:password])
+    elsif user&.authenticate(params[:password])
 
       # 3. ÉXITO: Creamos la "Mochila de Sesión".
       # Guardamos el ID del usuario en 'session'. Esto es una cookie encriptada
