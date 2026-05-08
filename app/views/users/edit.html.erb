@@ -1,0 +1,36 @@
+<h1>Editar mi perfil</h1>
+
+<%= form_with model: @user, url: actualizar_perfil_path, method: :patch, local: true do |f| %>
+
+  <div>
+    <%= f.label :nombre, "Nombre" %><br>
+    <%= f.text_field :nombre %>
+  </div>
+
+  <div>
+    <%= f.label :email, "Correo electrónico" %><br>
+    <%= f.email_field :email %>
+  </div>
+
+  <div>
+    <%= f.label :url_foto, "URL de foto de perfil" %><br>
+    <%= f.url_field :url_foto, placeholder: "https://...", id: "url_foto_input" %>
+    <br>
+    <%# Previsualización: si tiene foto usa la suya, si no usa el avatar con iniciales %>
+    <% foto_actual = @user.url_foto.present? ? @user.url_foto : "https://ui-avatars.com/api/?name=#{URI.encode_www_form_component(@user.nombre)}&background=2c3e50&color=fff&size=100&rounded=true" %>
+    <img id="preview_foto" src="<%= foto_actual %>" alt="Preview" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-top: 8px;">
+  </div>
+
+  <div>
+    <%= f.label :password, "Nueva contraseña (dejar en blanco para no cambiar)" %><br>
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div>
+    <%= f.label :password_confirmation, "Confirmar nueva contraseña" %><br>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <%= f.submit "Guardar cambios" %>
+
+<% end %>

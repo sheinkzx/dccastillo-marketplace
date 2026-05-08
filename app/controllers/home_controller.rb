@@ -9,6 +9,10 @@ class HomeController < ApplicationController
       #* Compras pendientes de sus productos
       @compras_pendientes = Compra.where(vendedor_id: current_user, estado: "pendiente")
     end
+
+    if current_user&.is_a?(Cliente)
+      @compras = Compra.where(cliente: current_user).includes(:producto)
+    end
   end
 
   def home

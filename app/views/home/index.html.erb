@@ -12,10 +12,13 @@
     <div class="tarjeta" style="border: 2px solid #2c3e50; padding: 20px; display: inline-block; border-radius: 10px;">
        <h2>¡Hola, <%= user.nombre %>! 👋</h2>
        <p>Has ingresado como: <strong><%= user.type %></strong></p>
-       <%= image_tag "image.png", alt: "POCHITA", class: "pochita", style: "width: 100px;" %>
+       <% foto_url = user.url_foto.present? ? user.url_foto : "https://ui-avatars.com/api/?name=#{URI.encode_www_form_component(user.nombre)}&background=2c3e50&color=fff&size=100&rounded=true" %>
+       <img src="<%= foto_url %>" alt="Foto de perfil" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-top: 10px; display: block; margin-left: auto; margin-right: auto;">
+       <br>
+       <%= link_to "✏️ Editar mi perfil", editar_perfil_path %>
        <br><br>
        <%= button_to "Cerrar Sesión", logout_path, method: :delete %>
-    </div>
+       </div>
 
     
     <% if current_user&.is_a?(Vendedor) %>
@@ -75,6 +78,28 @@
       </div>
     <% end %>
 
+    <% if current_user&.is_a?(Cliente) %>
+      <div style="margin-top: 30px;">
+        <h3>Mis Compras</h3>
+
+        <% if @compras.any? %>
+          <% @compras.each do |compra| %>
+            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; display: inline-block;">
+              <strong><%= compra.producto.titulo %></strong> —
+              Fecha: <%= compra.fecha %> —
+              Estado: <strong><%= compra.estado.capitalize %></strong>
+            </div>
+          <% end %>
+        <% else %>
+          <p>Aún no has realizado ninguna compra.</p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if current_user&.is_a?(Administrador) %>
+      <div style="margin-top: 30px;">
+        <h3>Panel de Administración</h3>
+        <%= link_to "👥 Ver y editar usuarios", admin_usuarios_path %>
     <%# RU 25 Si es Cliente, se mostrara una lista de favoritos %>
     <% if current_user&.is_a?(Cliente) %>
       <div style="margin-top: 30px;">
@@ -85,7 +110,6 @@
 
   <% else %>
   
-    <%# Si NO ha entrado, mostramos los dos botones que pediste %>
     <p>¿Qué deseas hacer hoy?</p>
     <div style="display: flex; justify-content: center; gap: 20px;">
       <%= link_to "Iniciar Sesión", login_path, class: "boton-azul" %>

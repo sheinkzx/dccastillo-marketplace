@@ -1,0 +1,32 @@
+<h1>Panel de Administración — Usuarios</h1>
+
+<%= link_to "← Volver al inicio", root_path %>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Foto</th>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>Rol</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @usuarios.each do |usuario| %>
+      <tr>
+        <td>
+          <% foto = usuario.url_foto.present? ? usuario.url_foto
+               : "https://ui-avatars.com/api/?name=#{URI.encode_www_form_component(usuario.nombre)}&background=2c3e50&color=fff&size=40&rounded=true" %>
+          <img src="<%= foto %>" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+        </td>
+        <td><%= usuario.nombre %></td>
+        <td><%= usuario.email %></td>
+        <td><%= usuario.type %></td>
+        <td><%= link_to "Editar", admin_editar_usuario_path(usuario) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "← Volver al inicio", root_path %>

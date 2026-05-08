@@ -1,28 +1,34 @@
-# require "test_helper"
+ require "test_helper"
 
-# class SessionsControllerTest < ActionDispatch::IntegrationTest
-#   setup do
-#     @user = User.create!(
-#       nombre: "Modelo Prueba",
-#       email: "modeloprueba@gmail.com",
-#       password: "modeloprueba",
-#       password_confirmation: "modeloprueba",
-#       type: "Cliente"
-#     )
-#   end
-
-#   test "should get new" do
-#     get login_url
-#     assert_response :success
-#   end
-
-#   test "should get create" do
-#     post login_url, params: { email: @user.email, password: "modeloprueba" }
-#     assert_response :redirect
-#   end
-
-#   test "should get destroy" do
-#     delete logout_url
-#     assert_response :redirect
-#   end
-# end
+class SessionsControllerTest < ActionDispatch::IntegrationTest
+ 
+  def setup
+    @cliente = Cliente.create!(
+      nombre: "Modelo Prueba Cliente",
+      email: "modelopruebacliente@gmail.com",
+      password: "modelopruebacliente"
+    )
+  end
+ 
+  test "login muestra formulario correctamente" do
+    get login_path
+    assert_response :success
+  end
+ 
+  test "login exitoso redirige al inicio" do
+    post login_path, params: { email: @cliente.email, password: "modelopruebacliente" }
+    assert_redirected_to root_path
+  end
+ 
+  test "login fallido muestra formulario de nuevo" do
+    post login_path, params: { email: @cliente.email, password: "claveincorrecta" }
+    assert_response :unprocessable_entity
+  end
+ 
+  test "logout limpia la sesión y redirige al inicio" do
+    post login_path, params: { email: @cliente.email, password: "modelopruebacliente" }
+    delete logout_path
+    assert_redirected_to root_path
+  end
+ 
+end

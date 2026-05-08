@@ -73,6 +73,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_235029) do
     t.string "password_digest"
     t.string "type"
     t.datetime "updated_at", null: false
+    t.string "url_foto"
   end
 
   add_foreign_key "compras", "productos"
