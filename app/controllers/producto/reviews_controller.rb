@@ -1,16 +1,12 @@
 class Producto::ReviewsController < ApplicationController
   def create
-    @producto = Producto.find(params[:id_producto])
-    # Crea la reseña
+    @producto = Producto.find(params[:producto_id])
     @review = @producto.reviews.build(review_params)
-    # Asigna el usuario actual como autor
     @review.user = current_user
-
     if @review.save
       redirect_to @producto
     else
       redirect_to @producto, alert: "Error en la reseña."
-      #raise @review.errors.full_messages.inspect
     end
   end
 
