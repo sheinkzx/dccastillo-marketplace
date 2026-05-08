@@ -22,6 +22,12 @@
     <li><strong>Categoría:</strong> <%= @producto.categoria %></li>
     <li><strong>Edad sugerida:</strong> De <%= @producto.edad_minima %> a <%= @producto.edad_maxima %> años</li>
     
+    <li><strong>Puntaje promedio:</strong>
+        <% @producto.puntaje_promedio.times do %>★<% end 
+         (5 - @producto.puntaje_promedio).times do %>☆<% end %>
+        (<%= @producto.reviews.count %> reseñas)
+    </li>
+
     <li><strong>Stock:</strong> <%= number_with_delimiter(@producto.stock, delimiter: '.') %></li>
     <li><strong>Fecha de publicación:</strong> <%= @producto.created_at.strftime("%d de %B de %Y") %>.</li>
 </ul>

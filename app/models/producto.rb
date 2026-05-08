@@ -16,6 +16,10 @@ class Producto < ApplicationRecord
 
   # Este 'callback' se ejecuta justo antes de guardar en la base de datos
   before_save :verificar_estado_agotado
+  
+  def puntaje_promedio
+    reviews.average(:puntaje).to_f.round(0)
+  end
 
   private
 
