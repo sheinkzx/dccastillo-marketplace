@@ -17,40 +17,28 @@
     <li><strong>Precio:</strong>
     $<%= number_with_delimiter(@producto.precio.to_i, delimiter: '.') %></li>
     <li><strong>Marca:</strong> <%= @producto.marca %></li>
-    
-    <%# --- NUEVOS DATOS VISIBLES --- %>
     <li><strong>Categoría:</strong> <%= @producto.categoria %></li>
     <li><strong>Edad sugerida:</strong> De <%= @producto.edad_minima %> a <%= @producto.edad_maxima %> años</li>
-    
     <li><strong>Stock:</strong> <%= number_with_delimiter(@producto.stock, delimiter: '.') %></li>
     <li><strong>Fecha de publicación:</strong> <%= @producto.created_at.strftime("%d de %B de %Y") %>.</li>
 </ul>
-<%# Solo mostramos el botón si hay un cliente logueado y un vendedor no puede comprarse su propio producto %>
-<%# RU14 y solo se muestran productos activos %>
-<% if current_user&.is_a?(Cliente) %>
 
-  <%# RU 25 Mostrar corazon de favorito %>
-  <% favorito = current_user.favoritos.find_by(producto_id: @producto.id) %> 
+<% if current_user&.is_a?(Cliente) %>
+  <% favorito = current_user.favoritos.find_by(producto_id: @producto.id) %>
   <div style="margin-bottom: 15px;">
     <% if favorito %>
-      <%# Si ya es favorito, mostramos corazón lleno y método DELETE %>
       <%= button_to "❤️ Quitar de favoritos", "/productos/#{@producto.id}/favorito", method: :delete, style: "background: none; border: 1px solid #ccc; padding: 5px 10px; border-radius: 5px; cursor: pointer;" %>
     <% else %>
-      <%# Si no es favorito, mostramos corazón vacío y método POST %>
       <%= button_to "🤍 Guardar como favorito", "/productos/#{@producto.id}/favorito", method: :post, style: "background: none; border: 1px solid #ccc; padding: 5px 10px; border-radius: 5px; cursor: pointer;" %>
     <% end %>
   </div>
-
-  <%# Lógica de compra unificada (Estado + Stock) %>
   <% if @producto.estado == "Activo" && @producto.stock > 0 %>
     <%= button_to "🛒 Comprar", "/compras", method: :post,
         params: { producto_id: @producto.id },
         data: { turbo_confirm: "¿Confirmas la compra de #{@producto.titulo}?" } %>
-        
   <% elsif @producto.estado == "Inactivo" %>
     <p style="color: orange; font-weight: bold;">⏸️ Producto Pausado</p>
     <button disabled style="opacity: 0.5; cursor: not-allowed;">🛒 No Disponible</button>
-    
   <% else %>
     <p style="color: red; font-weight: bold;">❌ Sin Stock</p>
     <button disabled style="opacity: 0.5;">🛒 Sin Stock</button>
@@ -58,7 +46,6 @@
 <% end %>
 
 <h2>Reseñas</h2>
-
 <% if @ha_comprado %>
     <h3>Escribir reseña</h3>
     <%= form_with(model: Producto::Review.new,
@@ -74,18 +61,54 @@
 <% if @producto.reviews.any? %>
     <h3>Reseñas para este producto</h3>
     <% @producto.reviews.each do |review| %>
-        <div class="review">
-            <h4><% if review.puntaje.present? %>
-                <% review.puntaje.times do %>
-                    ★
-                <% end %>
-                <% (5 - review.puntaje).times do %>
-                    ☆
-                <% end %>
-            <% end %></h4>
+        <div class="review" style="display: flex; align-items: flex-start; gap: 10px;">
+
+          <%# Contenido de la reseña %>
+          <div style="flex: 1;">
+            <h4>
+              <% if review.puntaje.present? %>
+                <% review.puntaje.times do %>★<% end %>
+                <% (5 - review.puntaje).times do %>☆<% end %>
+              <% end %>
+            </h4>
             <div><%= simple_format(review.txt) %></div>
             <div><small>Escrito por: <%= review.user.nombre %> el día
                 <%= review.created_at.strftime("%B %d, %Y") %></small></div>
+          </div>
+
+          <%# Botón de reporte — solo visible para Clientes que no escribieron la reseña %>
+          <% if current_user&.is_a?(Cliente) && review.user != current_user %>
+            <div>
+              <%= button_to "⚑", crear_reporte_path(@producto, review),
+                    method: :post,
+                    params: { reporte: { motivo: "" } },
+                    data: { turbo: false },
+                    title: "Reportar reseña",
+                    style: "background: none; border: none; font-size: 1.1rem; color: #aaa; cursor: pointer; padding: 4px 6px; border-radius: 4px;",
+                    onclick: "this.closest('form').remove(); document.getElementById('modal-reporte-#{review.id}').style.display='block'; return false;" %>
+
+              <%# Mini formulario de reporte (oculto, se muestra al hacer clic) %>
+              <div id="modal-reporte-<%= review.id %>" style="display: none; margin-top: 8px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; background: #fafafa; min-width: 240px;">
+                <strong style="font-size: 0.9rem;">Reportar reseña</strong>
+                <%= form_with url: crear_reporte_path(@producto, review), method: :post, data: { turbo: false } do |f| %>
+                  <%= f.select "reporte[motivo]", Reporte::MOTIVOS,
+                        { prompt: "Selecciona un motivo" },
+                        { required: true, style: "width: 100%; margin: 8px 0; padding: 4px;" } %>
+                  <%= f.text_area "reporte[detalle]", placeholder: "Detalle opcional...",
+                        rows: 2,
+                        style: "width: 100%; margin-bottom: 8px; padding: 4px; font-size: 0.85rem; border-radius: 4px; border: 1px solid #d1d5db;" %>
+                  <div style="display: flex; gap: 6px;">
+                    <%= f.submit "Enviar reporte", style: "background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.85rem;" %>
+                    <button type="button" onclick="document.getElementById('modal-reporte-<%= review.id %>').style.display='none'"
+                      style="background: #e5e7eb; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.85rem;">
+                      Cancelar
+                    </button>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
         </div>
     <% end %>
 <% else %>

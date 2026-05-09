@@ -42,4 +42,11 @@ Rails.application.routes.draw do
   patch 'admin/usuarios/:id',         to: 'usuarios_admin#update', as: :admin_actualizar_usuario
   patch 'admin/usuarios/:id/ban',     to: 'usuarios_admin#ban',    as: :admin_banear_usuario
   patch 'admin/usuarios/:id/unban',   to: 'usuarios_admin#unban',  as: :admin_desbanear_usuario
+
+  #* Reporte de reseña (cliente)
+  post 'productos/:producto_id/reviews/:review_id/reporte', to: 'reportes#create', as: :crear_reporte
+
+  #* Bandeja de reseñas reportadas (admin)
+  get   'admin/resenas',     to: 'controlar_resenas#index',  as: :admin_resenas
+  patch 'admin/resenas/:id', to: 'controlar_resenas#update', as: :admin_resena
 end

@@ -1,38 +1,66 @@
-<h1>Panel de Administración — Usuarios</h1>
-<%= link_to "← Volver al inicio", root_path %>
-<table border="1">
-  <thead>
-    <tr>
-      <th>Foto</th>
-      <th>Nombre</th>
-      <th>Email</th>
-      <th>Rol</th>
-      <th>Estado</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @usuarios.each do |usuario| %>
-      <tr>
-        <td>
-          <% foto = usuario.url_foto.present? ? usuario.url_foto
-               : "https://ui-avatars.com/api/?name=#{URI.encode_www_form_component(usuario.nombre)}&background=2c3e50&color=fff&size=40&rounded=true" %>
-          <img src="<%= foto %>" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
-        </td>
-        <td><%= usuario.nombre %></td>
-        <td><%= usuario.email %></td>
-        <td><%= usuario.type %></td>
-        <td><%= usuario.bloqueado? ? "Baneado" : "Activo" %></td>
-        <td>
-          <%= link_to "Editar", admin_editar_usuario_path(usuario) %>
-          <% if usuario.bloqueado? %>
-            <%= button_to "Desbanear", admin_desbanear_usuario_path(usuario), method: :patch %>
-          <% else %>
-            <%= button_to "Banear", admin_banear_usuario_path(usuario), method: :patch %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<%= link_to "← Volver al inicio", root_path %>
+<div class="pagina">
+  <div class="tarjeta">
+    <%= link_to "← Volver al inicio", root_path, class: "boton-azul" %>
+
+    <h1>Panel de Administración — Usuarios</h1>
+    <p>Gestiona los usuarios registrados en la plataforma</p>
+
+    <% pendientes = Reporte.pendientes.count %>
+    <div style="margin: 1.5rem 0; padding: 1rem; background: #fef3c7; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+      <div style="text-align: left;">
+        <strong>⚑ Bandeja de reseñas reportadas</strong>
+        <p style="margin: 0.25rem 0 0; font-size: 0.9rem;">Revisa y modera los comentarios denunciados por clientes.</p>
+      </div>
+      <%= link_to admin_resenas_path, class: "boton-azul" do %>
+        Ver reportes
+        <% if pendientes > 0 %>
+          <span style="background: white; color: #92400e; font-size: 0.75rem; font-weight: 700; border-radius: 999px; padding: 0 0.45rem; margin-left: 0.25rem;"><%= pendientes %></span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; text-align: left;">
+      <thead>
+        <tr style="background: #1e1b4b; color: white;">
+          <th style="padding: 0.75rem 1rem;">Foto</th>
+          <th style="padding: 0.75rem 1rem;">Nombre</th>
+          <th style="padding: 0.75rem 1rem;">Email</th>
+          <th style="padding: 0.75rem 1rem;">Rol</th>
+          <th style="padding: 0.75rem 1rem;">Estado</th>
+          <th style="padding: 0.75rem 1rem;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @usuarios.each do |usuario| %>
+          <tr style="border-bottom: 1px solid #e5e7eb;">
+            <td style="padding: 0.75rem 1rem;">
+              <% foto = usuario.url_foto.present? ? usuario.url_foto
+                   : "https://ui-avatars.com/api/?name=#{URI.encode_www_form_component(usuario.nombre)}&background=2c3e50&color=fff&size=40&rounded=true" %>
+              <img src="<%= foto %>" class="pochita" style="width: 40px; height: 40px;">
+            </td>
+            <td style="padding: 0.75rem 1rem;"><%= usuario.nombre %></td>
+            <td style="padding: 0.75rem 1rem;"><%= usuario.email %></td>
+            <td style="padding: 0.75rem 1rem;"><%= usuario.type %></td>
+            <td style="padding: 0.75rem 1rem;">
+              <span style="padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600;
+                <%= usuario.bloqueado? ? 'background: #fee2e2; color: #991b1b;' : 'background: #d1fae5; color: #065f46;' %>">
+                <%= usuario.bloqueado? ? "Baneado" : "Activo" %>
+              </span>
+            </td>
+            <td style="padding: 0.75rem 1rem;">
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <%= link_to "Editar", admin_editar_usuario_path(usuario), class: "boton-azul" %>
+                <% if usuario.bloqueado? %>
+                  <%= button_to "Desbanear", admin_desbanear_usuario_path(usuario), method: :patch, class: "boton-verde" %>
+                <% else %>
+                  <%= button_to "Banear", admin_banear_usuario_path(usuario), method: :patch,
+                        style: "background: #f97316; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer;" %>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
