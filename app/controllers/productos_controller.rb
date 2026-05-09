@@ -79,8 +79,8 @@ class ProductosController < ApplicationController
   end
 
   def index
-    # Partimos con todos los productos que están Activos (Visto en RU14)
-    @productos = Producto.where(estado: "Activo")
+    # Partimos con todos los productos que están Activos (Visto en RU14) Y QUE NO ESTEN BLOQUEADOS
+    @productos = Producto.where(estado: "Activo").joins(:vendedor).where(users: { bloqueado: false })
 
     # RU04: /productos?q=Lego
     que = params[:q].to_s.strip

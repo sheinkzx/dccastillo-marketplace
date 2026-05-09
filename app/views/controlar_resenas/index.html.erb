@@ -1,0 +1,82 @@
+<div class="pagina">
+  <div class="tarjeta" style="max-width: 750px;">
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+      <div style="text-align: left;">
+        <%= link_to "← Volver a usuarios", admin_usuarios_path, class: "boton-azul" %>
+        <h1 style="margin-top: 0.75rem;">Control de reseñas</h1>
+        <p style="color: #6b7280; margin: 0;">Comentarios reportados pendientes de revisión</p>
+      </div>
+      <span class="badge-rojo"><%= @reportes.size %> pendientes</span>
+    </div>
+
+    <% if flash[:notice] %><div class="flash-ok"><%= flash[:notice] %></div><% end %>
+    <% if flash[:alert] %><div class="flash-error"><%= flash[:alert] %></div><% end %>
+
+    <% if @reportes.empty? %>
+      <div style="text-align: center; padding: 4rem; color: #aaa;">✓ No hay reportes pendientes.</div>
+    <% else %>
+      <% @reportes.each do |reporte| %>
+        <% review = reporte.producto_review %>
+        <% autor  = review.user %>
+
+        <div class="card-reporte">
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <span style="font-weight: 700; color: #b45309; font-size: 0.95rem;">⚑ <%= reporte.motivo %></span>
+            <span style="color: #9ca3af; font-size: 0.82rem;"><%= reporte.created_at.strftime("%-d %b %Y, %H:%M") %></span>
+          </div>
+
+          <blockquote style="background: #f9fafb; border-left: 4px solid #d1d5db; border-radius: 4px; margin: 0 0 1rem; padding: 1rem 1.25rem; color: #374151; font-style: italic; font-size: 0.95rem; line-height: 1.6;">
+            "<%= review.txt %>"
+            <% if review.respond_to?(:puntaje) %>
+              <span style="display: block; font-style: normal; color: #e0a800; font-size: 0.85rem; margin-top: 6px;">
+                <%= "★" * review.puntaje %><%= "☆" * (5 - review.puntaje) %>
+              </span>
+            <% end %>
+          </blockquote>
+
+          <% if reporte.detalle.present? %>
+            <p style="font-size: 0.88rem; color: #6b7280; margin-bottom: 1rem; padding: 0.5rem 0.75rem; background: #fffbeb; border-radius: 4px;">
+              <strong>Detalle:</strong> <%= reporte.detalle %>
+            </p>
+          <% end %>
+
+          <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.25rem; padding: 1rem 1.25rem; background: #f3f4f6; border-radius: 8px; font-size: 0.88rem;">
+            <div>
+              <span class="label-meta">Autor de la reseña</span>
+              <span style="font-weight: 600; color: #1f2937;"><%= autor&.nombre || "Usuario eliminado" %></span>
+            </div>
+            <div>
+              <span class="label-meta">Reportado por</span>
+              <span style="font-weight: 600; color: #1f2937;"><%= reporte.cliente.nombre %></span>
+            </div>
+            <div>
+              <span class="label-meta">Producto</span>
+              <%= link_to review.producto.titulo, producto_path(review.producto), style: "font-weight: 600; color: #3498db; text-decoration: none;" %>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; padding-top: 0.5rem; border-top: 1px solid #f3f4f6;">
+            <%= button_to "🗑 Eliminar reseña", admin_resena_path(reporte),
+                  method: :patch, params: { accion: "eliminar" }, class: "boton-eliminar",
+                  data: { confirm: "¿Eliminar esta reseña?" } %>
+
+            <% if autor.present? && !autor.bloqueado? %>
+              <%= button_to "🚫 Banear cliente", admin_resena_path(reporte),
+                    method: :patch, params: { accion: "banear" }, class: "boton-banear",
+                    data: { confirm: "¿Banear a #{autor.nombre}?" } %>
+            <% elsif autor.present? %>
+              <span style="background: transparent; color: #9ca3af; border: 1px solid #d1d5db; padding: 8px 16px; border-radius: 6px; font-size: 0.88rem;">Ya baneado</span>
+            <% end %>
+
+            <%= button_to "Ignorar", admin_resena_path(reporte),
+                  method: :patch, params: { accion: "ignorar" }, class: "boton-ignorar" %>
+          </div>
+
+        </div>
+      <% end %>
+    <% end %>
+
+  </div>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_07_235029) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_08_224837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -66,7 +66,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_235029) do
     t.index ["vendedor_id"], name: "index_productos_on_vendedor_id"
   end
 
+  create_table "reportes", force: :cascade do |t|
+    t.bigint "cliente_id", null: false
+    t.datetime "created_at", null: false
+    t.text "detalle"
+    t.string "estado", default: "pendiente", null: false
+    t.string "motivo"
+    t.bigint "producto_review_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cliente_id"], name: "index_reportes_on_cliente_id"
+    t.index ["producto_review_id"], name: "index_reportes_on_producto_review_id"
+  end
+
   create_table "users", force: :cascade do |t|
+    t.boolean "bloqueado", default: false, null: false
     t.datetime "created_at", null: false
     t.string "email"
     t.string "nombre"
@@ -84,4 +97,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_235029) do
   add_foreign_key "producto_reviews", "productos"
   add_foreign_key "producto_reviews", "users"
   add_foreign_key "productos", "users", column: "vendedor_id"
+  add_foreign_key "reportes", "producto_reviews"
+  add_foreign_key "reportes", "users", column: "cliente_id"
 end
