@@ -4,9 +4,9 @@ class ControlarResenasController < ApplicationController
 
   def index
     @reportes = Reporte
-      .includes(producto_review: [:producto, :user], cliente: [])
-      .pendientes
-      .recientes
+                .includes(producto_review: [:producto, :user], cliente: [])
+                .pendientes
+                .recientes
   end
 
   def update
