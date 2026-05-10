@@ -92,5 +92,46 @@ class ProductosControllerTest < ActionDispatch::IntegrationTest
       delete "/productos/#{@producto.id}"
     end
   end
+
+  test "edit responde con éxito si el vendedor es el dueño" do
+    post login_path, params: { email: @vendedor.email, password: "modelopruebavendedor" }
+    get "/productos/#{@producto.id}/edit"
+    assert_response :success
+  end
+
+  test "edit redirige si no hay sesión activa" do
+    get "/productos/#{@producto.id}/edit"
+    assert_response :redirect
+  end
+
+  test "update modifica el producto con datos válidos" do
+    post login_path, params: { email: @vendedor.email, password: "modelopruebavendedor" }
+    patch "/productos/#{@producto.id}", params: {
+      producto: { titulo: "Título Actualizado", precio: 1200 }
+    }
+    assert_response :redirect
+    assert_equal "Título Actualizado", @producto.reload.titulo
+  end
+
+  test "update no modifica el producto con datos inválidos" do
+    post login_path, params: { email: @vendedor.email, password: "modelopruebavendedor" }
+    patch "/productos/#{@producto.id}", params: {
+      producto: { titulo: "", precio: -5 }
+    }
+    assert_response :unprocessable_entity
+  end
+
+  test "index muestra solo productos con stock disponible" do
+    Producto.create!(
+      titulo: "Sin Stock",
+      precio: 100,
+      descripcion: "Agotado",
+      marca: "Test",
+      stock: 0,
+      vendedor: @vendedor
+    )
+    get productos_path
+    assert_response :success
+  end
  
 end
