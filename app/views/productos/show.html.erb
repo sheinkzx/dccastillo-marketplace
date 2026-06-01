@@ -1,128 +1,159 @@
-<header>
-    <div><a href="/">🏰 DCCastillo del Juguete 🧸</a></div>
-</header>
-<nav>
-    <ul>
-        <li><a href="/productos">Catálogo</a></li>
-    </ul>
-    <form action="/productos" method="get">
-        <input type="search" name="q" placeholder="Buscar productos" />
-        <button type="submit">Buscar</button>
-    </form>
-</nav>
-<h1><%= @producto.titulo %></h1>
-<p><strong>Descripción:</strong> <%= @producto.descripcion %></p>
-<h2>Ficha técnica</h2>
-<ul>
-    <li><strong>Precio:</strong>
-    $<%= number_with_delimiter(@producto.precio.to_i, delimiter: '.') %></li>
-    <li><strong>Marca:</strong> <%= @producto.marca %></li>
-    <li><strong>Categoría:</strong> <%= @producto.categoria %></li>
-    <li><strong>Edad sugerida:</strong> De <%= @producto.edad_minima %> a <%= @producto.edad_maxima %> años</li>
-    <li><strong>Stock:</strong> <%= number_with_delimiter(@producto.stock, delimiter: '.') %></li>
-    <li><strong>Fecha de publicación:</strong> <%= @producto.created_at.strftime("%d de %B de %Y") %>.</li>
-</ul>
+<div class="container">
 
-<% if current_user&.is_a?(Cliente) %>
-  <% favorito = current_user.favoritos.find_by(producto_id: @producto.id) %>
-  <div style="margin-bottom: 15px;">
-    <% if favorito %>
-      <%= button_to "❤️ Quitar de favoritos", "/productos/#{@producto.id}/favorito", method: :delete, style: "background: none; border: 1px solid #ccc; padding: 5px 10px; border-radius: 5px; cursor: pointer;" %>
-    <% else %>
-      <%= button_to "🤍 Guardar como favorito", "/productos/#{@producto.id}/favorito", method: :post, style: "background: none; border: 1px solid #ccc; padding: 5px 10px; border-radius: 5px; cursor: pointer;" %>
-    <% end %>
+  <%# ── Ficha del producto ── %>
+  <h1><%= @producto.titulo %></h1>
+
+  <div class="info-box">
+    <h2>Ficha técnica</h2>
+    <div class="formulario-grid-2x4">
+      <div class="form-group">
+        <label>Precio</label>
+        <p>$<%= number_with_delimiter(@producto.precio.to_i, delimiter: '.') %></p>
+      </div>
+      <div class="form-group">
+        <label>Marca</label>
+        <p><%= @producto.marca %></p>
+      </div>
+      <div class="form-group">
+        <label>Categoría</label>
+        <p><%= @producto.categoria %></p>
+      </div>
+      <div class="form-group">
+        <label>Edad sugerida</label>
+        <p>De <%= @producto.edad_minima %> a <%= @producto.edad_maxima %> años</p>
+      </div>
+      <div class="form-group">
+        <label>Stock</label>
+        <p><%= number_with_delimiter(@producto.stock, delimiter: '.') %></p>
+      </div>
+      <div class="form-group">
+        <label>Publicado el</label>
+        <p><%= @producto.created_at.strftime("%d de %B de %Y") %></p>
+      </div>
+      <div class="form-group" style="grid-column: span 2;">
+        <label>Descripción</label>
+        <p><%= @producto.descripcion %></p>
+      </div>
+    </div>
   </div>
 
-
-  <% if @producto.estado == "Activo" && @producto.stock > 0 %>
-    <%= button_to "🛒 Comprar", "/compras", method: :post,
-        params: { producto_id: @producto.id },
-        data: { turbo_confirm: "¿Confirmas la compra de #{@producto.titulo}?" } %>
-  <% elsif @producto.estado == "Inactivo" %>
-    <p style="color: orange; font-weight: bold;">⏸️ Producto Pausado</p>
-    <button disabled style="opacity: 0.5; cursor: not-allowed;">🛒 No Disponible</button>
-  <% else %>
-    <p style="color: red; font-weight: bold;">❌ Sin Stock</p>
-    <button disabled style="opacity: 0.5;">🛒 Sin Stock</button>
-  <% end %>
-
-  <%# BOTÓN PARA HABLAR CON EL VENDEDOR (Solo clientes) %>
+  <%# ── Acciones del cliente ── %>
   <% if current_user&.is_a?(Cliente) %>
-    <div style="margin-bottom: 15px;">
-      <%= button_to "💬 Preguntar al vendedor", conversations_path(producto_id: @producto.id), 
-          method: :post, 
-          style: "background-color: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%;" %>
+    <div class="info-box" style="margin-top: 20px;">
+      <h2>Acciones</h2>
+      <div class="menu">
+        <% favorito = current_user.favoritos.find_by(producto_id: @producto.id) %>
+        <% if favorito %>
+          <%= button_to "❤️ Quitar de favoritos", "/productos/#{@producto.id}/favorito",
+              method: :delete, class: "btn btn-secondary" %>
+        <% else %>
+          <%= button_to "🤍 Guardar como favorito", "/productos/#{@producto.id}/favorito",
+              method: :post, class: "btn" %>
+        <% end %>
+
+        <% if @producto.estado == "Activo" && @producto.stock > 0 %>
+          <%= button_to "🛒 Comprar", "/compras", method: :post,
+              params: { producto_id: @producto.id },
+              data: { turbo_confirm: "¿Confirmas la compra de #{@producto.titulo}?" },
+              class: "btn" %>
+        <% elsif @producto.estado == "Inactivo" %>
+          <p class="error">⏸️ Producto Pausado</p>
+        <% else %>
+          <p class="error">❌ Sin Stock</p>
+        <% end %>
+
+        <%= button_to "💬 Preguntar al vendedor", conversations_path(producto_id: @producto.id),
+            method: :post, class: "btn" %>
+      </div>
     </div>
   <% end %>
 
-<% end %>
+  <%# ── Reseñas ── %>
+  <div class="info-box" style="margin-top: 20px;">
+    <h2>Reseñas</h2>
 
-<h2>Reseñas</h2>
-<% if @ha_comprado %>
-    <h3>Escribir reseña</h3>
-    <%= form_with(model: Producto::Review.new,
-     url: producto_reviews_path(@producto),
-     data: { turbo: false }) do |f| %>
-        <%= f.label :puntaje, "Puntaje" %>
-        <%= f.select :puntaje, [1, 2, 3, 4, 5], selected: 5 %><br />
-        <%= f.text_area :txt, required: true %>
-        <%= f.submit "Publicar reseña" %>
+    <% if @ha_comprado %>
+      <h2 style="margin-top: 20px;">Escribir reseña</h2>
+      <%= form_with model: Producto::Review.new,
+          url: producto_reviews_path(@producto),
+          data: { turbo: false },
+          class: "formulario" do |f| %>
+        <label>Puntaje</label>
+        <%= f.select :puntaje, [1, 2, 3, 4, 5], selected: 5 %>
+        <label>Comentario</label>
+        <%= f.text_area :txt, required: true, rows: 4,
+            style: "padding: 10px; border: 1px solid #ccc; border-radius: 6px;" %>
+        <%= f.submit "Publicar reseña", class: "btn" %>
+      <% end %>
     <% end %>
-<% end %>
 
-<% if @producto.reviews.any? %>
-    <h3>Reseñas para este producto</h3>
-    <% @producto.reviews.each do |review| %>
-        <div class="review" style="display: flex; align-items: flex-start; gap: 10px;">
+    <% if @producto.reviews.any? %>
+      <table class="tabla-estandar" style="margin-top: 20px;">
+        <thead>
+          <tr>
+            <th>Puntaje</th>
+            <th>Comentario</th>
+            <th>Autor</th>
+            <th>Fecha</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @producto.reviews.each do |review| %>
+            <tr>
+              <td>
+                <% review.puntaje.times do %>
+                  <span class="estrella-llena">★</span>
+                <% end %>
+                <% (5 - review.puntaje).times do %>
+                  <span class="estrella-vacia">★</span>
+                <% end %>
+              </td>
+              <td><%= simple_format(review.txt) %></td>
+              <td><%= review.user.nombre %></td>
+              <td><%= review.created_at.strftime("%d/%m/%Y") %></td>
+              <td>
+                <% if current_user&.is_a?(Cliente) && review.user != current_user %>
+                  <div>
+                    <%= button_to "⚑", crear_reporte_path(@producto, review),
+                          method: :post,
+                          params: { reporte: { motivo: "" } },
+                          data: { turbo: false },
+                          title: "Reportar reseña",
+                          class: "btn btn-secondary",
+                          onclick: "this.closest('form').remove(); document.getElementById('modal-reporte-#{review.id}').style.display='block'; return false;" %>
 
-          <%# Contenido de la reseña %>
-          <div style="flex: 1;">
-            <h4>
-              <% if review.puntaje.present? %>
-                <% review.puntaje.times do %>★<% end %>
-                <% (5 - review.puntaje).times do %>☆<% end %>
-              <% end %>
-            </h4>
-            <div><%= simple_format(review.txt) %></div>
-            <div><small>Escrito por: <%= review.user.nombre %> el día
-                <%= review.created_at.strftime("%B %d, %Y") %></small></div>
-          </div>
-
-          <%# Botón de reporte — solo visible para Clientes que no escribieron la reseña %>
-          <% if current_user&.is_a?(Cliente) && review.user != current_user %>
-            <div>
-              <%= button_to "⚑", crear_reporte_path(@producto, review),
-                    method: :post,
-                    params: { reporte: { motivo: "" } },
-                    data: { turbo: false },
-                    title: "Reportar reseña",
-                    style: "background: none; border: none; font-size: 1.1rem; color: #aaa; cursor: pointer; padding: 4px 6px; border-radius: 4px;",
-                    onclick: "this.closest('form').remove(); document.getElementById('modal-reporte-#{review.id}').style.display='block'; return false;" %>
-
-              <%# Mini formulario de reporte (oculto, se muestra al hacer clic) %>
-              <div id="modal-reporte-<%= review.id %>" style="display: none; margin-top: 8px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; background: #fafafa; min-width: 240px;">
-                <strong style="font-size: 0.9rem;">Reportar reseña</strong>
-                <%= form_with url: crear_reporte_path(@producto, review), method: :post, data: { turbo: false } do |f| %>
-                  <%= f.select "reporte[motivo]", Reporte::MOTIVOS,
-                        { prompt: "Selecciona un motivo" },
-                        { required: true, style: "width: 100%; margin: 8px 0; padding: 4px;" } %>
-                  <%= f.text_area "reporte[detalle]", placeholder: "Detalle opcional...",
-                        rows: 2,
-                        style: "width: 100%; margin-bottom: 8px; padding: 4px; font-size: 0.85rem; border-radius: 4px; border: 1px solid #d1d5db;" %>
-                  <div style="display: flex; gap: 6px;">
-                    <%= f.submit "Enviar reporte", style: "background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.85rem;" %>
-                    <button type="button" onclick="document.getElementById('modal-reporte-<%= review.id %>').style.display='none'"
-                      style="background: #e5e7eb; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 0.85rem;">
-                      Cancelar
-                    </button>
+                    <div id="modal-reporte-<%= review.id %>" style="display: none; margin-top: 8px;">
+                      <div class="info-box">
+                        <h2>Reportar reseña</h2>
+                        <%= form_with url: crear_reporte_path(@producto, review),
+                            method: :post, data: { turbo: false }, class: "formulario" do |f| %>
+                          <label>Motivo</label>
+                          <%= f.select "reporte[motivo]", Reporte::MOTIVOS,
+                                { prompt: "Selecciona un motivo" }, { required: true } %>
+                          <label>Detalle (opcional)</label>
+                          <%= f.text_area "reporte[detalle]", rows: 2,
+                              style: "padding: 8px; border: 1px solid #ccc; border-radius: 6px;" %>
+                          <div class="menu" style="margin-top: 10px;">
+                            <%= f.submit "Enviar reporte", class: "btn btn-secondary" %>
+                            <button type="button" class="btn"
+                              onclick="document.getElementById('modal-reporte-<%= review.id %>').style.display='none'">
+                              Cancelar
+                            </button>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
                   </div>
                 <% end %>
-              </div>
-            </div>
+              </td>
+            </tr>
           <% end %>
-
-        </div>
+        </tbody>
+      </table>
+    <% else %>
+      <p>Aún no hay reseñas para este producto.</p>
     <% end %>
-<% else %>
-  <p>Aún no hay reseñas a este producto.</p>
-<% end %>
+  </div>
+
+</div>

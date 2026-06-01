@@ -55,4 +55,5 @@ Rails.application.routes.draw do
     resources :messages, only: [:create]
   end
 
+  post "/locale", to: "application#set_locale", as: :locale
 end

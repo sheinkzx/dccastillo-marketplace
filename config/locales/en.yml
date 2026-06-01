@@ -28,4 +28,10 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  navbar:
+    favoritos: "🧸❤️ Favorites"
+    foto_perfil: "Profile picture"
+    editar_perfil: "✏️ Edit my profile"
+    cerrar_sesion: "🚪 Log Out"
+    iniciar_sesion: "Log In"
+    registrarse: "Sign Up"

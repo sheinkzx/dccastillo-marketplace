@@ -1,41 +1,40 @@
-<header>
-  <div><a href="/">🏰 DCCastillo del Juguete 🧸</a></div>
-</header>
-<nav>
-  <ul>
-    <li><a href="/productos">Catálogo general</a></li>
-    <li><a href="/mis_favoritos">Mis favoritos</a></li>
-  </ul>
-</nav>
-
-<main style="text-align: center;">
+<div class="container">
   <h1>Mis Juguetes Favoritos ❤️</h1>
-  
+
+  <%= link_to "← Volver al inicio", root_path, class: "btn",
+      style: "align-self: flex-start; width: fit-content;" %>
+
   <% if @favoritos.any? %>
-    <% @favoritos.each do |favorito| %>
-      <% producto = favorito.producto %>
-      
-      <div style="border: 1px solid #ff9999; padding: 15px; margin: 10px; display: inline-block; border-radius: 10px; background-color: #fff5f5; text-align: left;">
-        <div style="text-align: center;">
-          <strong><a href="/productos/<%= producto.id %>" style="color: #cc0000;"><%= producto.titulo %></a></strong><br><br>
-        </div>
-        
-        Precio: $<%= number_with_delimiter(producto.precio.to_i, delimiter: '.') %><br>
-        <%# --- NUEVOS DATOS VISIBLES --- %>
-        Categoría: <%= producto.categoria %><br>
-        Edad sugerida: De <%= producto.edad_minima %> a <%= producto.edad_maxima %> años<br>
-        Estado: <strong><%= producto.estado %></strong>
-        
-        <div style="margin-top: 15px; text-align: center;">
-          <%# Botón rápido para quitarlo desde la misma lista %>
-          <%= button_to "💔 Quitar de la lista", "/productos/#{producto.id}/favorito", method: :delete, style: "background: white; border: 1px solid red; color: red; padding: 5px 10px; border-radius: 5px; cursor: pointer;" %>
-        </div>
-      </div>
-    <% end %>
-    
+    <table class="tabla-estandar">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio</th>
+          <th>Categoría</th>
+          <th>Edad sugerida</th>
+          <th>Estado</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @favoritos.each do |favorito| %>
+          <% producto = favorito.producto %>
+          <tr>
+            <td><strong><a href="/productos/<%= producto.id %>"><%= producto.titulo %></a></strong></td>
+            <td>$<%= number_with_delimiter(producto.precio.to_i, delimiter: '.') %></td>
+            <td><%= producto.categoria %></td>
+            <td>De <%= producto.edad_minima %> a <%= producto.edad_maxima %> años</td>
+            <td><strong><%= producto.estado %></strong></td>
+            <td>
+              <%= button_to "💔 Quitar", "/productos/#{producto.id}/favorito",
+                  method: :delete, class: "btn btn-secondary" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
     <p>Aún no tienes juguetes en tu lista de favoritos.</p>
-    <br>
-    <a href="/productos" style="padding: 10px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;">Ir a buscar juguetes 🚀</a>
+    <%= link_to "Ir a buscar juguetes 🚀", "/productos", class: "btn" %>
   <% end %>
-</main>
+</div>

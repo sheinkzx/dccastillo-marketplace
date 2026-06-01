@@ -1,29 +1,27 @@
 
 
-<h1>Regístrate en DCCastillo</h1>
+<div class="container">
+  <h1>Regístrate en DCCastillo</h1>
 
-<%= form_with model: @user, url: users_path, local: true do |f| %>
-  <%# Model: @user le dice al formulario que use la "caja vacía" que creamos en el controlador users_controllers.rb %>
+  <%= form_with model: @user, url: users_path, local: true, class: "formulario" do |f| %>
 
-  <div>
-    <%= f.label :nombre %><br>
+    <label>Nombre</label>
     <%= f.text_field :nombre %>
-  </div>
 
-  <div>
-    <%= f.label :email %><br>
+    <label>Email</label>
     <%= f.email_field :email %>
-  </div>
 
-  <div>
-    <%= f.label :type, "Quiero ser:" %><br>  
+    <label>Quiero ser:</label>
     <%= f.select :type, [["Cliente", "Cliente"], ["Vendedor", "Vendedor"], ["Administrador", "Administrador"]] %>
-  </div>
 
-  <div>
-    <%= f.label :password, "Contraseña" %><br>
+    <label>Contraseña</label>
     <%= f.password_field :password %>
-  </div>
 
-  <%= f.submit "Crear cuenta" %>
-<% end %>
+    <%= f.submit "Crear cuenta", class: "btn" %>
+
+  <% end %>
+
+  <% if flash[:alert] %>
+    <p class="error"><%= flash[:alert] %></p>
+  <% end %>
+</div>
