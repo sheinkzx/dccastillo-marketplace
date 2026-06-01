@@ -1,0 +1,95 @@
+<%# Título de la página %>
+<h1>Nuevo Producto</h1>
+
+<%# form_with genera el formulario HTML %>
+<%# model: @producto le dice a Rails qué objeto está manejando %>
+<%# url: productos_path indica a dónde se envían los datos (POST /productos) %>
+<%= form_with model: @producto, url: productos_path do |f| %>
+
+  <%# ── Errores de validación ── %>
+  <% if @producto.errors.any? %>
+    <div>
+      <% @producto.errors.full_messages.each do |msg| %>
+        <p><%= msg %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+
+  <%# ── Título ── %>
+  <div>
+    <%= f.label :titulo, "Título" %>
+    <%= f.text_field :titulo %>
+  </div>
+
+
+  <%# ── Precio (formato chileno, sin decimales, mínimo 0) ── %>
+  <div>
+    <%= f.label :precio %>
+    <%= f.number_field :precio, min: 0, step: 1 %>
+  </div>
+
+
+  <%# ── Marca ── %>
+  <div>
+    <%= f.label :marca %>
+    <%= f.text_field :marca %>
+  </div>
+
+
+  <%# ── Stock (mínimo 0) ── %>
+  <div>
+    <%= f.label :stock %>
+    <%= f.number_field :stock, min: 0 %>
+  </div>
+
+
+  <%# ── Edad mínima sugerida (mínimo 0) ── %>
+  <div>
+    <label>Edad mínima sugerida:</label><br>
+    <input type="number"
+           name="producto[edad_minima]"
+           value="<%= @producto.edad_minima %>"
+           placeholder="Ej: 3"
+           min="0">
+  </div>
+
+
+  <%# ── Edad máxima sugerida (mínimo 0) ── %>
+  <div>
+    <label>Edad máxima sugerida:</label><br>
+    <input type="number"
+           name="producto[edad_maxima]"
+           value="<%= @producto.edad_maxima %>"
+           placeholder="Ej: 8"
+           min="0">
+  </div>
+
+
+  <%# ── Categoría del juguete ── %>
+  <div>
+    <label>Categoría del juguete:</label><br>
+    <select name="producto[categoria]">
+      <option value="">Selecciona una categoría</option>
+      <option value="Imitación"    <%= 'selected' if @producto.categoria == 'Imitación'    %>>Imitación/Simbólicos (Cocinitas, disfraces)</option>
+      <option value="Construcción" <%= 'selected' if @producto.categoria == 'Construcción' %>>Construcción (Bloques, legos)</option>
+      <option value="Educativos"   <%= 'selected' if @producto.categoria == 'Educativos'   %>>Educativos/Didácticos (Juegos de lógica)</option>
+      <option value="Artísticos"   <%= 'selected' if @producto.categoria == 'Artísticos'   %>>Artísticos (Pinturas, plastilina)</option>
+      <option value="Movimiento"   <%= 'selected' if @producto.categoria == 'Movimiento'   %>>De movimiento (Pelotas, patinetes)</option>
+      <option value="Tecnológicos" <%= 'selected' if @producto.categoria == 'Tecnológicos' %>>Tecnológicos</option>
+      <option value="Otro"         <%= 'selected' if @producto.categoria == 'Otro'         %>>Otro / Varios</option>
+    </select>
+  </div>
+
+
+  <%# ── Descripción ── %>
+  <div>
+    <%= f.label :descripcion, "Descripción" %>
+    <%= f.text_area :descripcion %>
+  </div>
+
+
+  <%# ── Botón de envío ── %>
+  <%= f.submit "Publicar producto" %>
+
+<% end %>

@@ -1,6 +1,124 @@
-<div class="pagina">
-  <div class="tarjeta">
-    <h1>Hello World 👋</h1>
-    <%= image_tag "image.png", alt: "POCHITA", class: "pochita" %>
-  </div>
+<div style="text-align: center; margin-top: 50px;">
+  <h1>Bienvenido a 🏰 DCCastillo del Juguete 🧸</h1>
+  <nav>
+    <ul>
+      <li><a href="/productos">Catálogo de juguetes</a></li>
+    </ul>
+  </nav>
+  
+  <% if session[:user_id] %>
+    <%# Si el usuario ya entró, le mostramos el Dashboard aquí mismo %>
+    <% user = User.find_by(id: session[:user_id]) %>
+    <div class="tarjeta" style="border: 2px solid #2c3e50; padding: 20px; display: inline-block; border-radius: 10px;">
+       <h2>¡Hola, <%= user.nombre %>! 👋</h2>
+       <p>Has ingresado como: <strong><%= user.type %></strong></p>
+       <% foto_url = user.url_foto.present? ? user.url_foto : "https://ui-avatars.com/api/?name=#{URI.encode_www_form_component(user.nombre)}&background=2c3e50&color=fff&size=100&rounded=true" %>
+       <img src="<%= foto_url %>" alt="Foto de perfil" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-top: 10px; display: block; margin-left: auto; margin-right: auto;">
+       <br>
+       <%= link_to "✏️ Editar mi perfil", editar_perfil_path %>
+       <br><br>
+       <%= button_to "Cerrar Sesión", logout_path, method: :delete %>
+       </div>
+
+    
+    <% if current_user&.is_a?(Vendedor) %>
+    <%# Si es vendedor, mostramos sus productos con opción de eliminar %>
+    
+      <div style="margin-top: 30px;">
+        <h3>Mis productos</h3>
+        <%= link_to "➕ Publicar nuevo producto", "/productos/new" %>
+        <% if @productos.any? %>
+          <% @productos.each do |producto| %>
+            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;
+             display: inline-block;">
+              <strong><a href="/productos/<%= producto.id %>">
+                <%= producto.titulo %></a></strong> —
+              $<%= producto.precio %> —
+              Stock: <%= producto.stock %> —
+              
+              Estado: <strong><%= producto.estado %></strong>
+
+              <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <%= link_to "✏️ Editar", "/productos/#{producto.id}/edit", style: "text-decoration: none; border: 1px solid #2c3e50; padding: 2px 5px; border-radius: 5px; color: black; background-color: #f0f0f0;" %>
+                
+                <%= button_to "🗑️", "/productos/#{producto.id}", method: :delete,
+                data: { turbo_confirm: "¿Seguro que quieres eliminar este producto?" } %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <p>Aún no tienes productos publicados.</p>
+        <% end %>
+      </div>
+
+      <%# Solicitudes de compra pendientes que el vendedor debe aprobar%>
+
+      <div style="margin-top: 30px;">
+        <h3>Solicitudes de compra pendientes</h3>
+
+        <% if @compras_pendientes.any? %>
+
+          <% @compras_pendientes.each do |compra| %>
+            <div style="border: 1px solid orange; padding: 10px; margin: 10px;
+             display: inline-block;">
+              <%# Mostramos el producto y el cliente que quiere comprarlo %>
+              <strong><%= compra.producto.titulo %></strong> —
+              Solicitado por: <%= compra.cliente.nombre %> —
+              Fecha: <%= compra.fecha %>
+              Estado <%= compra.estado %>
+              <%# Botón para aprobar la compra, envía PATCH a /compras/:id %>
+              <%= button_to "✅ Aprobar", "/compras/#{compra.id}", method: :patch %>
+            </div>
+          <% end %>
+
+        <% else %>
+          <p>No tienes solicitudes pendientes.</p>
+        <% end %>
+
+      </div>
+    <% end %>
+
+    <% if current_user&.is_a?(Cliente) %>
+      <div style="margin-top: 30px;">
+        <h3>Mis Compras</h3>
+
+        <% if @compras.any? %>
+          <% @compras.each do |compra| %>
+            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; display: inline-block;">
+              <strong><%= compra.producto.titulo %></strong> —
+              Fecha: <%= compra.fecha %> —
+              Estado: <strong><%= compra.estado.capitalize %></strong>
+            </div>
+          <% end %>
+        <% else %>
+          <p>Aún no has realizado ninguna compra.</p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if current_user&.is_a?(Administrador) %>
+      <div style="margin-top: 30px;">
+        <h3>Panel de Administración</h3>
+        <%= link_to "👥 Ver y editar usuarios", admin_usuarios_path %>
+      </div>
+    <% end %>
+
+    <%# RU 25 Si es Cliente, se mostrara una lista de favoritos %>
+    <% if current_user&.is_a?(Cliente) %>
+      <div style="margin-top: 30px;">
+        <h3>Mi Panel de Cliente</h3>
+        <a href="/mis_favoritos" style="padding: 10px 15px; background-color: #ff4d4d; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">❤️ Ver mi lista de Favoritos</a>
+      </div>
+    <% end %>
+
+  <% else %>
+  
+    <p>¿Qué deseas hacer hoy?</p>
+    <div style="display: flex; justify-content: center; gap: 20px;">
+      <%= link_to "Iniciar Sesión", login_path, class: "boton-azul" %>
+      <%= link_to "Registrarse", signup_path, class: "boton-verde" %>
+    </div>
+    <br>
+    <%= image_tag "image.png", alt: "POCHITA", class: "pochita", style: "width: 150px; margin-top: 20px;" %>
+  <% end %>
 </div>

@@ -1,0 +1,88 @@
+<header>
+  <div><a href="/">🏰 DCCastillo del Juguete 🧸</a></div>
+</header>
+
+<main style="text-align: center; margin-top: 30px;">
+
+  <h1>Editar Producto: <%= @producto.titulo %></h1>
+
+  <%= form_with model: @producto, url: "/productos/#{@producto.id}", method: :patch, local: true do |f| %>
+
+
+    <%# ── Título ── %>
+    <div style="margin-bottom: 15px;">
+      <%= f.label :titulo, "Título del juguete" %><br>
+      <%= f.text_field :titulo, style: "width: 300px; padding: 5px;" %>
+    </div>
+
+
+    <%# ── Descripción ── %>
+    <div style="margin-bottom: 15px;">
+      <%= f.label :descripcion, "Descripción" %><br>
+      <%= f.text_area :descripcion, style: "width: 300px; height: 80px; padding: 5px;" %>
+    </div>
+
+
+    <%# ── Precio (formato chileno, sin decimales, mínimo 0) ── %>
+    <div style="margin-bottom: 15px;">
+      <%= f.label :precio, "Precio ($)" %><br>
+      <%= f.number_field :precio, min: 0, step: 1, style: "width: 300px; padding: 5px;" %>
+    </div>
+
+
+    <%# --- CAMPOS NUEVOS PARA EL RELATO 02 --- %>
+    <div style="margin: 20px auto; padding: 15px; border: 1px solid #ddd; width: 320px; background-color: #fff9f9; border-radius: 8px;">
+
+      <p style="font-weight: bold; color: #cc0000;">Configuración de Filtros</p>
+
+      <%# ── Edad mínima sugerida (mínimo 0) ── %>
+      <div style="margin-bottom: 10px; text-align: left;">
+        <%= f.label :edad_minima, "Edad mínima sugerida" %><br>
+        <%= f.number_field :edad_minima, min: 0, style: "width: 100%;" %>
+      </div>
+
+      <%# ── Edad máxima sugerida (mínimo 0) ── %>
+      <div style="margin-bottom: 10px; text-align: left;">
+        <%= f.label :edad_maxima, "Edad máxima sugerida" %><br>
+        <%= f.number_field :edad_maxima, min: 0, style: "width: 100%;" %>
+      </div>
+
+      <%# ── Categoría del juguete ── %>
+      <div style="margin-bottom: 10px; text-align: left;">
+        <%= f.label :categoria, "Categoría" %><br>
+        <%= f.select :categoria, [
+          ["Selecciona una",          ""             ],
+          ["Imitación/Simbólicos",    "Imitación"    ],
+          ["Construcción",            "Construcción" ],
+          ["Educativos/Didácticos",   "Educativos"   ],
+          ["Artísticos",              "Artísticos"   ],
+          ["Movimiento",              "Movimiento"   ],
+          ["Tecnológicos",            "Tecnológicos" ],
+          ["Otro / Varios",           "Otro"         ]
+        ], {}, { style: "width: 100%; padding: 5px;" } %>
+      </div>
+
+    </div>
+
+
+    <%# ── Estado del producto ── %>
+    <div style="margin-bottom: 15px;">
+      <%= f.label :estado, "Estado del producto" %><br>
+      <%= f.select :estado,
+            [["Activo", "Activo"], ["Inactivo", "Inactivo"]],
+            {},
+            { style: "width: 315px; padding: 5px;" } %>
+    </div>
+
+
+    <%# ── Botones de acción ── %>
+    <div style="margin-top: 20px;">
+      <%= f.submit "Guardar cambios",
+            style: "padding: 10px 20px; background-color: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer;" %>
+      <br><br>
+      <%= link_to "Cancelar", root_path, style: "color: gray; text-decoration: none; font-size: 0.9em;" %>
+    </div>
+
+  <% end %>
+
+</main>

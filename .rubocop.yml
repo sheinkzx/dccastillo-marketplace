@@ -1,14 +1,12 @@
 #  Este es un archivo de rubocop simple donde se deshabilitan
 # muchas de las reglas que suele checkear rubocop, para dejar
 # una base simple y se tengan que preocupar solo de ciertos "cops"
-
 #  Al final de este archivo, si encuentras que te ayudaría a tener
 # un código mas ordenado, puedes añadir todos los cops que creas convenientes.
-
 AllCops:
   DisabledByDefault: true
-
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
     - 'vendor/**/*'
     - 'test/fixtures/**/*'
@@ -19,10 +17,9 @@ AllCops:
     - 'app/views/**/*'
     - 'config/environments/*'
     - 'node_modules/**/*'
-
 # Layout
 Layout/LineLength:
-  Max: 120
+  Max: 130
   Enabled: true
 Layout/AssignmentIndentation:
   Enabled: true
@@ -41,7 +38,6 @@ Layout/EmptyLinesAroundMethodBody:
   Enabled: true
 Layout/ArrayAlignment:
   Enabled: true
-
 # Naming
 Naming/ConstantName:
   Enabled: true
@@ -56,7 +52,6 @@ Naming/BlockParameterName:
   MinNameLength: 2
 Naming/VariableName:
   Enabled: true
-
 # Style 
 Style/Next:
   Enabled: true
@@ -76,7 +71,6 @@ Style/DoubleNegation:
   Enabled: true
 Style/EmptyElse:
   Enabled: true
-
 # Lint
 Lint/AmbiguousAssignment:
   Enabled: true
@@ -104,5 +98,4 @@ Lint/EmptyExpression:
   Enabled: true
 Lint/ShadowedArgument:
   Enabled: true
-
 ### Añade aquí todos los Cops que quieras:
