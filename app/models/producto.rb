@@ -3,7 +3,7 @@ class Producto < ApplicationRecord
   #   "producto_"
   # end
   has_many :reviews, class_name: 'Producto::Review'
-  belongs_to :vendedor, class_name: "User" #* el producto le pertenece al vendedor pero la clase que alberga todo es "User"
+  belongs_to :vendedor, class_name: 'User' #* el producto le pertenece al vendedor pero la clase que alberga todo es "User"
   has_many :compras #* un producto puede tener muchas compras
   has_many :favoritos, dependent: :destroy # RU 25 Agregamos la relación con favoritos
 

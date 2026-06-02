@@ -78,8 +78,31 @@
               
               <li><strong>Stock:</strong> <%= number_with_delimiter(producto.stock, delimiter: '.') %></li>
           </ul>
+
+          <% vendedor = producto.respond_to?(:vendedor) ? producto.vendedor : producto.user %>
+
+
+          <% if vendedor %>
+            <div style="display: flex; align-items: center; gap: 8px; margin-top: 12px; border-top: 1px solid #eaeaea; padding-top: 12px;">
+              <%# Mini Avatar del vendedor %>
+              <% if vendedor.url_foto.present? %>
+                <img src="<%= vendedor.url_foto %>" alt="Foto" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+              <% else %>
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 16px;">👤</div>
+              <% end %>
+              <%# Nombre y enlace al perfil %>
+              <div style="font-size: 0.85em; color: #666; line-height: 1.2;">
+                Vendido por:<br>
+                <%= link_to vendedor.nombre, perfil_publico_path(vendedor), style: "font-weight: bold; text-decoration: none; color: #2e83ff;" %>
+              </div>
+            </div>
+          <% end %>
+
           <%# Solo el vendedor dueño del producto ve el botón de eliminar %>
           <% if current_user&.is_a?(Vendedor) && producto.vendedor == current_user %>
+            
+            <hr style="border: none; border-top: 1px solid #eaeaea; margin: 12px 0;">
+
             <% if producto.compras.any? %>
                 <button disabled>🗑️ No se puede eliminar</button>
                 <small style="color: red;">Ya tiene compras asociadas</small>
@@ -90,6 +113,7 @@
                         "¿Seguro que quieres eliminar #{producto.titulo}?" } %>
             <% end %>
           <% end %>
+          
       </div>
       <% end %>
   <% else %>

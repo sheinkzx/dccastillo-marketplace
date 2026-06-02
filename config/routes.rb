@@ -49,4 +49,7 @@ Rails.application.routes.draw do
   #* Bandeja de reseñas reportadas (admin)
   get   'admin/resenas',     to: 'controlar_resenas#index',  as: :admin_resenas
   patch 'admin/resenas/:id', to: 'controlar_resenas#update', as: :admin_resena
+
+  #* RUTAS DEL PERFIL PÚBLICO
+  get '/perfiles/:id', to: 'users#show', as: :perfil_publico
 end
