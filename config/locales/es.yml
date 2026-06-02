@@ -6,3 +6,310 @@ es:
     cerrar_sesion: "🚪 Cerrar Sesión"
     iniciar_sesion: "Iniciar Sesión"
     registrarse: "Registrarse"
+
+  home:
+    titulo: "Bienvenido a 🏰 DCCastillo del Juguete 🧸"
+    hola: "¡Hola, %{nombre}! 👋"
+    ingresado_como: "Has ingresado como:"
+    editar_perfil: "✏️ Editar mi perfil"
+    cerrar_sesion: "Cerrar Sesión"
+    que_deseas: "¿Qué deseas hacer hoy?"
+    iniciar_sesion: "Iniciar Sesión"
+    registrarse: "Registrarse"
+
+    vendedor:
+      mis_productos: "Mis Productos"
+      publicar_producto: "➕ Publicar nuevo producto"
+      tabla:
+        producto: "Producto"
+        precio: "Precio"
+        stock: "Stock"
+        estado: "Estado"
+        acciones: "Acciones"
+      editar: "✏️ Editar"
+      confirmar_eliminar: "¿Seguro que quieres eliminar este producto?"
+      sin_productos: "Aún no tienes productos publicados."
+      solicitudes_pendientes: "Solicitudes de Compra Pendientes"
+      tabla_compras:
+        producto: "Producto"
+        cliente: "Cliente"
+        fecha: "Fecha"
+        estado: "Estado"
+        accion: "Acción"
+      aprobar: "✅ Aprobar"
+      sin_solicitudes: "No tienes solicitudes pendientes."
+
+    cliente:
+      mis_compras: "Mis Compras"
+      tabla:
+        producto: "Producto"
+        fecha: "Fecha"
+        estado: "Estado"
+      sin_compras: "Aún no has realizado ninguna compra."
+      panel_titulo: "Mi Panel de Cliente"
+      ver_catalogo: "🧸 Ver catálogo de juguetes"
+      ver_favoritos: "❤️ Ver mi lista de Favoritos"
+
+    administrador:
+      panel_titulo: "Panel de Administración"
+      ver_usuarios: "👥 Ver y editar usuarios"
+
+  productos:
+    editar:
+      titulo: "Editar Producto: %{titulo}"
+      titulo_juguete: "Título del juguete"
+      descripcion: "Descripción"
+      precio: "Precio ($)"
+      configuracion_filtros: "⚙️ Configuración de Filtros"
+      edad_minima: "Edad mínima sugerida"
+      edad_maxima: "Edad máxima sugerida"
+      categoria: "Categoría"
+      categorias:
+        selecciona: "Selecciona una"
+        imitacion: "Imitación/Simbólicos"
+        construccion: "Construcción"
+        educativos: "Educativos/Didácticos"
+        artisticos: "Artísticos"
+        movimiento: "Movimiento"
+        tecnologicos: "Tecnológicos"
+        otro: "Otro / Varios"
+      estado: "Estado del producto"
+      estados:
+        activo: "Activo"
+        inactivo: "Inactivo"
+      guardar: "Guardar cambios"
+      cancelar: "Cancelar"
+
+  catalogo:
+    buscar_filtrar: "🔍 Buscar y filtrar"
+    palabra_clave: "Palabra clave"
+    placeholder_buscar: "Buscar juguete..."
+    precio_max: "Precio Máximo ($)"
+    placeholder_precio: "Ej: 10000"
+    marca: "Marca"
+    placeholder_marca: "Ej: Lego"
+    edad: "Edad"
+    placeholder_edad: "Ej: 5"
+    categorias: "Categorías"
+    filtrar: "🔍 Filtrar"
+    ver_todo: "🔄 Ver todo el catálogo"
+    mostrando_filtrados: "Mostrando resultados filtrados"
+    titulo: "Catálogo de juguetes"
+    tabla:
+      producto: "Producto"
+      precio: "Precio"
+      marca: "Marca"
+      categoria: "Categoría"
+      edad_sugerida: "Edad sugerida"
+      stock: "Stock"
+    edad_rango: "De %{min} a %{max} años"
+    no_eliminar: "🗑️ No eliminar"
+    tiene_compras: "Ya tiene compras"
+    confirmar_eliminar: "¿Seguro que quieres eliminar %{titulo}?"
+    sin_productos: "No hay productos disponibles."
+
+    nuevo:
+      titulo: "Nuevo Producto"
+      titulo_label: "Título"
+      edad_minima: "Edad mínima sugerida"
+      placeholder_edad_minima: "Ej: 3"
+      edad_maxima: "Edad máxima sugerida"
+      placeholder_edad_maxima: "Ej: 8"
+      categoria_label: "Categoría del juguete"
+      categoria_placeholder: "Selecciona una categoría"
+      categorias:
+        imitacion: "Imitación/Simbólicos (Cocinitas, disfraces)"
+        construccion: "Construcción (Bloques, legos)"
+        educativos: "Educativos/Didácticos (Juegos de lógica)"
+        artisticos: "Artísticos (Pinturas, plastilina)"
+        movimiento: "De movimiento (Pelotas, patinetes)"
+        tecnologicos: "Tecnológicos"
+        otro: "Otro / Varios"
+      descripcion: "Descripción"
+      publicar: "Publicar producto"
+
+    show:
+      ficha_tecnica: "Ficha técnica"
+      precio: "Precio"
+      marca: "Marca"
+      categoria: "Categoría"
+      edad_sugerida: "Edad sugerida"
+      edad_rango: "De %{min} a %{max} años"
+      stock: "Stock"
+      publicado_el: "Publicado el"
+      descripcion: "Descripción"
+      acciones: "Acciones"
+      quitar_favorito: "❤️ Quitar de favoritos"
+      guardar_favorito: "🤍 Guardar como favorito"
+      comprar: "🛒 Comprar"
+      confirmar_compra: "¿Confirmas la compra de %{titulo}?"
+      pausado: "⏸️ Producto Pausado"
+      sin_stock: "❌ Sin Stock"
+      resenas: "Reseñas"
+      escribir_resena: "Escribir reseña"
+      puntaje: "Puntaje"
+      comentario: "Comentario"
+      publicar_resena: "Publicar reseña"
+      tabla:
+        puntaje: "Puntaje"
+        comentario: "Comentario"
+        autor: "Autor"
+        fecha: "Fecha"
+      sin_resenas: "Aún no hay reseñas para este producto."
+      reportar_resena: "Reportar reseña"
+      motivo: "Motivo"
+      motivo_prompt: "Selecciona un motivo"
+      detalle: "Detalle (opcional)"
+      enviar_reporte: "Enviar reporte"
+      cancelar: "Cancelar"
+
+  sesion:
+    titulo: "Iniciar Sesión"
+    email: "Email"
+    contrasena: "Contraseña"
+    entrar: "Entrar"
+
+  perfil:
+    titulo: "Editar mi perfil"
+    nombre: "Nombre"
+    email: "Correo electrónico"
+    url_foto: "URL de foto de perfil"
+    password: "Nueva contraseña"
+    placeholder_password: "Dejar en blanco para no cambiar"
+    password_confirmation: "Confirmar nueva contraseña"
+    guardar: "Guardar cambios"
+
+  registro:
+    titulo: "Regístrate en DCCastillo"
+    nombre: "Nombre"
+    email: "Email"
+    quiero_ser: "Quiero ser:"
+    roles:
+      cliente: "Cliente"
+      vendedor: "Vendedor"
+      administrador: "Administrador"
+    contrasena: "Contraseña"
+    crear_cuenta: "Crear cuenta"
+
+  admin:
+    editar_usuario:
+      titulo: "Editando a: %{nombre}"
+      nombre: "Nombre"
+      email: "Correo electrónico"
+      url_foto: "URL de foto de perfil"
+      password: "Cambiar Contraseña (dejar vacío para no cambiar)"
+      password_aviso: "Si ingresas una clave, la anterior quedará invalidada."
+      guardar: "Guardar cambios"
+      volver: "← Volver al panel"
+
+    usuarios:
+      titulo: "Panel de Administración — Usuarios"
+      subtitulo: "Gestiona los usuarios registrados en la plataforma"
+      volver: "← Volver al inicio"
+      bandeja_titulo: "⚑ Bandeja de reseñas reportadas"
+      bandeja_descripcion: "Revisa y modera los comentarios denunciados por clientes."
+      ver_reportes: "Ver reportes"
+      tabla:
+        foto: "Foto"
+        nombre: "Nombre"
+        email: "Email"
+        rol: "Rol"
+        estado: "Estado"
+        acciones: "Acciones"
+      baneado: "Baneado"
+      activo: "Activo"
+      editar: "Editar"
+      desbanear: "Desbanear"
+      banear: "Banear"
+
+  favoritos:
+    titulo: "Mis Juguetes Favoritos ❤️"
+    volver: "← Volver al inicio"
+    tabla:
+      producto: "Producto"
+      precio: "Precio"
+      categoria: "Categoría"
+      edad_sugerida: "Edad sugerida"
+      estado: "Estado"
+      accion: "Acción"
+    edad_rango: "De %{min} a %{max} años"
+    quitar: "💔 Quitar"
+    sin_favoritos: "Aún no tienes juguetes en tu lista de favoritos."
+    ir_a_buscar: "Ir a buscar juguetes 🚀"
+
+  admin_resenas:
+    titulo: "Control de reseñas"
+    subtitulo: "Comentarios reportados pendientes de revisión"
+    volver: "← Volver a usuarios"
+    pendientes: "%{count} pendientes"
+    sin_reportes: "✓ No hay reportes pendientes."
+    detalle: "Detalle"
+    tabla:
+      autor: "Autor de la reseña"
+      reportado_por: "Reportado por"
+      producto: "Producto"
+    usuario_eliminado: "Usuario eliminado"
+    eliminar_resena: "🗑 Eliminar reseña"
+    confirmar_eliminar: "¿Eliminar esta reseña?"
+    banear_cliente: "🚫 Banear cliente"
+    confirmar_banear: "¿Banear a %{nombre}?"
+    ya_baneado: "Ya baneado"
+    ignorar: "Ignorar"
+
+  errores:
+    cuenta_suspendida: "Tu cuenta ha sido suspendida. Contacta al administrador."
+
+  compras:
+    sin_stock: "Este producto no tiene stock disponible."
+    solicitud_enviada: "Solicitud de compra enviada, espera la aprobación del vendedor."
+    error_compra: "No se pudo realizar la compra."
+    sin_stock_aprobar: "No puedes aprobar esta compra, el producto ya no tiene stock."
+    aprobada: "Compra aprobada exitosamente."
+    no_autorizado: "No puedes aprobar esta compra."
+
+  resenas:
+    eliminada: "Reseña eliminada."
+    usuario_baneado: "Usuario baneado."
+    reporte_ignorado: "Reporte ignorado."
+    acceso_no_autorizado: "Acceso no autorizado."
+
+  favoritos_ctrl:
+    solo_clientes: "Solo los clientes tienen lista de favoritos."
+    guardado: "¡Producto guardado en favoritos! ❤️"
+    error_guardar: "No se pudo guardar en favoritos."
+    eliminado: "Producto eliminado de favoritos 🤍"
+    error_eliminar: "No se pudo eliminar de favoritos."
+
+  productos_ctrl:
+    publicado: "Producto publicado exitosamente."
+    sin_permiso_editar: "No tienes permiso para editar este producto."
+    actualizado: "Producto '%{titulo}' actualizado exitosamente."
+    no_editar: "No puedes editar este producto."
+    tiene_compras: "No puedes eliminar este producto porque ya tiene compras asociadas."
+    eliminado: "Producto eliminado."
+    no_eliminar: "No puedes eliminar este producto."
+    no_disponible: "Este producto no está disponible."
+
+  reportes:
+    ya_reportado: "Ya reportaste esta reseña anteriormente."
+    enviado: "Reporte enviado. Lo revisaremos pronto."
+    motivo_invalido: "Debes seleccionar un motivo válido."
+    iniciar_sesion: "Debes iniciar sesión."
+
+  sesiones:
+    bienvenido: "¡Hola de nuevo, %{nombre}! Has iniciado sesión."
+    credenciales_incorrectas: "Email o contraseña incorrectos. Intenta de nuevo."
+    sesion_cerrada: "Sesión cerrada. ¡Vuelve pronto!"
+    cuenta_suspendida: "Tu cuenta ha sido suspendida. Contacta al administrador."
+
+  users:
+    registro_exitoso: "¡Registro exitoso como %{tipo}!"
+    perfil_actualizado: "Perfil actualizado correctamente."
+    iniciar_sesion_primero: "Debes iniciar sesión primero."
+
+  usuarios_admin:
+    actualizado: "Usuario '%{nombre}' actualizado."
+    baneado: "Usuario '%{nombre}' baneado."
+    desbaneado: "Usuario '%{nombre}' desbaneado."
+    no_editarse: "No puedes editarte desde el panel admin."
+    acceso_no_autorizado: "Acceso no autorizado."

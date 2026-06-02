@@ -1,19 +1,20 @@
 <div class="container">
-  <h1>Iniciar Sesión</h1>
+
+  <h1><%= t("sesion.titulo") %></h1>
 
   <%= form_with url: login_path, local: true, class: "formulario" do |f| %>
 
-    <label>Email</label>
+    <label><%= t("sesion.email") %></label>
     <%= f.email_field :email %>
 
-    <label>Contraseña</label>
+    <label><%= t("sesion.contrasena") %></label>
     <%= f.password_field :password %>
 
-    <%= f.submit "Entrar", class: "btn" %>
-
+    <%= f.submit t("sesion.entrar"), class: "btn" %>
   <% end %>
 
   <% if flash[:alert] %>
     <p class="error"><%= flash[:alert] %></p>
   <% end %>
+  
 </div>

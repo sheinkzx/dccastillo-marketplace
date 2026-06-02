@@ -2,36 +2,42 @@
 
   <%# ── Filtros ── %>
   <div class="info-box">
-    <h2>🔍 Buscar y filtrar</h2>
+    <h2><%= t("productos.catalogo.buscar_filtrar") %></h2>
     <form action="/productos" method="get">
       <div class="formulario-grid-2x4">
 
         <div class="form-group">
-          <label>Palabra clave</label>
-          <input type="search" name="q" placeholder="Buscar juguete..." value="<%= params[:q] %>">
+          <label><%= t("productos.catalogo.palabra_clave") %></label>
+          <input type="search" name="q" placeholder="<%= t("productos.catalogo.placeholder_buscar") %>" value="<%= params[:q] %>">
         </div>
 
         <div class="form-group">
-          <label>Precio Máximo ($)</label>
-          <input type="number" name="precio_max" placeholder="Ej: 10000" value="<%= params[:precio_max] %>">
+          <label><%= t("productos.catalogo.precio_max") %></label>
+          <input type="number" name="precio_max" placeholder="<%= t("productos.catalogo.placeholder_precio") %>" value="<%= params[:precio_max] %>">
         </div>
 
         <div class="form-group">
-          <label>Marca</label>
-          <input type="text" name="marca" placeholder="Ej: Lego" value="<%= params[:marca] %>">
+          <label><%= t("productos.catalogo.marca") %></label>
+          <input type="text" name="marca" placeholder="<%= t("productos.catalogo.placeholder_marca") %>" value="<%= params[:marca] %>">
         </div>
 
         <div class="form-group">
-          <label>Edad</label>
-          <input type="number" name="edad_cliente" placeholder="Ej: 5" value="<%= params[:edad_cliente] %>">
+          <label><%= t("productos.catalogo.edad") %></label>
+          <input type="number" name="edad_cliente" placeholder="<%= t("productos.catalogo.placeholder_edad") %>" value="<%= params[:edad_cliente] %>">
         </div>
 
         <div class="form-group" style="grid-column: span 2;">
-          <label>Categorías</label>
+          <label><%= t("productos.catalogo.categorias") %></label>
           <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 6px;">
-            <% [["Imitación","Imitación"], ["Construcción","Construcción"], ["Educativos","Educativos"],
-                ["Artísticos","Artísticos"], ["Movimiento","Movimiento"], ["Tecnológicos","Tecnológicos"],
-                ["Otro","Otros"]].each do |valor, etiqueta| %>
+            <% [
+              ["Imitación",    t("productos.editar.categorias.imitacion")   ],
+              ["Construcción", t("productos.editar.categorias.construccion")],
+              ["Educativos",   t("productos.editar.categorias.educativos")  ],
+              ["Artísticos",   t("productos.editar.categorias.artisticos")  ],
+              ["Movimiento",   t("productos.editar.categorias.movimiento")  ],
+              ["Tecnológicos", t("productos.editar.categorias.tecnologicos")],
+              ["Otro",         t("productos.editar.categorias.otro")        ]
+            ].each do |valor, etiqueta| %>
               <label style="display: flex; align-items: center; gap: 6px; font-weight: normal;">
                 <input type="checkbox" name="categorias[]" value="<%= valor %>"
                        <%= 'checked' if params[:categorias]&.include?(valor) %>>
@@ -42,31 +48,31 @@
         </div>
 
         <div class="grid-full">
-          <button type="submit" class="btn">🔍 Filtrar</button>
-          <%= link_to "🔄 Ver todo el catálogo", "/productos", class: "btn btn-secondary" %>
+          <button type="submit" class="btn"><%= t("productos.catalogo.filtrar") %></button>
+          <%= link_to t("productos.catalogo.ver_todo"), "/productos", class: "btn btn-secondary" %>
         </div>
 
       </div>
     </form>
 
     <% if params[:q].present? || params[:precio_max].present? || params[:marca].present? || params[:edad_cliente].present? || params[:categorias].present? %>
-      <p class="success">Mostrando resultados filtrados</p>
+      <p class="success"><%= t("productos.catalogo.mostrando_filtrados") %></p>
     <% end %>
   </div>
 
   <%# ── Catálogo ── %>
-  <h1 style="margin-top: 20px;">Catálogo de juguetes</h1>
+  <h1 style="margin-top: 20px;"><%= t("productos.catalogo.titulo") %></h1>
 
   <% if @productos.any? %>
     <table class="tabla-estandar">
       <thead>
         <tr>
-          <th>Producto</th>
-          <th>Precio</th>
-          <th>Marca</th>
-          <th>Categoría</th>
-          <th>Edad sugerida</th>
-          <th>Stock</th>
+          <th><%= t("productos.catalogo.tabla.producto") %></th>
+          <th><%= t("productos.catalogo.tabla.precio") %></th>
+          <th><%= t("productos.catalogo.tabla.marca") %></th>
+          <th><%= t("productos.catalogo.tabla.categoria") %></th>
+          <th><%= t("productos.catalogo.tabla.edad_sugerida") %></th>
+          <th><%= t("productos.catalogo.tabla.stock") %></th>
           <th></th>
         </tr>
       </thead>
@@ -80,17 +86,17 @@
             <td><%= number_to_currency(producto.precio, unit: "$", separator: ",", delimiter: ".", precision: 0) %></td>
             <td><%= producto.marca %></td>
             <td><%= producto.categoria %></td>
-            <td>De <%= producto.edad_minima %> a <%= producto.edad_maxima %> años</td>
+            <td><%= t("productos.catalogo.edad_rango", min: producto.edad_minima, max: producto.edad_maxima) %></td>
             <td><%= number_with_delimiter(producto.stock, delimiter: '.') %></td>
             <td>
               <% if current_user&.is_a?(Vendedor) && producto.vendedor == current_user %>
                 <% if producto.compras.any? %>
-                  <button disabled class="btn" style="opacity: 0.5; cursor: not-allowed;">🗑️ No eliminar</button>
-                  <p class="error" style="font-size: 0.8rem;">Ya tiene compras</p>
+                  <button disabled class="btn" style="opacity: 0.5; cursor: not-allowed;"><%= t("productos.catalogo.no_eliminar") %></button>
+                  <p class="error" style="font-size: 0.8rem;"><%= t("productos.catalogo.tiene_compras") %></p>
                 <% else %>
                   <%= button_to "🗑️", "/productos/#{producto.id}",
                       method: :delete,
-                      data: { turbo_confirm: "¿Seguro que quieres eliminar #{producto.titulo}?" },
+                      data: { turbo_confirm: t("productos.catalogo.confirmar_eliminar", titulo: producto.titulo) },
                       class: "btn btn-secondary" %>
                 <% end %>
               <% end %>
@@ -100,7 +106,7 @@
       </tbody>
     </table>
   <% else %>
-    <p>No hay productos disponibles.</p>
+    <p><%= t("productos.catalogo.sin_productos") %></p>
   <% end %>
 
 </div>

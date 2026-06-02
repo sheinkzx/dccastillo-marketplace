@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   def verificar_no_baneado
     if current_user&.bloqueado?
       session[:user_id] = nil
-      redirect_to login_path, alert: "Tu cuenta ha sido suspendida. Contacta al administrador."
+      redirect_to login_path, alert: I18n.t("errores.cuenta_suspendida")
     end
   end
 

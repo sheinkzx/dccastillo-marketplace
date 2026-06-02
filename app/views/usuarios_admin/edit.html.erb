@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Editando a: <%= @usuario.nombre %></h1>
+  <h1><%= t("admin.editar_usuario.titulo", nombre: @usuario.nombre) %></h1>
 
   <% foto = @usuario.url_foto.present? ? @usuario.url_foto
        : "https://ui-avatars.com/api/?name=#{URI.encode_www_form_component(@usuario.nombre)}&background=2c3e50&color=fff&size=100&rounded=true" %>
@@ -9,29 +9,29 @@
     <div class="formulario-grid-2x4">
 
       <div class="form-group">
-        <%= f.label :nombre, "Nombre" %>
+        <%= f.label :nombre, t("admin.editar_usuario.nombre") %>
         <%= f.text_field :nombre %>
       </div>
 
       <div class="form-group">
-        <%= f.label :email, "Correo electrónico" %>
+        <%= f.label :email, t("admin.editar_usuario.email") %>
         <%= f.email_field :email %>
       </div>
 
       <div class="form-group" style="grid-column: span 2;">
-        <%= f.label :url_foto, "URL de foto de perfil" %>
+        <%= f.label :url_foto, t("admin.editar_usuario.url_foto") %>
         <%= f.url_field :url_foto, placeholder: "https://..." %>
       </div>
 
       <div class="form-group" style="grid-column: span 2;">
-        <%= f.label :password, "Cambiar Contraseña (dejar vacío para no cambiar)" %>
+        <%= f.label :password, t("admin.editar_usuario.password") %>
         <%= f.password_field :password, autocomplete: "new-password" %>
-        <small>Si ingresas una clave, la anterior quedará invalidada.</small>
+        <small><%= t("admin.editar_usuario.password_aviso") %></small>
       </div>
 
       <div class="grid-full">
-        <%= f.submit "Guardar cambios", class: "btn" %>
-        <%= link_to "← Volver al panel", admin_usuarios_path, class: "btn btn-secondary" %>
+        <%= f.submit t("admin.editar_usuario.guardar"), class: "btn" %>
+        <%= link_to t("admin.editar_usuario.volver"), admin_usuarios_path, class: "btn btn-secondary" %>
       </div>
 
     </div>

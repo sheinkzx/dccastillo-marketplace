@@ -2,7 +2,6 @@ class UsuariosAdminController < ApplicationController
   #*/ before_action = filtro que corre ANTES de cada ACCION del controlador
   # require_admin! se ejecuta en TODAS las acciones: si no eres admin, te echa
   before_action :require_admin!
-
   # set_usuario se ejecuta SOLO antes de edit y update
   # porque son las únicas acciones que necesitan saber qué usuario editar
   before_action :set_usuario, only: [:edit, :update, :ban, :unban]
@@ -25,17 +24,15 @@ class UsuariosAdminController < ApplicationController
     # usuario_params = los datos que vienen del formulario (nombre, email, foto, password)
     # los guardamos en datos_a_guardar para poder revisarlos antes de tocar la BD
     datos_a_guardar = usuario_params
-
     # Si el campo password llegó vacío, significa que el admin NO quiere cambiar la clave
     # entonces lo eliminamos de datos_a_guardar para no borrar la contraseña actual
     # Si llegó con valor, BCrypt lo encripta automáticamente y la clave anterior queda invalidada
     datos_a_guardar = datos_a_guardar.except(:password) if datos_a_guardar[:password].blank?
-
     # Intentamos guardar los cambios en la base de datos
     if @usuario.update(datos_a_guardar)
       # Exito: volvemos al panel con un mensaje de confirmación
       # @usuario.nombre muestra el nombre del usuario que se edito
-      redirect_to admin_usuarios_path, notice: "Usuario '#{@usuario.nombre}' actualizado."
+      redirect_to admin_usuarios_path, notice: I18n.t("usuarios_admin.actualizado", nombre: @usuario.nombre)
     else
       # Error de validación (ej: email inválido): volvemos al formulario mostrando los errores
       render :edit, status: :unprocessable_entity
@@ -44,12 +41,12 @@ class UsuariosAdminController < ApplicationController
 
   def ban
     @usuario.update!(bloqueado: true)
-    redirect_to admin_usuarios_path, notice: "Usuario '#{@usuario.nombre}' baneado."
+    redirect_to admin_usuarios_path, notice: I18n.t("usuarios_admin.baneado", nombre: @usuario.nombre)
   end
 
   def unban
     @usuario.update!(bloqueado: false)
-    redirect_to admin_usuarios_path, notice: "Usuario '#{@usuario.nombre}' desbaneado."
+    redirect_to admin_usuarios_path, notice: I18n.t("usuarios_admin.desbaneado", nombre: @usuario.nombre)
   end
 
   private
@@ -58,11 +55,10 @@ class UsuariosAdminController < ApplicationController
   # El resultado se guarda en @usuario para que edit y update lo puedan usar
   def set_usuario
     @usuario = User.find(params[:id])
-
     #* Seguridad extra: si el admin intenta editarse a sí mismo desde este panel, lo bloqueamos
     # Para editarse a sí mismo existe la ruta normal /perfil/editar
     if @usuario == current_user
-      redirect_to admin_usuarios_path, alert: "No puedes editarte desde el panel admin."
+      redirect_to admin_usuarios_path, alert: I18n.t("usuarios_admin.no_editarse")
     end
   end
 
@@ -80,7 +76,7 @@ class UsuariosAdminController < ApplicationController
   # Si no es admin, lo manda al inicio con mensaje de error
   def require_admin!
     unless current_user&.is_a?(Administrador)
-      redirect_to root_path, alert: "Acceso no autorizado."
+      redirect_to root_path, alert: I18n.t("usuarios_admin.acceso_no_autorizado")
     end
-  end  
+  end
 end

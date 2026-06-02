@@ -1,17 +1,17 @@
 <div class="container">
-  <h1>Bienvenido a 🏰 DCCastillo del Juguete 🧸</h1>
+  <h1><%= t("home.titulo") %></h1>
 
   <% if session[:user_id] %>
     <% user = User.find_by(id: session[:user_id]) %>
 
     <div class="info-box">
-      <h2>¡Hola, <%= user.nombre %>! 👋</h2>
-      <p>Has ingresado como: <strong><%= user.type %></strong></p>
+      <h2><%= t("home.hola", nombre: user.nombre) %></h2>
+      <p><%= t("home.ingresado_como") %> <strong><%= user.type %></strong></p>
       <% foto_url = user.url_foto.present? ? user.url_foto : "https://ui-avatars.com/api/?name=#{URI.encode_www_form_component(user.nombre)}&background=2c3e50&color=fff&size=100&rounded=true" %>
-      <img src="<%= foto_url %>" alt="Foto de perfil" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 10px auto; display: block;">
+      <img src="<%= foto_url %>" alt="<%= t("navbar.foto_perfil") %>" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 10px auto; display: block;">
       <div class="menu" style="margin-top: 15px;">
-        <%= link_to "✏️ Editar mi perfil", editar_perfil_path, class: "btn" %>
-        <%= button_to "Cerrar Sesión", logout_path, method: :delete,
+        <%= link_to t("home.editar_perfil"), editar_perfil_path, class: "btn" %>
+        <%= button_to t("home.cerrar_sesion"), logout_path, method: :delete,
             class: "btn btn-secondary",
             form: { style: "display:block; width:100%;" } %>
       </div>
@@ -19,13 +19,17 @@
 
     <% if current_user&.is_a?(Vendedor) %>
       <div class="info-box" style="margin-top: 20px;">
-        <h2>Mis Productos</h2>
-        <%= link_to "➕ Publicar nuevo producto", "/productos/new", class: "btn" %>
+        <h2><%= t("home.vendedor.mis_productos") %></h2>
+        <%= link_to t("home.vendedor.publicar_producto"), "/productos/new", class: "btn" %>
         <% if @productos.any? %>
           <table class="tabla-estandar">
             <thead>
               <tr>
-                <th>Producto</th><th>Precio</th><th>Stock</th><th>Estado</th><th>Acciones</th>
+                <th><%= t("home.vendedor.tabla.producto") %></th>
+                <th><%= t("home.vendedor.tabla.precio") %></th>
+                <th><%= t("home.vendedor.tabla.stock") %></th>
+                <th><%= t("home.vendedor.tabla.estado") %></th>
+                <th><%= t("home.vendedor.tabla.acciones") %></th>
               </tr>
             </thead>
             <tbody>
@@ -36,9 +40,9 @@
                   <td><%= producto.stock %></td>
                   <td><strong><%= producto.estado %></strong></td>
                   <td style="display:flex; gap:8px;">
-                    <%= link_to "✏️ Editar", "/productos/#{producto.id}/edit", class: "btn" %>
+                    <%= link_to t("home.vendedor.editar"), "/productos/#{producto.id}/edit", class: "btn" %>
                     <%= button_to "🗑️", "/productos/#{producto.id}", method: :delete,
-                        data: { turbo_confirm: "¿Seguro que quieres eliminar este producto?" },
+                        data: { turbo_confirm: t("home.vendedor.confirmar_eliminar") },
                         class: "btn btn-secondary" %>
                   </td>
                 </tr>
@@ -46,17 +50,21 @@
             </tbody>
           </table>
         <% else %>
-          <p>Aún no tienes productos publicados.</p>
+          <p><%= t("home.vendedor.sin_productos") %></p>
         <% end %>
       </div>
 
       <div class="info-box" style="margin-top: 20px;">
-        <h2>Solicitudes de Compra Pendientes</h2>
+        <h2><%= t("home.vendedor.solicitudes_pendientes") %></h2>
         <% if @compras_pendientes.any? %>
           <table class="tabla-estandar">
             <thead>
               <tr>
-                <th>Producto</th><th>Cliente</th><th>Fecha</th><th>Estado</th><th>Acción</th>
+                <th><%= t("home.vendedor.tabla_compras.producto") %></th>
+                <th><%= t("home.vendedor.tabla_compras.cliente") %></th>
+                <th><%= t("home.vendedor.tabla_compras.fecha") %></th>
+                <th><%= t("home.vendedor.tabla_compras.estado") %></th>
+                <th><%= t("home.vendedor.tabla_compras.accion") %></th>
               </tr>
             </thead>
             <tbody>
@@ -67,25 +75,29 @@
                   <td><%= compra.fecha %></td>
                   <td><%= compra.estado %></td>
                   <td>
-                    <%= button_to "✅ Aprobar", "/compras/#{compra.id}", method: :patch, class: "btn" %>
+                    <%= button_to t("home.vendedor.aprobar"), "/compras/#{compra.id}", method: :patch, class: "btn" %>
                   </td>
                 </tr>
               <% end %>
             </tbody>
           </table>
         <% else %>
-          <p>No tienes solicitudes pendientes.</p>
+          <p><%= t("home.vendedor.sin_solicitudes") %></p>
         <% end %>
       </div>
     <% end %>
 
     <% if current_user&.is_a?(Cliente) %>
       <div class="info-box" style="margin-top: 20px;">
-        <h2>Mis Compras</h2>
+        <h2><%= t("home.cliente.mis_compras") %></h2>
         <% if @compras.any? %>
           <table class="tabla-estandar">
             <thead>
-              <tr><th>Producto</th><th>Fecha</th><th>Estado</th></tr>
+              <tr>
+                <th><%= t("home.cliente.tabla.producto") %></th>
+                <th><%= t("home.cliente.tabla.fecha") %></th>
+                <th><%= t("home.cliente.tabla.estado") %></th>
+              </tr>
             </thead>
             <tbody>
               <% @compras.each do |compra| %>
@@ -98,31 +110,31 @@
             </tbody>
           </table>
         <% else %>
-          <p>Aún no has realizado ninguna compra.</p>
+          <p><%= t("home.cliente.sin_compras") %></p>
         <% end %>
       </div>
 
       <div class="info-box" style="margin-top: 20px;">
-        <h2>Mi Panel de Cliente</h2>
+        <h2><%= t("home.cliente.panel_titulo") %></h2>
         <div class="menu" style="margin-top: 10px;">
-          <%= link_to "🧸 Ver catálogo de juguetes", productos_path, class: "btn" %>
-          <%= link_to "❤️ Ver mi lista de Favoritos", "/mis_favoritos", class: "btn btn-secondary" %>
+          <%= link_to t("home.cliente.ver_catalogo"), productos_path, class: "btn" %>
+          <%= link_to t("home.cliente.ver_favoritos"), "/mis_favoritos", class: "btn btn-secondary" %>
         </div>
       </div>
     <% end %>
 
     <% if current_user&.is_a?(Administrador) %>
       <div class="info-box" style="margin-top: 20px;">
-        <h2>Panel de Administración</h2>
-        <%= link_to "👥 Ver y editar usuarios", admin_usuarios_path, class: "btn" %>
+        <h2><%= t("home.administrador.panel_titulo") %></h2>
+        <%= link_to t("home.administrador.ver_usuarios"), admin_usuarios_path, class: "btn" %>
       </div>
     <% end %>
 
   <% else %>
-    <p>¿Qué deseas hacer hoy?</p>
+    <p><%= t("home.que_deseas") %></p>
     <div class="menu">
-      <%= link_to "Iniciar Sesión", login_path, class: "btn" %>
-      <%= link_to "Registrarse", signup_path, class: "btn btn-secondary" %>
+      <%= link_to t("home.iniciar_sesion"), login_path, class: "btn" %>
+      <%= link_to t("home.registrarse"), signup_path, class: "btn btn-secondary" %>
     </div>
     <div style="text-align: center;">
       <%= image_tag "image.png", alt: "POCHITA", style: "width: 150px; margin-top: 20px;" %>

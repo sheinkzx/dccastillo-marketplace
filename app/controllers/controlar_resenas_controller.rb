@@ -11,22 +11,23 @@ class ControlarResenasController < ApplicationController
 
   def update
     reporte = Reporte.find(params[:id])
-    review  = reporte.producto_review   # ← esta línea falta
+    review  = reporte.producto_review
     autor   = review.user
 
     case params[:accion]
     when "eliminar"
       Reporte.where(producto_review_id: review.id).destroy_all
       review.destroy
-      flash[:notice] = "Reseña eliminada."
-      
+      flash[:notice] = I18n.t("resenas.eliminada")
+
     when "banear"
       autor.update!(bloqueado: true)
       Reporte.where(producto_review_id: review.id).destroy_all
       review.destroy
-      flash[:notice] = "Usuario baneado."
+      flash[:notice] = I18n.t("resenas.usuario_baneado")
+
     when "ignorar"
-      flash[:notice] = "Reporte ignorado."
+      flash[:notice] = I18n.t("resenas.reporte_ignorado")
     end
 
     reporte.update!(estado: "resuelto") unless params[:accion].in?(["eliminar", "banear"])
@@ -39,10 +40,10 @@ class ControlarResenasController < ApplicationController
     @reporte = Reporte.find(params[:id])
   end
 
-  # Mismo método que usuarios_admin_controller
+  # Mismo metodo que usuarios_admin_controller
   def require_admin!
     unless current_user&.is_a?(Administrador)
-      redirect_to root_path, alert: "Acceso no autorizado."
+      redirect_to root_path, alert: I18n.t("resenas.acceso_no_autorizado")
     end
   end
 end

@@ -1,19 +1,19 @@
 <div class="container">
-  <h1>Mis Juguetes Favoritos ❤️</h1>
+  <h1><%= t("favoritos.titulo") %></h1>
 
-  <%= link_to "← Volver al inicio", root_path, class: "btn",
+  <%= link_to t("favoritos.volver"), root_path, class: "btn",
       style: "align-self: flex-start; width: fit-content;" %>
 
   <% if @favoritos.any? %>
     <table class="tabla-estandar">
       <thead>
         <tr>
-          <th>Producto</th>
-          <th>Precio</th>
-          <th>Categoría</th>
-          <th>Edad sugerida</th>
-          <th>Estado</th>
-          <th>Acción</th>
+          <th><%= t("favoritos.tabla.producto") %></th>
+          <th><%= t("favoritos.tabla.precio") %></th>
+          <th><%= t("favoritos.tabla.categoria") %></th>
+          <th><%= t("favoritos.tabla.edad_sugerida") %></th>
+          <th><%= t("favoritos.tabla.estado") %></th>
+          <th><%= t("favoritos.tabla.accion") %></th>
         </tr>
       </thead>
       <tbody>
@@ -23,10 +23,10 @@
             <td><strong><a href="/productos/<%= producto.id %>"><%= producto.titulo %></a></strong></td>
             <td>$<%= number_with_delimiter(producto.precio.to_i, delimiter: '.') %></td>
             <td><%= producto.categoria %></td>
-            <td>De <%= producto.edad_minima %> a <%= producto.edad_maxima %> años</td>
+            <td><%= t("favoritos.edad_rango", min: producto.edad_minima, max: producto.edad_maxima) %></td>
             <td><strong><%= producto.estado %></strong></td>
             <td>
-              <%= button_to "💔 Quitar", "/productos/#{producto.id}/favorito",
+              <%= button_to t("favoritos.quitar"), "/productos/#{producto.id}/favorito",
                   method: :delete, class: "btn btn-secondary" %>
             </td>
           </tr>
@@ -34,7 +34,7 @@
       </tbody>
     </table>
   <% else %>
-    <p>Aún no tienes juguetes en tu lista de favoritos.</p>
-    <%= link_to "Ir a buscar juguetes 🚀", "/productos", class: "btn" %>
+    <p><%= t("favoritos.sin_favoritos") %></p>
+    <%= link_to t("favoritos.ir_a_buscar"), "/productos", class: "btn" %>
   <% end %>
 </div>

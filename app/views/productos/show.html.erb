@@ -4,34 +4,34 @@
   <h1><%= @producto.titulo %></h1>
 
   <div class="info-box">
-    <h2>Ficha técnica</h2>
+    <h2><%= t("productos.show.ficha_tecnica") %></h2>
     <div class="formulario-grid-2x4">
       <div class="form-group">
-        <label>Precio</label>
+        <label><%= t("productos.show.precio") %></label>
         <p>$<%= number_with_delimiter(@producto.precio.to_i, delimiter: '.') %></p>
       </div>
       <div class="form-group">
-        <label>Marca</label>
+        <label><%= t("productos.show.marca") %></label>
         <p><%= @producto.marca %></p>
       </div>
       <div class="form-group">
-        <label>Categoría</label>
+        <label><%= t("productos.show.categoria") %></label>
         <p><%= @producto.categoria %></p>
       </div>
       <div class="form-group">
-        <label>Edad sugerida</label>
-        <p>De <%= @producto.edad_minima %> a <%= @producto.edad_maxima %> años</p>
+        <label><%= t("productos.show.edad_sugerida") %></label>
+        <p><%= t("productos.show.edad_rango", min: @producto.edad_minima, max: @producto.edad_maxima) %></p>
       </div>
       <div class="form-group">
-        <label>Stock</label>
+        <label><%= t("productos.show.stock") %></label>
         <p><%= number_with_delimiter(@producto.stock, delimiter: '.') %></p>
       </div>
       <div class="form-group">
-        <label>Publicado el</label>
+        <label><%= t("productos.show.publicado_el") %></label>
         <p><%= @producto.created_at.strftime("%d de %B de %Y") %></p>
       </div>
       <div class="form-group" style="grid-column: span 2;">
-        <label>Descripción</label>
+        <label><%= t("productos.show.descripcion") %></label>
         <p><%= @producto.descripcion %></p>
       </div>
     </div>
@@ -40,26 +40,26 @@
   <%# ── Acciones del cliente ── %>
   <% if current_user&.is_a?(Cliente) %>
     <div class="info-box" style="margin-top: 20px;">
-      <h2>Acciones</h2>
+      <h2><%= t("productos.show.acciones") %></h2>
       <div class="menu">
         <% favorito = current_user.favoritos.find_by(producto_id: @producto.id) %>
         <% if favorito %>
-          <%= button_to "❤️ Quitar de favoritos", "/productos/#{@producto.id}/favorito",
+          <%= button_to t("productos.show.quitar_favorito"), "/productos/#{@producto.id}/favorito",
               method: :delete, class: "btn btn-secondary" %>
         <% else %>
-          <%= button_to "🤍 Guardar como favorito", "/productos/#{@producto.id}/favorito",
+          <%= button_to t("productos.show.guardar_favorito"), "/productos/#{@producto.id}/favorito",
               method: :post, class: "btn" %>
         <% end %>
 
         <% if @producto.estado == "Activo" && @producto.stock > 0 %>
-          <%= button_to "🛒 Comprar", "/compras", method: :post,
+          <%= button_to t("productos.show.comprar"), "/compras", method: :post,
               params: { producto_id: @producto.id },
-              data: { turbo_confirm: "¿Confirmas la compra de #{@producto.titulo}?" },
+              data: { turbo_confirm: t("productos.show.confirmar_compra", titulo: @producto.titulo) },
               class: "btn" %>
         <% elsif @producto.estado == "Inactivo" %>
-          <p class="error">⏸️ Producto Pausado</p>
+          <p class="error"><%= t("productos.show.pausado") %></p>
         <% else %>
-          <p class="error">❌ Sin Stock</p>
+          <p class="error"><%= t("productos.show.sin_stock") %></p>
         <% end %>
 
         <%= button_to "💬 Preguntar al vendedor", conversations_path(producto_id: @producto.id),
@@ -70,20 +70,20 @@
 
   <%# ── Reseñas ── %>
   <div class="info-box" style="margin-top: 20px;">
-    <h2>Reseñas</h2>
+    <h2><%= t("productos.show.resenas") %></h2>
 
     <% if @ha_comprado %>
-      <h2 style="margin-top: 20px;">Escribir reseña</h2>
+      <h2 style="margin-top: 20px;"><%= t("productos.show.escribir_resena") %></h2>
       <%= form_with model: Producto::Review.new,
           url: producto_reviews_path(@producto),
           data: { turbo: false },
           class: "formulario" do |f| %>
-        <label>Puntaje</label>
+        <label><%= t("productos.show.puntaje") %></label>
         <%= f.select :puntaje, [1, 2, 3, 4, 5], selected: 5 %>
-        <label>Comentario</label>
+        <label><%= t("productos.show.comentario") %></label>
         <%= f.text_area :txt, required: true, rows: 4,
             style: "padding: 10px; border: 1px solid #ccc; border-radius: 6px;" %>
-        <%= f.submit "Publicar reseña", class: "btn" %>
+        <%= f.submit t("productos.show.publicar_resena"), class: "btn" %>
       <% end %>
     <% end %>
 
@@ -91,10 +91,10 @@
       <table class="tabla-estandar" style="margin-top: 20px;">
         <thead>
           <tr>
-            <th>Puntaje</th>
-            <th>Comentario</th>
-            <th>Autor</th>
-            <th>Fecha</th>
+            <th><%= t("productos.show.tabla.puntaje") %></th>
+            <th><%= t("productos.show.tabla.comentario") %></th>
+            <th><%= t("productos.show.tabla.autor") %></th>
+            <th><%= t("productos.show.tabla.fecha") %></th>
             <th></th>
           </tr>
         </thead>
@@ -119,26 +119,26 @@
                           method: :post,
                           params: { reporte: { motivo: "" } },
                           data: { turbo: false },
-                          title: "Reportar reseña",
+                          title: t("productos.show.reportar_resena"),
                           class: "btn btn-secondary",
                           onclick: "this.closest('form').remove(); document.getElementById('modal-reporte-#{review.id}').style.display='block'; return false;" %>
 
                     <div id="modal-reporte-<%= review.id %>" style="display: none; margin-top: 8px;">
                       <div class="info-box">
-                        <h2>Reportar reseña</h2>
+                        <h2><%= t("productos.show.reportar_resena") %></h2>
                         <%= form_with url: crear_reporte_path(@producto, review),
                             method: :post, data: { turbo: false }, class: "formulario" do |f| %>
-                          <label>Motivo</label>
+                          <label><%= t("productos.show.motivo") %></label>
                           <%= f.select "reporte[motivo]", Reporte::MOTIVOS,
-                                { prompt: "Selecciona un motivo" }, { required: true } %>
-                          <label>Detalle (opcional)</label>
+                                { prompt: t("productos.show.motivo_prompt") }, { required: true } %>
+                          <label><%= t("productos.show.detalle") %></label>
                           <%= f.text_area "reporte[detalle]", rows: 2,
                               style: "padding: 8px; border: 1px solid #ccc; border-radius: 6px;" %>
                           <div class="menu" style="margin-top: 10px;">
-                            <%= f.submit "Enviar reporte", class: "btn btn-secondary" %>
+                            <%= f.submit t("productos.show.enviar_reporte"), class: "btn btn-secondary" %>
                             <button type="button" class="btn"
                               onclick="document.getElementById('modal-reporte-<%= review.id %>').style.display='none'">
-                              Cancelar
+                              <%= t("productos.show.cancelar") %>
                             </button>
                           </div>
                         <% end %>
@@ -152,7 +152,7 @@
         </tbody>
       </table>
     <% else %>
-      <p>Aún no hay reseñas para este producto.</p>
+      <p><%= t("productos.show.sin_resenas") %></p>
     <% end %>
   </div>
 

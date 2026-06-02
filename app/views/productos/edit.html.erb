@@ -1,67 +1,67 @@
 <div class="container">
-  <h1>Editar Producto: <%= @producto.titulo %></h1>
+  <h1><%= t("productos.editar.titulo", titulo: @producto.titulo) %></h1>
 
   <%= form_with model: @producto, url: "/productos/#{@producto.id}", method: :patch, local: true do |f| %>
+
     <div class="formulario-grid-2x4">
 
       <div class="form-group" style="grid-column: span 2;">
-        <%= f.label :titulo, "Título del juguete" %>
+
+        <%= f.label :titulo, t("productos.editar.titulo_juguete") %>
         <%= f.text_field :titulo %>
       </div>
 
       <div class="form-group" style="grid-column: span 2;">
-        <%= f.label :descripcion, "Descripción" %>
+        <%= f.label :descripcion, t("productos.editar.descripcion") %>
         <%= f.text_area :descripcion, rows: 4, style: "padding: 10px; border: 1px solid #ccc; border-radius: 6px;" %>
       </div>
 
       <div class="form-group" style="grid-column: span 2;">
-        <%= f.label :precio, "Precio ($)" %>
+        <%= f.label :precio, t("productos.editar.precio") %>
         <%= f.number_field :precio, min: 0, step: 1 %>
       </div>
 
       <div class="form-group" style="grid-column: span 2;">
         <div class="info-box">
-          <h2 style="color: #dc3545;">⚙️ Configuración de Filtros</h2>
+          <h2 style="color: #dc3545;"><%= t("productos.editar.configuracion_filtros") %></h2>
           <div class="formulario-grid-2x4">
-
             <div class="form-group">
-              <%= f.label :edad_minima, "Edad mínima sugerida" %>
+              <%= f.label :edad_minima, t("productos.editar.edad_minima") %>
               <%= f.number_field :edad_minima, min: 0 %>
             </div>
 
             <div class="form-group">
-              <%= f.label :edad_maxima, "Edad máxima sugerida" %>
+              <%= f.label :edad_maxima, t("productos.editar.edad_maxima") %>
               <%= f.number_field :edad_maxima, min: 0 %>
             </div>
-
+            
             <div class="form-group" style="grid-column: span 2;">
-              <%= f.label :categoria, "Categoría" %>
+              <%= f.label :categoria, t("productos.editar.categoria") %>
               <%= f.select :categoria, [
-                ["Selecciona una",        ""            ],
-                ["Imitación/Simbólicos",  "Imitación"   ],
-                ["Construcción",          "Construcción"],
-                ["Educativos/Didácticos", "Educativos"  ],
-                ["Artísticos",            "Artísticos"  ],
-                ["Movimiento",            "Movimiento"  ],
-                ["Tecnológicos",          "Tecnológicos"],
-                ["Otro / Varios",         "Otro"        ]
+                [t("productos.editar.categorias.selecciona"), ""            ],
+                [t("productos.editar.categorias.imitacion"),  "Imitación"   ],
+                [t("productos.editar.categorias.construccion"), "Construcción"],
+                [t("productos.editar.categorias.educativos"), "Educativos"  ],
+                [t("productos.editar.categorias.artisticos"), "Artísticos"  ],
+                [t("productos.editar.categorias.movimiento"), "Movimiento"  ],
+                [t("productos.editar.categorias.tecnologicos"), "Tecnológicos"],
+                [t("productos.editar.categorias.otro"),       "Otro"        ]
               ] %>
             </div>
-
           </div>
         </div>
       </div>
-
       <div class="form-group" style="grid-column: span 2;">
-        <%= f.label :estado, "Estado del producto" %>
-        <%= f.select :estado, [["Activo", "Activo"], ["Inactivo", "Inactivo"]] %>
+        <%= f.label :estado, t("productos.editar.estado") %>
+        <%= f.select :estado, [
+          [t("productos.editar.estados.activo"),   "Activo"  ],
+          [t("productos.editar.estados.inactivo"), "Inactivo"]
+        ] %>
       </div>
-
       <div class="grid-full">
-        <%= f.submit "Guardar cambios", class: "btn" %>
-        <%= link_to "Cancelar", root_path, class: "btn btn-secondary" %>
+        <%= f.submit t("productos.editar.guardar"), class: "btn" %>
+        <%= link_to t("productos.editar.cancelar"), root_path, class: "btn btn-secondary" %>
       </div>
-
     </div>
   <% end %>
 </div>

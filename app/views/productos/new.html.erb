@@ -1,6 +1,6 @@
 <%# Título de la página %>
 <div class="container">
-  <h1>Nuevo Producto</h1>
+  <h1><%= t("productos.nuevo.titulo") %></h1>
 
   <% if @producto.errors.any? %>
     <% @producto.errors.full_messages.each do |msg| %>
@@ -12,7 +12,7 @@
     <div class="formulario-grid-2x4">
 
       <div class="form-group">
-        <%= f.label :titulo, "Título" %>
+        <%= f.label :titulo, t("productos.nuevo.titulo_label") %>
         <%= f.text_field :titulo %>
       </div>
 
@@ -32,42 +32,42 @@
       </div>
 
       <div class="form-group">
-        <label>Edad mínima sugerida</label>
+        <label><%= t("productos.nuevo.edad_minima") %></label>
         <input type="number" name="producto[edad_minima]"
                value="<%= @producto.edad_minima %>"
-               placeholder="Ej: 3" min="0">
+               placeholder="<%= t("productos.nuevo.placeholder_edad_minima") %>" min="0">
       </div>
 
       <div class="form-group">
-        <label>Edad máxima sugerida</label>
+        <label><%= t("productos.nuevo.edad_maxima") %></label>
         <input type="number" name="producto[edad_maxima]"
                value="<%= @producto.edad_maxima %>"
-               placeholder="Ej: 8" min="0">
+               placeholder="<%= t("productos.nuevo.placeholder_edad_maxima") %>" min="0">
       </div>
 
       <div class="form-group" style="grid-column: span 2;">
-        <label>Categoría del juguete</label>
+        <label><%= t("productos.nuevo.categoria_label") %></label>
         <select name="producto[categoria]">
-          <option value="">Selecciona una categoría</option>
-          <option value="Imitación"    <%= 'selected' if @producto.categoria == 'Imitación'    %>>Imitación/Simbólicos (Cocinitas, disfraces)</option>
-          <option value="Construcción" <%= 'selected' if @producto.categoria == 'Construcción' %>>Construcción (Bloques, legos)</option>
-          <option value="Educativos"   <%= 'selected' if @producto.categoria == 'Educativos'   %>>Educativos/Didácticos (Juegos de lógica)</option>
-          <option value="Artísticos"   <%= 'selected' if @producto.categoria == 'Artísticos'   %>>Artísticos (Pinturas, plastilina)</option>
-          <option value="Movimiento"   <%= 'selected' if @producto.categoria == 'Movimiento'   %>>De movimiento (Pelotas, patinetes)</option>
-          <option value="Tecnológicos" <%= 'selected' if @producto.categoria == 'Tecnológicos' %>>Tecnológicos</option>
-          <option value="Otro"         <%= 'selected' if @producto.categoria == 'Otro'         %>>Otro / Varios</option>
+          <option value=""><%= t("productos.nuevo.categoria_placeholder") %></option>
+          <option value="Imitación"    <%= 'selected' if @producto.categoria == 'Imitación'    %>><%= t("productos.nuevo.categorias.imitacion") %></option>
+          <option value="Construcción" <%= 'selected' if @producto.categoria == 'Construcción' %>><%= t("productos.nuevo.categorias.construccion") %></option>
+          <option value="Educativos"   <%= 'selected' if @producto.categoria == 'Educativos'   %>><%= t("productos.nuevo.categorias.educativos") %></option>
+          <option value="Artísticos"   <%= 'selected' if @producto.categoria == 'Artísticos'   %>><%= t("productos.nuevo.categorias.artisticos") %></option>
+          <option value="Movimiento"   <%= 'selected' if @producto.categoria == 'Movimiento'   %>><%= t("productos.nuevo.categorias.movimiento") %></option>
+          <option value="Tecnológicos" <%= 'selected' if @producto.categoria == 'Tecnológicos' %>><%= t("productos.nuevo.categorias.tecnologicos") %></option>
+          <option value="Otro"         <%= 'selected' if @producto.categoria == 'Otro'         %>><%= t("productos.nuevo.categorias.otro") %></option>
         </select>
       </div>
 
       <div class="form-group" style="grid-column: span 2;">
-        <%= f.label :descripcion, "Descripción" %>
+        <%= f.label :descripcion, t("productos.nuevo.descripcion") %>
         <%= f.text_area :descripcion, rows: 4, style: "padding: 10px; border: 1px solid #ccc; border-radius: 6px;" %>
       </div>
 
       <div class="grid-full">
-        <%= f.submit "Publicar producto", class: "btn" %>
+        <%= f.submit t("productos.nuevo.publicar"), class: "btn" %>
       </div>
-
     </div>
+    
   <% end %>
 </div>

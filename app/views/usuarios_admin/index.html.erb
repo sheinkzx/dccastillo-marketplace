@@ -1,16 +1,17 @@
 <div class="container">
-  <%= link_to "← Volver al inicio", root_path, class: "btn" %>
-  <h1>Panel de Administración — Usuarios</h1>
-  <p>Gestiona los usuarios registrados en la plataforma</p>
+  <%= link_to t("admin.usuarios.volver"), root_path, class: "btn" %>
+
+  <h1><%= t("admin.usuarios.titulo") %></h1>
+  <p><%= t("admin.usuarios.subtitulo") %></p>
 
   <% pendientes = Reporte.pendientes.count %>
   <div class="info-box" style="display: flex; justify-content: space-between; align-items: center; flex-direction: row;">
     <div>
-      <h2 style="margin: 0;">⚑ Bandeja de reseñas reportadas</h2>
-      <p style="margin: 0.25rem 0 0; font-size: 0.9rem;">Revisa y modera los comentarios denunciados por clientes.</p>
+      <h2 style="margin: 0;"><%= t("admin.usuarios.bandeja_titulo") %></h2>
+      <p style="margin: 0.25rem 0 0; font-size: 0.9rem;"><%= t("admin.usuarios.bandeja_descripcion") %></p>
     </div>
     <%= link_to admin_resenas_path, class: "btn" do %>
-      Ver reportes
+      <%= t("admin.usuarios.ver_reportes") %>
       <% if pendientes > 0 %>
         <span style="background: white; color: #2c7be5; font-size: 0.75rem; font-weight: 700; border-radius: 999px; padding: 0 0.45rem; margin-left: 0.25rem;">
           <%= pendientes %>
@@ -22,12 +23,12 @@
   <table class="tabla-estandar">
     <thead>
       <tr>
-        <th>Foto</th>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Rol</th>
-        <th>Estado</th>
-        <th>Acciones</th>
+        <th><%= t("admin.usuarios.tabla.foto") %></th>
+        <th><%= t("admin.usuarios.tabla.nombre") %></th>
+        <th><%= t("admin.usuarios.tabla.email") %></th>
+        <th><%= t("admin.usuarios.tabla.rol") %></th>
+        <th><%= t("admin.usuarios.tabla.estado") %></th>
+        <th><%= t("admin.usuarios.tabla.acciones") %></th>
       </tr>
     </thead>
     <tbody>
@@ -44,16 +45,16 @@
           <td>
             <span style="padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600;
               <%= usuario.bloqueado? ? 'background: #fee2e2; color: #991b1b;' : 'background: #d1fae5; color: #065f46;' %>">
-              <%= usuario.bloqueado? ? "Baneado" : "Activo" %>
+              <%= usuario.bloqueado? ? t("admin.usuarios.baneado") : t("admin.usuarios.activo") %>
             </span>
           </td>
           <td>
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <%= link_to "Editar", admin_editar_usuario_path(usuario), class: "btn" %>
+              <%= link_to t("admin.usuarios.editar"), admin_editar_usuario_path(usuario), class: "btn" %>
               <% if usuario.bloqueado? %>
-                <%= button_to "Desbanear", admin_desbanear_usuario_path(usuario), method: :patch, class: "btn" %>
+                <%= button_to t("admin.usuarios.desbanear"), admin_desbanear_usuario_path(usuario), method: :patch, class: "btn" %>
               <% else %>
-                <%= button_to "Banear", admin_banear_usuario_path(usuario), method: :patch, class: "btn btn-secondary" %>
+                <%= button_to t("admin.usuarios.banear"), admin_banear_usuario_path(usuario), method: :patch, class: "btn btn-secondary" %>
               <% end %>
             </div>
           </td>
