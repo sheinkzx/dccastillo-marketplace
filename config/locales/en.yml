@@ -27,6 +27,35 @@
 #       "yes": yup
 #       enabled: "ON"
 
+# Files in the config/locales directory are used for internationalization and
+# are automatically loaded by Rails. If you want to use locales other than
+# English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more about the API, please read the Rails Internationalization guide
+# at https://guides.rubyonrails.org/i18n.html.
+#
+# Be aware that YAML interprets the following case-insensitive strings as
+# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
+# must be quoted to be interpreted as strings. For example:
+#
+#     en:
+#       "yes": yup
+#       enabled: "ON"
+
 en:
   navbar:
     favoritos: "🧸❤️ Favorites"
@@ -109,33 +138,33 @@ en:
       guardar: "Save changes"
       cancelar: "Cancel"
 
-  catalogo:
-    buscar_filtrar: "🔍 Search and filter"
-    palabra_clave: "Keyword"
-    placeholder_buscar: "Search toy..."
-    precio_max: "Max Price ($)"
-    placeholder_precio: "E.g.: 10000"
-    marca: "Brand"
-    placeholder_marca: "E.g.: Lego"
-    edad: "Age"
-    placeholder_edad: "E.g.: 5"
-    categorias: "Categories"
-    filtrar: "🔍 Filter"
-    ver_todo: "🔄 View full catalog"
-    mostrando_filtrados: "Showing filtered results"
-    titulo: "Toy catalog"
-    tabla:
-      producto: "Product"
-      precio: "Price"
+    catalogo:
+      buscar_filtrar: "🔍 Search and filter"
+      palabra_clave: "Keyword"
+      placeholder_buscar: "Search toy..."
+      precio_max: "Max Price ($)"
+      placeholder_precio: "E.g.: 10000"
       marca: "Brand"
-      categoria: "Category"
-      edad_sugerida: "Suggested age"
-      stock: "Stock"
-    edad_rango: "From %{min} to %{max} years"
-    no_eliminar: "🗑️ Can't delete"
-    tiene_compras: "Already has purchases"
-    confirmar_eliminar: "Are you sure you want to delete %{titulo}?"
-    sin_productos: "No products available."
+      placeholder_marca: "E.g.: Lego"
+      edad: "Age"
+      placeholder_edad: "E.g.: 5"
+      categorias: "Categories"
+      filtrar: "🔍 Filter"
+      ver_todo: "🔄 View full catalog"
+      mostrando_filtrados: "Showing filtered results"
+      titulo: "Toy catalog"
+      tabla:
+        producto: "Product"
+        precio: "Price"
+        marca: "Brand"
+        categoria: "Category"
+        edad_sugerida: "Suggested age"
+        stock: "Stock"
+      edad_rango: "From %{min} to %{max} years"
+      no_eliminar: "🗑️ Can't delete"
+      tiene_compras: "Already has purchases"
+      confirmar_eliminar: "Are you sure you want to delete %{titulo}?"
+      sin_productos: "No products available."
 
     nuevo:
       titulo: "New Product"
