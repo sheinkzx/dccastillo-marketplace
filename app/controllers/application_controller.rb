@@ -20,4 +20,11 @@ class ApplicationController < ActionController::Base
       redirect_to login_path, alert: "Tu cuenta ha sido suspendida. Contacta al administrador."
     end
   end
+
+  # Para chat (sprint 3)
+  def require_login
+    unless current_user
+      redirect_to login_path, alert: "Debes iniciar sesión primero"
+    end
+  end
 end

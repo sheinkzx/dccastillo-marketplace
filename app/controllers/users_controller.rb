@@ -81,11 +81,4 @@ class UsersController < ApplicationController # Hereda de ApplicationController 
     user_data.permit(:nombre, :email, :url_foto, :password, :password_confirmation)
   end
 
-  # Método de seguridad: redirige al login si el usuario no está autenticado
-  # Es llamado automáticamente por before_action antes de edit y update
-  def require_login
-    unless current_user
-      redirect_to login_path, alert: "Debes iniciar sesión primero"
-    end
-  end
 end

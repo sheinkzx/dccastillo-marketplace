@@ -10,15 +10,33 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body style="margin: 0; padding: 0; font-family: sans-serif;">
 
+    <%# MENÚ GLOBAL PARA USUARIOS CONECTADOS %>
+    <% if current_user %>
+      <div style="background-color: #f8f9fa; padding: 15px 30px; border-bottom: 1px solid #ddd; display: flex; justify-content: flex-end; gap: 20px; align-items: center;">
+        <span style="color: #666; font-size: 0.9em; margin-right: auto;">👋 Hola, <strong><%= current_user.nombre %></strong></span>
+        
+        <%= link_to "🏠 Inicio", root_path, style: "text-decoration: none; color: #333; font-weight: bold;" %>
+        
+        <%# AQUÍ ESTÁ EL BOTÓN DE LA BANDEJA DE ENTRADA %>
+        <%= link_to "✉️ Mis Mensajes", conversations_path, style: "text-decoration: none; color: #2e83ff; font-weight: bold;" %>
+        
+        <%= button_to "Cerrar Sesión", logout_path, method: :delete, style: "background: none; border: none; color: #e74c3c; cursor: pointer; font-weight: bold; font-size: 1em;" %>
+      </div>
+    <% end %>
+
+    <%# MENSAJES DE ALERTA O ÉXITO %>
     <% flash.each do |name, msg| %>
-      <div style="color: <%= name == 'notice' ? 'green' : 'red' %>; text-align: center; padding: 10px; font-weight: bold;">
+      <div style="background-color: <%= name == 'notice' ? '#d1fae5' : '#fee2e2' %>; color: <%= name == 'notice' ? '#065f46' : '#991b1b' %>; text-align: center; padding: 10px; font-weight: bold;">
         <%= msg %>
       </div>
     <% end %>
 
-    <%= yield %>
+    <%# AQUÍ SE CARGA EL RESTO DE LAS PÁGINAS %>
+    <div style="padding: 20px;">
+      <%= yield %>
+    </div>
 
   </body>
 </html>

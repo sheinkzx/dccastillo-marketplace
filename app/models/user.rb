@@ -19,4 +19,7 @@ class User < ApplicationRecord # Hereda de ApplicationRecord (la clase con la ge
   # porque 'has_secure_password' ya lo prohíbe)
   
   has_many :reviews, class_name: 'Producto::Review'
+
+  # Un usuario puede enviar muchos mensajes
+  has_many :messages, foreign_key: 'sender_id'
 end

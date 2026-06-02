@@ -32,6 +32,8 @@
       <%= button_to "🤍 Guardar como favorito", "/productos/#{@producto.id}/favorito", method: :post, style: "background: none; border: 1px solid #ccc; padding: 5px 10px; border-radius: 5px; cursor: pointer;" %>
     <% end %>
   </div>
+
+
   <% if @producto.estado == "Activo" && @producto.stock > 0 %>
     <%= button_to "🛒 Comprar", "/compras", method: :post,
         params: { producto_id: @producto.id },
@@ -43,6 +45,16 @@
     <p style="color: red; font-weight: bold;">❌ Sin Stock</p>
     <button disabled style="opacity: 0.5;">🛒 Sin Stock</button>
   <% end %>
+
+  <%# BOTÓN PARA HABLAR CON EL VENDEDOR (Solo clientes) %>
+  <% if current_user&.is_a?(Cliente) %>
+    <div style="margin-bottom: 15px;">
+      <%= button_to "💬 Preguntar al vendedor", conversations_path(producto_id: @producto.id), 
+          method: :post, 
+          style: "background-color: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%;" %>
+    </div>
+  <% end %>
+
 <% end %>
 
 <h2>Reseñas</h2>

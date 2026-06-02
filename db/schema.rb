@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_08_224837) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_02_152930) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,6 +27,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_08_224837) do
     t.index ["vendedor_id"], name: "index_compras_on_vendedor_id"
   end
 
+  create_table "conversations", force: :cascade do |t|
+    t.integer "cliente_id"
+    t.datetime "created_at", null: false
+    t.bigint "producto_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "vendedor_id"
+    t.index ["producto_id"], name: "index_conversations_on_producto_id"
+  end
+
   create_table "favoritos", force: :cascade do |t|
     t.bigint "cliente_id", null: false
     t.datetime "created_at", null: false
@@ -34,6 +43,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_08_224837) do
     t.datetime "updated_at", null: false
     t.index ["cliente_id"], name: "index_favoritos_on_cliente_id"
     t.index ["producto_id"], name: "index_favoritos_on_producto_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.bigint "conversation_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "sender_id"
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
   create_table "producto_reviews", force: :cascade do |t|
@@ -92,8 +110,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_08_224837) do
   add_foreign_key "compras", "productos"
   add_foreign_key "compras", "users", column: "cliente_id"
   add_foreign_key "compras", "users", column: "vendedor_id"
+  add_foreign_key "conversations", "productos"
   add_foreign_key "favoritos", "productos"
   add_foreign_key "favoritos", "users", column: "cliente_id"
+  add_foreign_key "messages", "conversations"
   add_foreign_key "producto_reviews", "productos"
   add_foreign_key "producto_reviews", "users"
   add_foreign_key "productos", "users", column: "vendedor_id"
