@@ -20,6 +20,72 @@ select {
     margin-left: 0;
 }
 
+/* CHAT */
+.chat-header {
+    background-color: #289aa7;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header h2, .chat-header p {
+    color: white;
+    margin: 0;
+}
+
+.chat-body {
+    height: 400px;
+    overflow-y: scroll;
+    padding: 20px;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-bubble-mine {
+    max-width: 75%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    border-bottom-right-radius: 2px;
+    align-self: flex-end;
+    background-color: #dcf8c6;
+}
+
+.chat-bubble-other {
+    max-width: 75%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    border-bottom-left-radius: 2px;
+    align-self: flex-start;
+    background-color: white;
+    border: 1px solid #eaeaea;
+}
+
+.chat-footer {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.chat-submit {
+    border-radius: 20px !important;
+    margin-top: 0 !important;
+    padding: 10px 20px !important;
+}
+
 .estrella-llena {
     color: #f5a623;
     font-size: 1.1rem;
@@ -497,5 +563,40 @@ body.dark .lang-btn {
 body.dark blockquote {
     background-color: #2a2a3e;
     border-left-color: #444;
+    color: #e0e0e0;
+}
+
+body.dark .chat-header {
+    background-color: #217288;
+}
+
+body.dark .chat-body {
+    background-color: #1a1a2e;
+}
+
+body.dark .chat-bubble-mine {
+    background-color: #1e3a2e;
+    color: #e0e0e0;
+}
+
+body.dark .chat-bubble-other {
+    background-color: #2a2a3e;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+body.dark .chat-bubble-mine p,
+body.dark .chat-bubble-other p {
+    color: #e0e0e0;
+}
+
+body.dark .chat-footer {
+    background-color: #1e1e2e;
+    border-top-color: #444;
+}
+
+body.dark .chat-input {
+    background-color: #2a2a3e;
+    border-color: #444;
     color: #e0e0e0;
 }

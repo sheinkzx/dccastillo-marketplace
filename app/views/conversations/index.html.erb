@@ -1,38 +1,29 @@
-<header>
-  <div><a href="/">🏰 Volver al inicio</a></div>
-</header>
-
-<div style="max-width: 800px; margin: 30px auto; font-family: sans-serif;">
-  <h1 style="border-bottom: 2px solid #eaeaea; padding-bottom: 10px;">Bandeja de Mensajes ✉️</h1>
+<div class="container" style="width: 70vw; height: auto;">
+  <h1>Bandeja de Mensajes ✉️</h1>
 
   <% if @conversations.any? %>
-    <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-      
+    <div class="menu">
       <% @conversations.each do |conversation| %>
-        <%# Identificamos con quién estamos hablando según nuestro rol %>
         <% soy_cliente = current_user.is_a?(Cliente) %>
         <% otro_usuario = soy_cliente ? conversation.vendedor : conversation.cliente %>
 
-        <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; display: flex; justify-content: space-between; align-items: center; background-color: #fafafa; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <div class="info-box" style="flex-direction: row; justify-content: space-between; align-items: center;">
           <div>
-            <h3 style="margin: 0 0 5px 0;">Juguete: <%= conversation.producto.titulo %></h3>
-            <p style="margin: 0; color: #666; font-size: 0.9em;">
-              Hablando con: <strong><%= otro_usuario.nombre %></strong> 
-              <span style="font-size: 0.8em; color: #999;">(<%= otro_usuario.type %>)</span>
+            <h2>🧸 <%= conversation.producto.titulo %></h2>
+            <p>
+              Hablando con: <strong><%= otro_usuario.nombre %></strong>
+              <small>(<%= otro_usuario.type %>)</small>
             </p>
           </div>
-          
-          <%= link_to "Ver Chat", conversation_path(conversation), style: "background-color: #2e83ff; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-weight: bold;" %>
+          <%= link_to "Ver Chat →", conversation_path(conversation), class: "btn" %>
         </div>
-
       <% end %>
     </div>
-  <% else %>
-    
-    <div style="text-align: center; padding: 40px; color: #888; background-color: #f9f9f9; border-radius: 8px; margin-top: 20px;">
-      <p style="font-size: 1.2em;">Aún no tienes mensajes activos.</p>
-      <p style="font-size: 0.9em;">Los chats aparecerán aquí cuando un cliente te pregunte algo o contactes a un vendedor.</p>
-    </div>
 
+  <% else %>
+    <div class="info-box" style="text-align: center;">
+      <p>Aún no tienes mensajes activos.</p>
+      <small>Los chats aparecerán aquí cuando un cliente te pregunte algo o contactes a un vendedor.</small>
+    </div>
   <% end %>
 </div>
