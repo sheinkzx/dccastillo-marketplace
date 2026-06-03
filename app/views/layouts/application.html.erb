@@ -5,20 +5,75 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body>
+    <%# ── Navbar ── %>
+    <header class="navbar">
+      <a href="/" class="navbar-logo">
+        🏰 DCCastillo <span>del Juguete</span>
+      </a>
+      <nav class="navbar-links">
+        <%= link_to t("navbar.favoritos"), "/mis_favoritos" %>
+        <% if session[:user_id] %>
+          <% user = User.find_by(id: session[:user_id]) %>
+          <% foto_url = user.url_foto.present? ? user.url_foto : "https://ui-avatars.com/api/?name=#{URI.encode_www_form_component(user.nombre)}&background=FF6B2B&color=fff&size=80&rounded=true" %>
+          <div class="navbar-avatar-wrapper" id="avatarWrapper">
+            <button class="navbar-avatar-btn" onclick="toggleDropdown()" type="button">
+              <img src="<%= foto_url %>" alt="<%= t("navbar.foto_perfil") %>" class="navbar-avatar-img">
+              <span class="navbar-avatar-nombre"><%= user.nombre.split.first %></span>
+              ▾
+            </button>
+            <div class="navbar-dropdown">
+              <%= link_to t("navbar.editar_perfil"), editar_perfil_path %>
+              <%= link_to "✉️ Mis Mensajes", conversations_path %>
+              <div class="dropdown-divider"></div>
+              <%= button_to t("navbar.cerrar_sesion"), logout_path, method: :delete, class: "dropdown-salir" %>
+            </div>
+          </div>
+        <% else %>
+          <%= link_to t("navbar.iniciar_sesion"), login_path, class: "navbar-btn-login" %>
+          <%= link_to t("navbar.registrarse"), signup_path, class: "navbar-btn-registro" %>
+        <% end %>
+        <div class="lang-selector">
+          <%= button_to "🇪🇸", locale_path, params: { locale: "es" }, class: "lang-btn" %>
+          <%= button_to "🇬🇧", locale_path, params: { locale: "en" }, class: "lang-btn" %>
+          <button class="lang-btn" onclick="toggleDark()" title="Modo oscuro">🌙</button>
+        </div>
+      </nav>
+    </header>
 
+    <%# ── Flash messages flotantes ── %>
     <% flash.each do |name, msg| %>
-      <div style="color: <%= name == 'notice' ? 'green' : 'red' %>; text-align: center; padding: 10px; font-weight: bold;">
+      <div class="<%= name == 'notice' ? 'flash-notice' : 'flash-alert' %>">
         <%= msg %>
       </div>
     <% end %>
 
-    <%= yield %>
+    <%# ── Contenido ── %>
+    <main>
+      <%= yield %>
+    </main>
 
+    <script>
+      function toggleDropdown() {
+        document.getElementById('avatarWrapper').classList.toggle('abierto');
+      }
+      document.addEventListener('click', function(e) {
+        const wrapper = document.getElementById('avatarWrapper');
+        if (wrapper && !wrapper.contains(e.target)) {
+          wrapper.classList.remove('abierto');
+        }
+      });
+
+      function toggleDark() {
+        document.body.classList.toggle('dark');
+        localStorage.setItem('dark', document.body.classList.contains('dark'));
+      }
+      if (localStorage.getItem('dark') === 'true') {
+        document.body.classList.add('dark');
+      }
+    </script>
   </body>
 </html>

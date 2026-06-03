@@ -1,0 +1,29 @@
+<div class="container" style="width: 70vw; height: auto;">
+  <h1>Bandeja de Mensajes ✉️</h1>
+
+  <% if @conversations.any? %>
+    <div class="menu">
+      <% @conversations.each do |conversation| %>
+        <% soy_cliente = current_user.is_a?(Cliente) %>
+        <% otro_usuario = soy_cliente ? conversation.vendedor : conversation.cliente %>
+
+        <div class="info-box" style="flex-direction: row; justify-content: space-between; align-items: center;">
+          <div>
+            <h2>🧸 <%= conversation.producto.titulo %></h2>
+            <p>
+              Hablando con: <strong><%= otro_usuario.nombre %></strong>
+              <small>(<%= otro_usuario.type %>)</small>
+            </p>
+          </div>
+          <%= link_to "Ver Chat →", conversation_path(conversation), class: "btn" %>
+        </div>
+      <% end %>
+    </div>
+
+  <% else %>
+    <div class="info-box" style="text-align: center;">
+      <p>Aún no tienes mensajes activos.</p>
+      <small>Los chats aparecerán aquí cuando un cliente te pregunte algo o contactes a un vendedor.</small>
+    </div>
+  <% end %>
+</div>

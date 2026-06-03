@@ -6,7 +6,7 @@ class ReportesController < ApplicationController
     review   = producto.reviews.find(params[:review_id])
 
     if Reporte.exists?(producto_review: review, cliente: current_user)
-      redirect_to producto_path(producto), alert: "Ya reportaste esta reseña anteriormente."
+      redirect_to producto_path(producto), alert: I18n.t("reportes.ya_reportado")
       return
     end
 
@@ -15,9 +15,9 @@ class ReportesController < ApplicationController
     reporte.cliente         = current_user
 
     if reporte.save
-      redirect_to producto_path(producto), notice: "Reporte enviado. Lo revisaremos pronto."
+      redirect_to producto_path(producto), notice: I18n.t("reportes.enviado")
     else
-      redirect_to producto_path(producto), alert: "Debes seleccionar un motivo válido."
+      redirect_to producto_path(producto), alert: I18n.t("reportes.motivo_invalido")
     end
   end
 
@@ -29,7 +29,7 @@ class ReportesController < ApplicationController
 
   def require_login!
     unless current_user
-      redirect_to login_path, alert: "Debes iniciar sesión."
+      redirect_to login_path, alert: I18n.t("reportes.iniciar_sesion")
     end
   end
 end

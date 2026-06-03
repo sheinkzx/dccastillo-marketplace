@@ -2,9 +2,8 @@ class ComprasController < ApplicationController
   def create
     #* Buscamos el producto que el cliente quiere comprar
     producto = Producto.find(params[:producto_id])
-
     if producto.stock <= 0
-      redirect_to producto_path(producto), alert: "Este producto no tiene stock disponible."
+      redirect_to producto_path(producto), alert: I18n.t("compras.sin_stock")
       return
     end
 
@@ -18,29 +17,26 @@ class ComprasController < ApplicationController
     )
 
     if @compra.save
-      redirect_to root_path, notice: "Solicitud de compra enviada, espera la aprobación del vendedor"
+      redirect_to root_path, notice: I18n.t("compras.solicitud_enviada")
     else
-      redirect_to root_path, alert: "No se pudo realizar la compra"
+      redirect_to root_path, alert: I18n.t("compras.error_compra")
     end
   end
 
   def update
     #* El vendedor aprueba la compra
     @compra = Compra.find(params[:id])
-
     if @compra.vendedor == current_user
-
       #* ESTO ES PARA QUE EL VENDEDOR NO ACEPTE MAS DE LO QUE PUEDE DAR
       if @compra.producto.stock <= 0
-        redirect_to root_path, alert: "No puedes aprobar esta compra, el producto ya no tiene stock."
+        redirect_to root_path, alert: I18n.t("compras.sin_stock_aprobar")
         return
       end
-
       @compra.update(estado: "aprobado")
       @compra.producto.decrement!(:stock) #* el stock lo vamos reduciendo al haber sido aprobado la compra
-      redirect_to root_path, notice: "Compra aprobada exitosamente"
+      redirect_to root_path, notice: I18n.t("compras.aprobada")
     else
-      redirect_to root_path, alert: "No puedes aprobar esta compra"
+      redirect_to root_path, alert: I18n.t("compras.no_autorizado")
     end
   end
 end

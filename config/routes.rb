@@ -49,4 +49,11 @@ Rails.application.routes.draw do
   #* Bandeja de reseñas reportadas (admin)
   get   'admin/resenas',     to: 'controlar_resenas#index',  as: :admin_resenas
   patch 'admin/resenas/:id', to: 'controlar_resenas#update', as: :admin_resena
+
+  #* RUTAS DEL CHAT (Sprint 3)
+  resources :conversations, only: [:index, :show, :create] do
+    resources :messages, only: [:create]
+  end
+
+  post "/locale", to: "application#set_locale", as: :locale
 end

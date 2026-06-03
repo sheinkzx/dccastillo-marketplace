@@ -28,7 +28,7 @@ class UsersController < ApplicationController # Hereda de ApplicationController 
     if @user.save
       # Mandamos al usuario a la página de inicio con un mensaje de éxito
       session[:user_id] = @user.id
-      redirect_to root_path, notice: "¡Registro exitoso como #{@user.type}!"
+      redirect_to root_path, notice: I18n.t("users.registro_exitoso", tipo: @user.type)
     else
       # Si hay errores, mostramos el formulario de nuevo con los mensajes de error.
       flash.now[:alert] = @user.errors.full_messages.to_sentence
@@ -55,7 +55,7 @@ class UsersController < ApplicationController # Hereda de ApplicationController 
     # update() intenta modificar solo los campos permitidos por user_params_edit
     if @user.update(user_params_edit)
       # Si todo salió bien, redirigimos al inicio con mensaje de éxito
-      redirect_to root_path, notice: "Perfil actualizado correctamente"
+      redirect_to root_path, notice: I18n.t("users.perfil_actualizado")
     else
       # Si hay errores (ej: email inválido), mostramos el formulario de nuevo con los mensajes
       flash.now[:alert] = @user.errors.full_messages.to_sentence
@@ -85,7 +85,7 @@ class UsersController < ApplicationController # Hereda de ApplicationController 
   # Es llamado automáticamente por before_action antes de edit y update
   def require_login
     unless current_user
-      redirect_to login_path, alert: "Debes iniciar sesión primero"
+      redirect_to login_path, alert: I18n.t("users.iniciar_sesion_primero")
     end
   end
 end

@@ -1,29 +1,29 @@
 
 
-<h1>Regístrate en DCCastillo</h1>
+<div class="container">
+  <h1><%= t("registro.titulo") %></h1>
 
-<%= form_with model: @user, url: users_path, local: true do |f| %>
-  <%# Model: @user le dice al formulario que use la "caja vacía" que creamos en el controlador users_controllers.rb %>
-
-  <div>
-    <%= f.label :nombre %><br>
+  <%= form_with model: @user, url: users_path, local: true, class: "formulario" do |f| %>
+    <label><%= t("registro.nombre") %></label>
     <%= f.text_field :nombre %>
-  </div>
 
-  <div>
-    <%= f.label :email %><br>
+    <label><%= t("registro.email") %></label>
     <%= f.email_field :email %>
-  </div>
 
-  <div>
-    <%= f.label :type, "Quiero ser:" %><br>  
-    <%= f.select :type, [["Cliente", "Cliente"], ["Vendedor", "Vendedor"], ["Administrador", "Administrador"]] %>
-  </div>
+    <label><%= t("registro.quiero_ser") %></label>
+    <%= f.select :type, [
+      [t("registro.roles.cliente"),       "Cliente"      ],
+      [t("registro.roles.vendedor"),      "Vendedor"     ],
+      [t("registro.roles.administrador"), "Administrador"]
+    ] %>
 
-  <div>
-    <%= f.label :password, "Contraseña" %><br>
+    <label><%= t("registro.contrasena") %></label>
     <%= f.password_field :password %>
-  </div>
 
-  <%= f.submit "Crear cuenta" %>
-<% end %>
+    <%= f.submit t("registro.crear_cuenta"), class: "btn" %>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <p class="error"><%= flash[:alert] %></p>
+  <% end %>
+</div>
