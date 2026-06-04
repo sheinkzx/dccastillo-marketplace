@@ -1,0 +1,40 @@
+<div class="container" style="width: 70vw; height: auto;">
+
+  <div style="text-align: center; margin-bottom: 30px;">
+    <% if @user.url_foto.present? %>
+      <img src="<%= @user.url_foto %>" alt="Avatar" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #289aa7;">
+    <% else %>
+      <div style="width: 150px; height: 150px; border-radius: 50%; background: #eee; display: inline-flex; align-items: center; justify-content: center; font-size: 60px; border: 4px solid #ccc;">👤</div>
+    <% end %>
+    <h1 style="margin: 15px 0 5px 0;"><%= @user.nombre %></h1>
+    <span class="btn" style="border-radius: 20px; padding: 4px 12px; font-size: 0.9em;"><%= @user.type %></span>
+    <p style="color: #666; margin-top: 15px;">Miembro desde <%= @user.created_at.strftime("%B del %Y") %></p>
+  </div>
+
+  <% if @user.is_a?(Vendedor) %>
+    <div class="info-box">
+      <h2>🧸 Vitrina de Juguetes (<%= @productos.count %>)</h2>
+
+      <% if @productos.any? %>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px;">
+          <% @productos.each do |producto| %>
+            <div class="info-box" style="width: 220px;">
+              <h2 style="font-size: 1.1em;">
+                <%= link_to producto.titulo, producto_path(producto) %>
+              </h2>
+              <p style="font-size: 1.3em; font-weight: bold;">
+                $<%= number_with_delimiter(producto.precio.to_i, delimiter: '.') %>
+              </p>
+              <small>Categoría: <%= producto.categoria %></small><br>
+              <small>Stock: <%= producto.stock %></small>
+              <%= link_to "Ver detalle →", producto_path(producto), class: "btn", style: "margin-top: 10px; display: block; text-align: center;" %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p>Este vendedor aún no ha publicado juguetes a la venta 🧸</p>
+      <% end %>
+    </div>
+  <% end %>
+
+</div>

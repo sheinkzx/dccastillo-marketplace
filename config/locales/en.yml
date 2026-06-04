@@ -60,10 +60,14 @@ en:
   navbar:
     favoritos: "🧸❤️ Favorites"
     foto_perfil: "Profile picture"
+    del_juguete: "Toy Castle"
+    inicio: "🏠 Home"
+    mis_mensajes: "✉️ My Messages"
     editar_perfil: "✏️ Edit my profile"
     cerrar_sesion: "🚪 Log Out"
     iniciar_sesion: "Log In"
     registrarse: "Sign Up"
+    modo_oscuro: "Dark mode"
 
   home:
     titulo: "Welcome to 🏰 DCCastillo del Juguete 🧸"
@@ -137,6 +141,7 @@ en:
         inactivo: "Inactive"
       guardar: "Save changes"
       cancelar: "Cancel"
+      imagen_actual: "Current image:"
 
     catalogo:
       buscar_filtrar: "🔍 Search and filter"
@@ -165,6 +170,7 @@ en:
       tiene_compras: "Already has purchases"
       confirmar_eliminar: "Are you sure you want to delete %{titulo}?"
       sin_productos: "No products available."
+      vendido_por: "Sold by:"
 
     nuevo:
       titulo: "New Product"
@@ -185,6 +191,9 @@ en:
         otro: "Other / Miscellaneous"
       descripcion: "Description"
       publicar: "Publish product"
+      url_imagen: "Product image"
+      placeholder_url_imagen: "https://example.com/image.jpg"
+      url_imagen_opcional: "Optional — paste an image link"
 
     show:
       ficha_tecnica: "Technical sheet"
@@ -220,6 +229,8 @@ en:
       detalle: "Detail (optional)"
       enviar_reporte: "Submit report"
       cancelar: "Cancel"
+      vendido_por: "Sold and shipped by:"
+      preguntar_vendedor: "💬 Ask the seller"
 
   sesion:
     titulo: "Log In"
@@ -237,6 +248,15 @@ en:
     password_confirmation: "Confirm new password"
     guardar: "Save changes"
 
+  perfil_publico:
+    miembro_desde: "Member since"
+    vitrina: "Toy Showcase (%{count})"
+    categoria: "Category"
+    stock: "Stock"
+    ver_detalle: "View details"
+    sin_productos: "This seller has not listed any toys for sale yet 🧸"
+    no_encontrado: "User not found."
+
   registro:
     titulo: "Sign up at DCCastillo"
     nombre: "Name"
@@ -248,6 +268,22 @@ en:
       administrador: "Administrator"
     contrasena: "Password"
     crear_cuenta: "Create account"
+
+  conversations:
+    index:
+      titulo: "Message Inbox ✉️"
+      juguete: "Toy"
+      hablando_con: "Talking with"
+      ver_chat: "View Chat"
+      sin_mensajes: "You have no active messages yet."
+      sin_mensajes_detalle: "Chats will appear here when a customer asks you something or you contact a seller."
+    show:
+      chat_sobre: "Chat about"
+      hablando_con: "Talking with"
+      ver_producto: "View product"
+      sin_mensajes: "No messages yet. Write the first one!"
+      placeholder: "Write a message..."
+      enviar: "Send 🚀"
 
   admin:
     editar_usuario:

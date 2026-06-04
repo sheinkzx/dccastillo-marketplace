@@ -5,6 +5,30 @@
 
   <div class="info-box">
     <h2><%= t("productos.show.ficha_tecnica") %></h2>
+
+    <%# Imagen del producto %>
+    <% if @producto.url_imagen.present? %>
+      <div style="text-align: center; margin-bottom: 15px;">
+        <img src="<%= @producto.url_imagen %>" alt="<%= @producto.titulo %>" class="producto-imagen">
+      </div>
+    <% end %>
+
+    <%# ── Tarjeta del vendedor ── %>
+    <% vendedor = @producto.vendedor %>
+    <% if vendedor %>
+      <div class="vendedor-card">
+        <% if vendedor.url_foto.present? %>
+          <img src="<%= vendedor.url_foto %>" alt="<%= t("navbar.foto_perfil") %>" class="vendedor-avatar">
+        <% else %>
+          <div class="vendedor-avatar-placeholder">👤</div>
+        <% end %>
+        <div>
+          <p class="vendedor-label"><%= t("productos.show.vendido_por") %></p>
+          <%= link_to vendedor.nombre, perfil_publico_path(vendedor), class: "vendedor-link" %>
+        </div>
+      </div>
+    <% end %>
+
     <div class="formulario-grid-2x4">
       <div class="form-group">
         <label><%= t("productos.show.precio") %></label>
@@ -62,8 +86,8 @@
           <p class="error"><%= t("productos.show.sin_stock") %></p>
         <% end %>
 
-        <%= button_to "💬 Preguntar al vendedor", conversations_path(producto_id: @producto.id),
-            method: :post, class: "btn" %>
+        <%= button_to t("productos.show.preguntar_vendedor"), conversations_path(producto_id: @producto.id),
+            method: :post, class: "btn btn-vendedor" %>
       </div>
     </div>
   <% end %>
@@ -115,15 +139,14 @@
               <td>
                 <% if current_user&.is_a?(Cliente) && review.user != current_user %>
                   <div>
-                    <%= button_to "⚑", crear_reporte_path(@producto, review),
-                          method: :post,
-                          params: { reporte: { motivo: "" } },
-                          data: { turbo: false },
-                          title: t("productos.show.reportar_resena"),
-                          class: "btn btn-secondary",
-                          onclick: "this.closest('form').remove(); document.getElementById('modal-reporte-#{review.id}').style.display='block'; return false;" %>
+                    <button type="button"
+                      class="btn btn-secondary"
+                      aria-label="<%= t('productos.show.reportar_resena') %>"
+                      onclick="document.getElementById('modal-reporte-<%= review.id %>').style.display='block'">
+                      ⚑
+                    </button>
 
-                    <div id="modal-reporte-<%= review.id %>" style="display: none; margin-top: 8px;">
+                    <div id="modal-reporte-<%= review.id %>" style="display:none; margin-top: 8px;">
                       <div class="info-box">
                         <h2><%= t("productos.show.reportar_resena") %></h2>
                         <%= form_with url: crear_reporte_path(@producto, review),

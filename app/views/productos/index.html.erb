@@ -78,10 +78,21 @@
       </thead>
       <tbody>
         <% @productos.each do |producto| %>
+          <% vendedor = producto.respond_to?(:vendedor) ? producto.vendedor : producto.user %>
           <tr>
             <td>
               <strong><a href="/productos/<%= producto.id %>"><%= producto.titulo %></a></strong>
               <br><small><%= producto.descripcion %></small>
+              <% if vendedor %>
+                <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                  <% if vendedor.url_foto.present? %>
+                    <img src="<%= vendedor.url_foto %>" alt="Foto" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
+                  <% else %>
+                    <div style="width: 28px; height: 28px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 14px;">👤</div>
+                  <% end %>
+                  <small><%= link_to vendedor.nombre, perfil_publico_path(vendedor) %></small>
+                </div>
+              <% end %>
             </td>
             <td><%= number_to_currency(producto.precio, unit: "$", separator: ",", delimiter: ".", precision: 0) %></td>
             <td><%= producto.marca %></td>
@@ -90,15 +101,10 @@
             <td><%= number_with_delimiter(producto.stock, delimiter: '.') %></td>
             <td>
               <% if current_user&.is_a?(Vendedor) && producto.vendedor == current_user %>
-                <% if producto.compras.any? %>
-                  <button disabled class="btn" style="opacity: 0.5; cursor: not-allowed;"><%= t("productos.catalogo.no_eliminar") %></button>
-                  <p class="error" style="font-size: 0.8rem;"><%= t("productos.catalogo.tiene_compras") %></p>
-                <% else %>
-                  <%= button_to "🗑️", "/productos/#{producto.id}",
-                      method: :delete,
-                      data: { turbo_confirm: t("productos.catalogo.confirmar_eliminar", titulo: producto.titulo) },
-                      class: "btn btn-secondary" %>
-                <% end %>
+                <%= button_to "🗑️", "/productos/#{producto.id}",
+                    method: :delete,
+                    data: { turbo_confirm: t("productos.catalogo.confirmar_eliminar", titulo: producto.titulo) },
+                    class: "btn btn-secondary" %>
               <% end %>
             </td>
           </tr>

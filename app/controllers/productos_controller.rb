@@ -5,7 +5,8 @@ class ProductosController < ApplicationController
 
   def create
     @producto = Producto.new(producto_params)
-    @producto.vendedor_id = current_user.id
+    @producto.vendedor = current_user
+
     if @producto.save
       redirect_to root_path, notice: I18n.t("productos_ctrl.publicado")
     else
@@ -40,12 +41,10 @@ class ProductosController < ApplicationController
   def destroy
     @producto = Producto.find(params[:id])
     if @producto.vendedor == current_user
-      if @producto.compras.any?
-        redirect_to root_path, alert: I18n.t("productos_ctrl.tiene_compras")
-      else
-        @producto.destroy
-        redirect_to root_path, notice: I18n.t("productos_ctrl.eliminado")
-      end
+      # Soft delete: en vez de borrar físicamente, ocultamos el producto
+      # Esto evita errores de foreign key con conversations, compras, etc.
+      @producto.update(visible: false)
+      redirect_to root_path, notice: I18n.t("productos_ctrl.eliminado")
     else
       redirect_to root_path, alert: I18n.t("productos_ctrl.no_eliminar")
     end
@@ -53,13 +52,14 @@ class ProductosController < ApplicationController
 
   # RU03 /productos/:id
   def show
-    @producto = Producto.find(params[:id])
+    # Solo mostrar productos visibles
+    @producto = Producto.visibles.find(params[:id])
     if @producto.stock <= 0
       # Esto es por si se accede directamente al link para ver si el producto no tiene stock desde la perspectiva del usuario
       redirect_to productos_path, alert: I18n.t("productos_ctrl.no_disponible")
       return
     end
-    @producto = Producto.includes(:reviews).find(params[:id])
+    @producto = Producto.visibles.includes(:reviews).find(params[:id])
     # RU15: Revisa si el usuario ha comprado el producto
     if current_user
       @ha_comprado = Compra.exists?(cliente_id: current_user.id,
@@ -71,28 +71,34 @@ class ProductosController < ApplicationController
 
   def index
     # Partimos con todos los productos que están Activos (Visto en RU14) Y QUE NO ESTEN BLOQUEADOS
-    @productos = Producto.where(estado: "Activo").joins(:vendedor).where(users: { bloqueado: false })
+    # También filtramos los productos no visibles (soft delete)
+    @productos = Producto.visibles.where(estado: "Activo").joins(:vendedor).where(users: { bloqueado: false })
+
     # RU04: /productos?q=Lego
     que = params[:q].to_s.strip
     if que.present?
-      @productos = Producto.where("LOWER(TRIM(titulo)) LIKE LOWER(?)", "%#{que}%")
+      @productos = Producto.visibles.where("LOWER(TRIM(titulo)) LIKE LOWER(?)", "%#{que}%")
     else
       # RU01 /productos
       @productos = @productos.where("stock > 0")
     end
+
     # Filtro por Precio (Escenario 2)
     if params[:precio_max].present?
       @productos = @productos.where("precio <= ?", params[:precio_max].to_f)
     end
+
     # Filtro por Marca (Escenario 2)
     if params[:marca].present?
       @productos = @productos.where("LOWER(marca) LIKE ?", "%#{params[:marca].downcase.strip}%")
     end
+
     # Filtro por Edad (Escenario 1)
     if params[:edad_cliente].present?
       edad = params[:edad_cliente].to_i
       @productos = @productos.where("edad_minima <= ? AND edad_maxima >= ?", edad, edad)
     end
+
     # Filtro por Categorías (Escenario 3)
     if params[:categorias].present?
       @productos = @productos.where(categoria: params[:categorias])
@@ -102,8 +108,8 @@ class ProductosController < ApplicationController
   private
 
   def producto_params
-    # Agregamos edad_minima, edad_maxima y categoria a los permitidos (RU05)
-    params.require(:producto).permit(:titulo, :precio, :descripcion, :marca, :stock, :fecha, :estado, :edad_minima, :edad_maxima,
-                                     :categoria)
+    params.require(:producto).permit(:titulo, :precio, :descripcion, :marca, :stock,
+                                    :fecha, :estado, :edad_minima, :edad_maxima,
+                                    :categoria, :url_imagen)
   end
 end
