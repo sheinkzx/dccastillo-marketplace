@@ -115,15 +115,14 @@
               <td>
                 <% if current_user&.is_a?(Cliente) && review.user != current_user %>
                   <div>
-                    <%= button_to "⚑", crear_reporte_path(@producto, review),
-                          method: :post,
-                          params: { reporte: { motivo: "" } },
-                          data: { turbo: false },
-                          title: t("productos.show.reportar_resena"),
-                          class: "btn btn-secondary",
-                          onclick: "this.closest('form').remove(); document.getElementById('modal-reporte-#{review.id}').style.display='block'; return false;" %>
+                    <button type="button"
+                      class="btn btn-secondary"
+                      title="<%= t('productos.show.reportar_resena') %>"
+                      onclick="document.getElementById('modal-reporte-<%= review.id %>').style.display='block'">
+                      ⚑
+                    </button>
 
-                    <div id="modal-reporte-<%= review.id %>" style="display: none; margin-top: 8px;">
+                    <div id="modal-reporte-<%= review.id %>" style="display:none; margin-top: 8px;">
                       <div class="info-box">
                         <h2><%= t("productos.show.reportar_resena") %></h2>
                         <%= form_with url: crear_reporte_path(@producto, review),
