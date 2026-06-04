@@ -6,6 +6,7 @@ class Producto < ApplicationRecord
   belongs_to :vendedor, class_name: "User" #* el producto le pertenece al vendedor pero la clase que alberga todo es "User"
   has_many :compras #* un producto puede tener muchas compras
   has_many :favoritos, dependent: :destroy # RU 25 Agregamos la relación con favoritos
+  has_many :conversations, dependent: :destroy # Evita error de foreign key 
 
   validates :titulo, presence: { message: "es obligatorio" }
   validates :precio, presence: true, numericality: { greater_than_or_equal_to: 0, message: "debe ser mayor o igual a 0" }
@@ -16,7 +17,10 @@ class Producto < ApplicationRecord
 
   # Este 'callback' se ejecuta justo antes de guardar en la base de datos
   before_save :verificar_estado_agotado
-  
+
+  # Scope para obtener solo productos visibles (soft delete)
+  scope :visibles, -> { where(visible: true) }
+
   def puntaje_promedio
     reviews.average(:puntaje).to_f.round(0)
   end
@@ -32,12 +36,11 @@ class Producto < ApplicationRecord
       self.estado = "Activo"
     end
   end
-  
-end
 
+end
 #NOTA: (HU 14) 
 #Agregue la columna estado a la tabla productos. Tiene el valor "Activo" por defecto para 
 #los productos nuevos. El estado puede ser "Activo", "Inactivo" o "Agotado". 
 # Si el stock de un producto llega a 0, su estado se actualiza automáticamente a "Agotado". 
 #Si se vuelve a agregar stock a un producto agotado, su estado cambia a "Activo". 
-# Esto se hace automatico, el vendedor no tiene que hacer nd en este caso. 
+# Esto se hace automatico, el vendedor no tiene que hacer nd en este caso.

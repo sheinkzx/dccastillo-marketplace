@@ -89,16 +89,12 @@
             <td><%= t("productos.catalogo.edad_rango", min: producto.edad_minima, max: producto.edad_maxima) %></td>
             <td><%= number_with_delimiter(producto.stock, delimiter: '.') %></td>
             <td>
+              <%# Soft delete: el vendedor puede eliminar cualquier producto propio sin restricciones %>
               <% if current_user&.is_a?(Vendedor) && producto.vendedor == current_user %>
-                <% if producto.compras.any? %>
-                  <button disabled class="btn" style="opacity: 0.5; cursor: not-allowed;"><%= t("productos.catalogo.no_eliminar") %></button>
-                  <p class="error" style="font-size: 0.8rem;"><%= t("productos.catalogo.tiene_compras") %></p>
-                <% else %>
-                  <%= button_to "🗑️", "/productos/#{producto.id}",
-                      method: :delete,
-                      data: { turbo_confirm: t("productos.catalogo.confirmar_eliminar", titulo: producto.titulo) },
-                      class: "btn btn-secondary" %>
-                <% end %>
+                <%= button_to "🗑️", "/productos/#{producto.id}",
+                    method: :delete,
+                    data: { turbo_confirm: t("productos.catalogo.confirmar_eliminar", titulo: producto.titulo) },
+                    class: "btn btn-secondary" %>
               <% end %>
             </td>
           </tr>
