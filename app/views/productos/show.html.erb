@@ -6,18 +6,25 @@
   <div class="info-box">
     <h2><%= t("productos.show.ficha_tecnica") %></h2>
 
-    <%# ── Avatar del vendedor ── %>
-    <% vendedor = @producto.respond_to?(:vendedor) ? @producto.vendedor : @producto.user %>
+    <%# Imagen del producto %>
+    <% if @producto.url_imagen.present? %>
+      <div style="text-align: center; margin-bottom: 15px;">
+        <img src="<%= @producto.url_imagen %>" alt="<%= @producto.titulo %>" class="producto-imagen">
+      </div>
+    <% end %>
+
+    <%# ── Tarjeta del vendedor ── %>
+    <% vendedor = @producto.vendedor %>
     <% if vendedor %>
-      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 12px; border: 1px solid #eaeaea; border-radius: 8px; background-color: #f8f9fa;">
+      <div class="vendedor-card">
         <% if vendedor.url_foto.present? %>
-          <img src="<%= vendedor.url_foto %>" alt="Foto" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+          <img src="<%= vendedor.url_foto %>" alt="<%= t("navbar.foto_perfil") %>" class="vendedor-avatar">
         <% else %>
-          <div style="width: 50px; height: 50px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 24px;">👤</div>
+          <div class="vendedor-avatar-placeholder">👤</div>
         <% end %>
         <div>
-          <small style="color: #666;">Vendido y enviado por:</small><br>
-          <%= link_to vendedor.nombre, perfil_publico_path(vendedor), style: "font-weight: bold; font-size: 1.1em;" %>
+          <p class="vendedor-label"><%= t("productos.show.vendido_por") %></p>
+          <%= link_to vendedor.nombre, perfil_publico_path(vendedor), class: "vendedor-link" %>
         </div>
       </div>
     <% end %>
@@ -79,8 +86,8 @@
           <p class="error"><%= t("productos.show.sin_stock") %></p>
         <% end %>
 
-        <%= button_to "💬 Preguntar al vendedor", conversations_path(producto_id: @producto.id),
-            method: :post, class: "btn" %>
+        <%= button_to t("productos.show.preguntar_vendedor"), conversations_path(producto_id: @producto.id),
+            method: :post, class: "btn btn-vendedor" %>
       </div>
     </div>
   <% end %>
@@ -134,7 +141,7 @@
                   <div>
                     <button type="button"
                       class="btn btn-secondary"
-                      title="<%= t('productos.show.reportar_resena') %>"
+                      aria-label="<%= t('productos.show.reportar_resena') %>"
                       onclick="document.getElementById('modal-reporte-<%= review.id %>').style.display='block'">
                       ⚑
                     </button>

@@ -2,10 +2,14 @@ es:
   navbar:
     favoritos: "🧸❤️ Favoritos"
     foto_perfil: "Foto de perfil"
+    del_juguete: "del Juguete"
+    inicio: "🏠 Inicio"
+    mis_mensajes: "✉️ Mis Mensajes"
     editar_perfil: "✏️ Editar mi perfil"
     cerrar_sesion: "🚪 Cerrar Sesión"
     iniciar_sesion: "Iniciar Sesión"
     registrarse: "Registrarse"
+    modo_oscuro: "Modo oscuro"
 
   home:
     titulo: "Bienvenido a 🏰 DCCastillo del Juguete 🧸"
@@ -79,6 +83,7 @@ es:
         inactivo: "Inactivo"
       guardar: "Guardar cambios"
       cancelar: "Cancelar"
+      imagen_actual: "Imagen actual:"
 
     catalogo:
       buscar_filtrar: "🔍 Buscar y filtrar"
@@ -107,6 +112,7 @@ es:
       tiene_compras: "Ya tiene compras"
       confirmar_eliminar: "¿Seguro que quieres eliminar %{titulo}?"
       sin_productos: "No hay productos disponibles."
+      vendido_por: "Vendido por:"
 
     nuevo:
       titulo: "Nuevo Producto"
@@ -127,6 +133,9 @@ es:
         otro: "Otro / Varios"
       descripcion: "Descripción"
       publicar: "Publicar producto"
+      url_imagen: "Imagen del producto"
+      placeholder_url_imagen: "https://ejemplo.com/imagen.jpg"
+      url_imagen_opcional: "Opcional — pega el link de una imagen"
 
     show:
       ficha_tecnica: "Ficha técnica"
@@ -162,6 +171,8 @@ es:
       detalle: "Detalle (opcional)"
       enviar_reporte: "Enviar reporte"
       cancelar: "Cancelar"
+      vendido_por: "Vendido y enviado por:"
+      preguntar_vendedor: "💬 Preguntar al vendedor"
 
   sesion:
     titulo: "Iniciar Sesión"
@@ -179,6 +190,15 @@ es:
     password_confirmation: "Confirmar nueva contraseña"
     guardar: "Guardar cambios"
 
+  perfil_publico:
+    miembro_desde: "Miembro desde"
+    vitrina: "Vitrina de Juguetes (%{count})"
+    categoria: "Categoría"
+    stock: "Stock"
+    ver_detalle: "Ver detalle"
+    sin_productos: "Este vendedor aún no ha publicado juguetes a la venta 🧸"
+    no_encontrado: "Usuario no encontrado."
+
   registro:
     titulo: "Regístrate en DCCastillo"
     nombre: "Nombre"
@@ -190,6 +210,22 @@ es:
       administrador: "Administrador"
     contrasena: "Contraseña"
     crear_cuenta: "Crear cuenta"
+
+  conversations:
+    index:
+      titulo: "Bandeja de Mensajes ✉️"
+      juguete: "Juguete"
+      hablando_con: "Hablando con"
+      ver_chat: "Ver Chat"
+      sin_mensajes: "Aún no tienes mensajes activos."
+      sin_mensajes_detalle: "Los chats aparecerán aquí cuando un cliente te pregunte algo o contactes a un vendedor."
+    show:
+      chat_sobre: "Chat sobre"
+      hablando_con: "Hablando con"
+      ver_producto: "Ver producto"
+      sin_mensajes: "No hay mensajes aún. ¡Escribe el primero!"
+      placeholder: "Escribe un mensaje..."
+      enviar: "Enviar 🚀"
 
   admin:
     editar_usuario:

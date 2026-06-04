@@ -1,50 +1,41 @@
 <%# Título de la página %>
 <div class="container">
   <h1><%= t("productos.nuevo.titulo") %></h1>
-
   <% if @producto.errors.any? %>
     <% @producto.errors.full_messages.each do |msg| %>
       <p class="error"><%= msg %></p>
     <% end %>
   <% end %>
-
   <%= form_with model: @producto, url: productos_path do |f| %>
     <div class="formulario-grid-2x4">
-
       <div class="form-group">
         <%= f.label :titulo, t("productos.nuevo.titulo_label") %>
         <%= f.text_field :titulo %>
       </div>
-
       <div class="form-group">
         <%= f.label :precio %>
         <%= f.number_field :precio, min: 0, step: 1 %>
       </div>
-
       <div class="form-group">
         <%= f.label :marca %>
         <%= f.text_field :marca %>
       </div>
-
       <div class="form-group">
         <%= f.label :stock %>
         <%= f.number_field :stock, min: 0 %>
       </div>
-
       <div class="form-group">
         <label><%= t("productos.nuevo.edad_minima") %></label>
         <input type="number" name="producto[edad_minima]"
                value="<%= @producto.edad_minima %>"
                placeholder="<%= t("productos.nuevo.placeholder_edad_minima") %>" min="0">
       </div>
-
       <div class="form-group">
         <label><%= t("productos.nuevo.edad_maxima") %></label>
         <input type="number" name="producto[edad_maxima]"
                value="<%= @producto.edad_maxima %>"
                placeholder="<%= t("productos.nuevo.placeholder_edad_maxima") %>" min="0">
       </div>
-
       <div class="form-group" style="grid-column: span 2;">
         <label><%= t("productos.nuevo.categoria_label") %></label>
         <select name="producto[categoria]">
@@ -59,15 +50,21 @@
         </select>
       </div>
 
+      <%# URL de imagen (opcional)  %>
+      <div class="form-group" style="grid-column: span 2;">
+        <%= f.label :url_imagen, t("productos.nuevo.url_imagen") %>
+        <%= f.url_field :url_imagen,
+            placeholder: t("productos.nuevo.placeholder_url_imagen") %>
+        <small style="color: #999;"><%= t("productos.nuevo.url_imagen_opcional") %></small>
+      </div>
+
       <div class="form-group" style="grid-column: span 2;">
         <%= f.label :descripcion, t("productos.nuevo.descripcion") %>
         <%= f.text_area :descripcion, rows: 4, style: "padding: 10px; border: 1px solid #ccc; border-radius: 6px;" %>
       </div>
-
       <div class="grid-full">
         <%= f.submit t("productos.nuevo.publicar"), class: "btn" %>
       </div>
     </div>
-    
   <% end %>
 </div>
