@@ -5,6 +5,23 @@
 
   <div class="info-box">
     <h2><%= t("productos.show.ficha_tecnica") %></h2>
+
+    <%# ── Avatar del vendedor ── %>
+    <% vendedor = @producto.respond_to?(:vendedor) ? @producto.vendedor : @producto.user %>
+    <% if vendedor %>
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 12px; border: 1px solid #eaeaea; border-radius: 8px; background-color: #f8f9fa;">
+        <% if vendedor.url_foto.present? %>
+          <img src="<%= vendedor.url_foto %>" alt="Foto" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+        <% else %>
+          <div style="width: 50px; height: 50px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 24px;">👤</div>
+        <% end %>
+        <div>
+          <small style="color: #666;">Vendido y enviado por:</small><br>
+          <%= link_to vendedor.nombre, perfil_publico_path(vendedor), style: "font-weight: bold; font-size: 1.1em;" %>
+        </div>
+      </div>
+    <% end %>
+
     <div class="formulario-grid-2x4">
       <div class="form-group">
         <label><%= t("productos.show.precio") %></label>

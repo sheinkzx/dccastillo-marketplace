@@ -5,7 +5,8 @@ class ProductosController < ApplicationController
 
   def create
     @producto = Producto.new(producto_params)
-    @producto.vendedor_id = current_user.id
+    @producto.vendedor = current_user
+
     if @producto.save
       redirect_to root_path, notice: I18n.t("productos_ctrl.publicado")
     else

@@ -56,4 +56,6 @@ Rails.application.routes.draw do
   end
 
   post "/locale", to: "application#set_locale", as: :locale
+  #* RUTAS DEL PERFIL PÚBLICO
+  get '/perfiles/:id', to: 'users#show', as: :perfil_publico
 end

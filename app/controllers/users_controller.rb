@@ -88,4 +88,16 @@ class UsersController < ApplicationController # Hereda de ApplicationController 
       redirect_to login_path, alert: I18n.t("users.iniciar_sesion_primero")
     end
   end
+  
+  # ACCIÓN: Muestra el perfil público de cualquier usuario
+  def show
+    @user = User.find(params[:id])
+    
+    # Si el usuario es de tipo Vendedor, buscamos sus productos
+    if @user.is_a?(Vendedor)
+      # Buscamos los productos asociados a su ID
+      @productos = Producto.where(user_id: @user.id)
+    end
+  end
+
 end
