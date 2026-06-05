@@ -10,9 +10,8 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:email])
 
     # NOS ASEGURAMOS QUE SI HA SIDO BANEADO NO PUEDA INGRESAR
-
     if user&.bloqueado?
-      flash.now[:alert] = "Tu cuenta ha sido suspendida. Contacta al administrador."
+      flash.now[:alert] = I18n.t("sesiones.cuenta_suspendida")
       render :new, status: :unauthorized
 
     # 2. El filtro de seguridad:
@@ -20,22 +19,19 @@ class SessionsController < ApplicationController
     # 'user.authenticate(...)' es el método de BCrypt que compara la contraseña escrita
     # con la versión encriptada (password_digest) que está en la base de datos.
     elsif user&.authenticate(params[:password])
-
       # 3. ÉXITO: Creamos la "Mochila de Sesión".
       # Guardamos el ID del usuario en 'session'. Esto es una cookie encriptada
       # que el navegador guardará. Así, la app "recordará" quién eres en cada clic.
       session[:user_id] = user.id
-
       # 4. Redireccionamos a la página de inicio con un mensaje de bienvenida.
-      # Usamos #{user.nombre} para que el saludo sea personalizado.
-      redirect_to root_path, notice: "¡Hola de nuevo, #{user.nombre}! Has iniciado sesión."
+      # Usamos %{nombre} para que el saludo sea personalizado.
+      redirect_to root_path, notice: I18n.t("sesiones.bienvenido", nombre: user.nombre)
 
     else
       # 5. ERROR: Credenciales incorrectas.
       # 'flash.now' asegura que el mensaje de error aparezca solo ahora y desaparezca
       # si el usuario refresca la página o navega a otro lado.
-      flash.now[:alert] = "Email o contraseña incorrectos. Intenta de nuevo."
-
+      flash.now[:alert] = I18n.t("sesiones.credenciales_incorrectas")
       # Volvemos a mostrar el formulario (acción 'new') para que lo intente otra vez.
       # 'status: :unprocessable_entity' es el estándar moderno para errores de formulario.
       render :new, status: :unprocessable_entity
@@ -46,8 +42,7 @@ class SessionsController < ApplicationController
     # 1. Vaciamos la mochila de sesión poniendo el ID en 'nil' (nulo).
     # Al hacer esto, la app deja de reconocer al usuario inmediatamente.
     session[:user_id] = nil
-
     # 2. Mandamos al usuario de vuelta al inicio con un mensaje informativo.
-    redirect_to root_path, notice: "Sesión cerrada. ¡Vuelve pronto!"
+    redirect_to root_path, notice: I18n.t("sesiones.sesion_cerrada")
   end
 end

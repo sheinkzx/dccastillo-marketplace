@@ -27,5 +27,383 @@
 #       "yes": yup
 #       enabled: "ON"
 
+# Files in the config/locales directory are used for internationalization and
+# are automatically loaded by Rails. If you want to use locales other than
+# English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more about the API, please read the Rails Internationalization guide
+# at https://guides.rubyonrails.org/i18n.html.
+#
+# Be aware that YAML interprets the following case-insensitive strings as
+# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
+# must be quoted to be interpreted as strings. For example:
+#
+#     en:
+#       "yes": yup
+#       enabled: "ON"
+
 en:
-  hello: "Hello world"
+  navbar:
+    favoritos: "🧸❤️ Favorites"
+    foto_perfil: "Profile picture"
+    del_juguete: "Toy Castle"
+    inicio: "🏠 Home"
+    mis_mensajes: "✉️ My Messages"
+    editar_perfil: "✏️ Edit my profile"
+    cerrar_sesion: "🚪 Log Out"
+    iniciar_sesion: "Log In"
+    registrarse: "Sign Up"
+    modo_oscuro: "Dark mode"
+
+  home:
+    titulo: "Welcome to 🏰 DCCastillo del Juguete 🧸"
+    hola: "Hello, %{nombre}! 👋"
+    ingresado_como: "Logged in as:"
+    editar_perfil: "✏️ Edit my profile"
+    cerrar_sesion: "Log Out"
+    que_deseas: "What would you like to do today?"
+    iniciar_sesion: "Log In"
+    registrarse: "Sign Up"
+
+    vendedor:
+      mis_productos: "My Products"
+      publicar_producto: "➕ Post new product"
+      tabla:
+        producto: "Product"
+        precio: "Price"
+        stock: "Stock"
+        estado: "Status"
+        acciones: "Actions"
+      editar: "✏️ Edit"
+      confirmar_eliminar: "Are you sure you want to delete this product?"
+      sin_productos: "You have no products listed yet."
+      solicitudes_pendientes: "Pending Purchase Requests"
+      tabla_compras:
+        producto: "Product"
+        cliente: "Customer"
+        fecha: "Date"
+        estado: "Status"
+        accion: "Action"
+      aprobar: "✅ Approve"
+      sin_solicitudes: "You have no pending requests."
+
+    cliente:
+      mis_compras: "My Purchases"
+      tabla:
+        producto: "Product"
+        fecha: "Date"
+        estado: "Status"
+      sin_compras: "You have not made any purchases yet."
+      panel_titulo: "My Customer Panel"
+      ver_catalogo: "🧸 View toy catalog"
+      ver_favoritos: "❤️ View my Favorites"
+
+    administrador:
+      panel_titulo: "Admin Panel"
+      ver_usuarios: "👥 View and edit users"
+
+  productos:
+    editar:
+      titulo: "Edit Product: %{titulo}"
+      titulo_juguete: "Toy title"
+      descripcion: "Description"
+      precio: "Price ($)"
+      configuracion_filtros: "⚙️ Filter Settings"
+      edad_minima: "Suggested minimum age"
+      edad_maxima: "Suggested maximum age"
+      categoria: "Category"
+      categorias:
+        selecciona: "Select one"
+        imitacion: "Imitation/Symbolic"
+        construccion: "Construction"
+        educativos: "Educational/Didactic"
+        artisticos: "Artistic"
+        movimiento: "Movement"
+        tecnologicos: "Technological"
+        otro: "Other / Miscellaneous"
+      estado: "Product status"
+      estados:
+        activo: "Active"
+        inactivo: "Inactive"
+      guardar: "Save changes"
+      cancelar: "Cancel"
+      imagen_actual: "Current image:"
+
+    catalogo:
+      buscar_filtrar: "🔍 Search and filter"
+      palabra_clave: "Keyword"
+      placeholder_buscar: "Search toy..."
+      precio_max: "Max Price ($)"
+      placeholder_precio: "E.g.: 10000"
+      marca: "Brand"
+      placeholder_marca: "E.g.: Lego"
+      edad: "Age"
+      placeholder_edad: "E.g.: 5"
+      categorias: "Categories"
+      filtrar: "🔍 Filter"
+      ver_todo: "🔄 View full catalog"
+      mostrando_filtrados: "Showing filtered results"
+      titulo: "Toy catalog"
+      tabla:
+        producto: "Product"
+        precio: "Price"
+        marca: "Brand"
+        categoria: "Category"
+        edad_sugerida: "Suggested age"
+        stock: "Stock"
+      edad_rango: "From %{min} to %{max} years"
+      no_eliminar: "🗑️ Can't delete"
+      tiene_compras: "Already has purchases"
+      confirmar_eliminar: "Are you sure you want to delete %{titulo}?"
+      sin_productos: "No products available."
+      vendido_por: "Sold by:"
+
+    nuevo:
+      titulo: "New Product"
+      titulo_label: "Title"
+      edad_minima: "Suggested minimum age"
+      placeholder_edad_minima: "E.g.: 3"
+      edad_maxima: "Suggested maximum age"
+      placeholder_edad_maxima: "E.g.: 8"
+      categoria_label: "Toy category"
+      categoria_placeholder: "Select a category"
+      categorias:
+        imitacion: "Imitation/Symbolic (Play kitchens, costumes)"
+        construccion: "Construction (Blocks, legos)"
+        educativos: "Educational/Didactic (Logic games)"
+        artisticos: "Artistic (Paints, playdough)"
+        movimiento: "Movement (Balls, scooters)"
+        tecnologicos: "Technological"
+        otro: "Other / Miscellaneous"
+      descripcion: "Description"
+      publicar: "Publish product"
+      url_imagen: "Product image"
+      placeholder_url_imagen: "https://example.com/image.jpg"
+      url_imagen_opcional: "Optional — paste an image link"
+
+    show:
+      ficha_tecnica: "Technical sheet"
+      precio: "Price"
+      marca: "Brand"
+      categoria: "Category"
+      edad_sugerida: "Suggested age"
+      edad_rango: "From %{min} to %{max} years"
+      stock: "Stock"
+      publicado_el: "Published on"
+      descripcion: "Description"
+      acciones: "Actions"
+      quitar_favorito: "❤️ Remove from favorites"
+      guardar_favorito: "🤍 Save as favorite"
+      comprar: "🛒 Buy"
+      confirmar_compra: "Confirm purchase of %{titulo}?"
+      pausado: "⏸️ Product Paused"
+      sin_stock: "❌ Out of Stock"
+      resenas: "Reviews"
+      escribir_resena: "Write a review"
+      puntaje: "Score"
+      comentario: "Comment"
+      publicar_resena: "Publish review"
+      tabla:
+        puntaje: "Score"
+        comentario: "Comment"
+        autor: "Author"
+        fecha: "Date"
+      sin_resenas: "No reviews yet for this product."
+      reportar_resena: "Report review"
+      motivo: "Reason"
+      motivo_prompt: "Select a reason"
+      detalle: "Detail (optional)"
+      enviar_reporte: "Submit report"
+      cancelar: "Cancel"
+      vendido_por: "Sold and shipped by:"
+      preguntar_vendedor: "💬 Ask the seller"
+
+  sesion:
+    titulo: "Log In"
+    email: "Email"
+    contrasena: "Password"
+    entrar: "Sign In"
+
+  perfil:
+    titulo: "Edit my profile"
+    nombre: "Name"
+    email: "Email"
+    url_foto: "Profile picture URL"
+    password: "New password"
+    placeholder_password: "Leave blank to keep current"
+    password_confirmation: "Confirm new password"
+    guardar: "Save changes"
+
+  perfil_publico:
+    miembro_desde: "Member since"
+    vitrina: "Toy Showcase (%{count})"
+    categoria: "Category"
+    stock: "Stock"
+    ver_detalle: "View details"
+    sin_productos: "This seller has not listed any toys for sale yet 🧸"
+    no_encontrado: "User not found."
+
+  registro:
+    titulo: "Sign up at DCCastillo"
+    nombre: "Name"
+    email: "Email"
+    quiero_ser: "I want to be:"
+    roles:
+      cliente: "Customer"
+      vendedor: "Seller"
+      administrador: "Administrator"
+    contrasena: "Password"
+    crear_cuenta: "Create account"
+
+  conversations:
+    index:
+      titulo: "Message Inbox ✉️"
+      juguete: "Toy"
+      hablando_con: "Talking with"
+      ver_chat: "View Chat"
+      sin_mensajes: "You have no active messages yet."
+      sin_mensajes_detalle: "Chats will appear here when a customer asks you something or you contact a seller."
+    show:
+      chat_sobre: "Chat about"
+      hablando_con: "Talking with"
+      ver_producto: "View product"
+      sin_mensajes: "No messages yet. Write the first one!"
+      placeholder: "Write a message..."
+      enviar: "Send 🚀"
+
+  admin:
+    editar_usuario:
+      titulo: "Editing: %{nombre}"
+      nombre: "Name"
+      email: "Email"
+      url_foto: "Profile picture URL"
+      password: "Change Password (leave blank to keep current)"
+      password_aviso: "If you enter a password, the previous one will be invalidated."
+      guardar: "Save changes"
+      volver: "← Back to panel"
+
+    usuarios:
+      titulo: "Admin Panel — Users"
+      subtitulo: "Manage registered users on the platform"
+      volver: "← Back to home"
+      bandeja_titulo: "⚑ Reported reviews inbox"
+      bandeja_descripcion: "Review and moderate comments reported by customers."
+      ver_reportes: "View reports"
+      tabla:
+        foto: "Photo"
+        nombre: "Name"
+        email: "Email"
+        rol: "Role"
+        estado: "Status"
+        acciones: "Actions"
+      baneado: "Banned"
+      activo: "Active"
+      editar: "Edit"
+      desbanear: "Unban"
+      banear: "Ban"
+
+  favoritos:
+    titulo: "My Favorite Toys ❤️"
+    volver: "← Back to home"
+    tabla:
+      producto: "Product"
+      precio: "Price"
+      categoria: "Category"
+      edad_sugerida: "Suggested age"
+      estado: "Status"
+      accion: "Action"
+    edad_rango: "From %{min} to %{max} years"
+    quitar: "💔 Remove"
+    sin_favoritos: "You have no toys in your favorites list yet."
+    ir_a_buscar: "Go find toys 🚀"
+
+  admin_resenas:
+    titulo: "Review control"
+    subtitulo: "Reported comments pending review"
+    volver: "← Back to users"
+    pendientes: "%{count} pending"
+    sin_reportes: "✓ No pending reports."
+    detalle: "Detail"
+    tabla:
+      autor: "Review author"
+      reportado_por: "Reported by"
+      producto: "Product"
+    usuario_eliminado: "Deleted user"
+    eliminar_resena: "🗑 Delete review"
+    confirmar_eliminar: "Delete this review?"
+    banear_cliente: "🚫 Ban customer"
+    confirmar_banear: "Ban %{nombre}?"
+    ya_baneado: "Already banned"
+    ignorar: "Ignore"
+
+  errores:
+    cuenta_suspendida: "Your account has been suspended. Contact the administrator."
+
+  compras:
+    sin_stock: "This product is out of stock."
+    solicitud_enviada: "Purchase request sent, waiting for seller approval."
+    error_compra: "The purchase could not be completed."
+    sin_stock_aprobar: "You cannot approve this purchase, the product is out of stock."
+    aprobada: "Purchase approved successfully."
+    no_autorizado: "You cannot approve this purchase."
+
+  resenas:
+    eliminada: "Review deleted."
+    usuario_baneado: "User banned."
+    reporte_ignorado: "Report ignored."
+    acceso_no_autorizado: "Unauthorized access."
+
+  favoritos_ctrl:
+    solo_clientes: "Only customers have a favorites list."
+    guardado: "Product saved to favorites! ❤️"
+    error_guardar: "Could not save to favorites."
+    eliminado: "Product removed from favorites 🤍"
+    error_eliminar: "Could not remove from favorites."
+
+  productos_ctrl:
+    publicado: "Product published successfully."
+    sin_permiso_editar: "You do not have permission to edit this product."
+    actualizado: "Product '%{titulo}' updated successfully."
+    no_editar: "You cannot edit this product."
+    tiene_compras: "You cannot delete this product because it already has associated purchases."
+    eliminado: "Product deleted."
+    no_eliminar: "You cannot delete this product."
+    no_disponible: "This product is not available."
+
+  reportes:
+    ya_reportado: "You have already reported this review."
+    enviado: "Report submitted. We will review it soon."
+    motivo_invalido: "You must select a valid reason."
+    iniciar_sesion: "You must log in."
+
+  sesiones:
+    bienvenido: "Welcome back, %{nombre}! You are now logged in."
+    credenciales_incorrectas: "Incorrect email or password. Please try again."
+    sesion_cerrada: "Session closed. See you soon!"
+    cuenta_suspendida: "Your account has been suspended. Contact the administrator."
+
+  users:
+    registro_exitoso: "Successful registration as %{tipo}!"
+    perfil_actualizado: "Profile updated successfully."
+    iniciar_sesion_primero: "You must log in first."
+
+  usuarios_admin:
+    actualizado: "User '%{nombre}' updated."
+    baneado: "User '%{nombre}' banned."
+    desbaneado: "User '%{nombre}' unbanned."
+    no_editarse: "You cannot edit yourself from the admin panel."
+    acceso_no_autorizado: "Unauthorized access."
