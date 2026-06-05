@@ -724,15 +724,17 @@ body {
 
 /* ── BOTONES DE INICIO Y REGISTRO ── */
 .navbar-btn-login {
-  color: var(--color-primario) !important;
+  background-color: var(--color-primario);
+  color: var(--color-blanco) !important;
   border: 2px solid var(--color-primario);
   padding: 8px 16px;
   border-radius: 8px;
   transition: all 0.2s;
 }
+
 .navbar-btn-login:hover {
-  background-color: var(--color-primario);
-  color: var(--color-blanco) !important;
+  background-color: transparent;
+  color: var(--color-primario) !important;
 }
 
 .navbar-btn-registro {
