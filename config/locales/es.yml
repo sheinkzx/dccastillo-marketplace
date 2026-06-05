@@ -349,3 +349,16 @@ es:
     desbaneado: "Usuario '%{nombre}' desbaneado."
     no_editarse: "No puedes editarte desde el panel admin."
     acceso_no_autorizado: "Acceso no autorizado."
+
+  activerecord:
+      errors:
+        messages:
+          taken: "ya está en uso"
+        models:
+          user:
+            attributes:
+              email:
+                taken: "ya está registrado en el sistema. Por favor, usa otro o inicia sesión."
+  errors:
+    messages:
+      taken: "ya está en uso"
