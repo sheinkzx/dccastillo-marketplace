@@ -12,7 +12,7 @@ La tienda se encuentra en el siguiente enlace:
 
 A continuación se presenta el diagrama E/R del sistema:
 
-📄 **[Ver Modelo E/R](docs/modelo_entidad_relacion.pdf)**
+📄 **[Ver Modelo E/R](docs/Modelo-Entidad-Relacion.pdf)**
 
 
 # Documentación de DCCastillo 🏰
@@ -59,7 +59,7 @@ Cuando un producto deja de estar disponible, el vendedor puede eliminarlo de la 
 Cuando un cliente solicita comprar un producto, el vendedor recibe la solicitud y decide si la acepta o la rechaza. Esto le da al vendedor control sobre a quién le vende.
  
 **Mensajería:**
-El vendedor puede recibir mensajes de clientes interesados en sus productos y responderles. Esta comunicación es bidireccional y permite coordinar ventas o aclarar consultas.
+El vendedor puede recibir mensajes de clientes interesados en sus productos y responderles. Esta comunicación es bidireccional lo cual permite coordinar ventas o aclarar consultas.
 
  
 ---
