@@ -14,6 +14,7 @@
 
   <% if @reportes.empty? %>
     <p class="success"><%= t("admin_resenas.sin_reportes") %></p>
+
   <% else %>
     <% @reportes.each do |reporte| %>
       <% review = reporte.producto_review %>
@@ -23,10 +24,11 @@
           <h2 style="color: #b45309;">⚑ <%= reporte.motivo %></h2>
           <small><%= reporte.created_at.strftime("%-d %b %Y, %H:%M") %></small>
         </div>
-
-        <blockquote style="border-left: 4px solid #ccc; margin: 10px 0; padding: 10px 15px;
-                           background: #f8f9fa; border-radius: 4px; font-style: italic;">
+        <blockquote style="border-left: 4px solid #b45309; margin: 10px 0; padding: 10px 15px;
+                           background: var(--color-fondo); border-radius: 4px;
+                           font-style: italic; color: var(--color-texto);">
           "<%= review.txt %>"
+
           <% if review.respond_to?(:puntaje) %>
             <div style="margin-top: 6px;">
               <% review.puntaje.times do %><span class="estrella-llena">★</span><% end %>
@@ -36,7 +38,9 @@
         </blockquote>
 
         <% if reporte.detalle.present? %>
-          <p style="background: #fffbeb; padding: 8px 12px; border-radius: 4px; font-size: 0.9rem;">
+          <p style="background: var(--color-fondo); color: var(--color-texto);
+                    padding: 10px 14px; border-radius: 6px; font-size: 0.9rem;
+                    border-left: 4px solid #b45309;">
             <strong><%= t("admin_resenas.detalle") %>:</strong> <%= reporte.detalle %>
           </p>
         <% end %>
@@ -49,6 +53,7 @@
               <th><%= t("admin_resenas.tabla.producto") %></th>
             </tr>
           </thead>
+
           <tbody>
             <tr>
               <td><strong><%= autor&.nombre || t("admin_resenas.usuario_eliminado") %></strong></td>
@@ -57,13 +62,12 @@
             </tr>
           </tbody>
         </table>
-
+        
         <div class="menu" style="flex-direction: row; margin-top: 10px;">
           <%= button_to t("admin_resenas.eliminar_resena"), admin_resena_path(reporte),
                 method: :patch, params: { accion: "eliminar" },
                 class: "btn btn-secondary",
                 data: { confirm: t("admin_resenas.confirmar_eliminar") } %>
-
           <% if autor.present? && !autor.bloqueado? %>
             <%= button_to t("admin_resenas.banear_cliente"), admin_resena_path(reporte),
                   method: :patch, params: { accion: "banear" },
@@ -73,7 +77,6 @@
             <span style="color: #9ca3af; border: 1px solid #ccc; padding: 10px 12px;
                          border-radius: 6px; font-size: 0.88rem;"><%= t("admin_resenas.ya_baneado") %></span>
           <% end %>
-
           <%= button_to t("admin_resenas.ignorar"), admin_resena_path(reporte),
                 method: :patch, params: { accion: "ignorar" }, class: "btn" %>
         </div>
