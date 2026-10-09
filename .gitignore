@@ -38,3 +38,4 @@
 # necesario para el proyecto, será ignorado 
 app/models/notas_modelo.md
 app/controllers/notas_controlador.md
+*:Zone.Identifier
